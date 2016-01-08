@@ -1,0 +1,18 @@
+{
+  "suspect": "Bloblo",
+  "amount": 100000,
+  "product": "Sabun Batang",
+  "issueLastStatus": "Open",
+  "issueHistory": [
+    {
+      "from":"reporter",
+      "time": "January 3, 2016, 8:02 AM",
+      "message": "Harusnya sabun batang, kenapa saya dapetnya sabun cair"
+    },
+    {
+      "from":"admin",
+      "time": "January 3, 2016, 8:01 AM",
+      "status": "Harap dimaklumi mas cuaca lagi panas"
+    }
+  ]
+}

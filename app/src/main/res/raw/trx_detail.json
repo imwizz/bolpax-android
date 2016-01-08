@@ -1,0 +1,20 @@
+{
+  "merchant": "Bloblo",
+  "amount": 100000,
+  "product": "Sabun Batang",
+  "trxLastStatus": "Payment complete",
+  "trxHistory": [
+    {
+      "time": "January 3, 2016, 8:02 AM",
+      "status": "Payment received by system"
+    },
+    {
+      "time": "January 3, 2016, 8:01 AM",
+      "status": "Payment processing"
+    },
+    {
+      "time": "January 3, 2016, 8:00 AM",
+      "status": "Initiate payment"
+    }
+  ]
+}

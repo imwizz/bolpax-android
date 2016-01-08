@@ -1,0 +1,20 @@
+[
+  {
+    "trxDate": "03/01/2016",
+    "trxLastStatus": "Payment complete",
+    "amount": 1000000,
+    "merchant": "Bloblo"
+  },
+  {
+    "trxDate": "02/01/2016",
+    "trxLastStatus": "Waiting for items",
+    "amount": 200000,
+    "merchant": "Zadala"
+  },
+  {
+    "trxDate": "01/01/2016",
+    "trxLastStatus": "Transaction complete",
+    "amount": 300000,
+    "merchant": "Bhinneks"
+  }
+]
