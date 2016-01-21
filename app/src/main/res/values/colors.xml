@@ -19,4 +19,5 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
+    <color name="dialog">#b8b8b6</color>
 </resources>

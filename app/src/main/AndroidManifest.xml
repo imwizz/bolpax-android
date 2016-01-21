@@ -17,14 +17,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.view.RegisterActivity"
+            android:screenOrientation="portrait">
+            >
+        </activity>
+        <activity
+            android:name=".ui.view.BuyerHomeActivity"
+            android:screenOrientation="portrait">
+            >
+        </activity>
+        <activity
+            android:name=".ui.view.ProfileActivity"
+            android:screenOrientation="portrait">
+            >
+        </activity>
+        <activity
+            android:name=".ui.view.MerchantProfile"
+            android:screenOrientation="portrait">
+            >
+        </activity>
         <!--<activity-->
             <!--android:name=".ui.view.RegisterActivity"-->
             <!--android:theme="@style/AppTheme.Dark" />-->
         <!--<activity-->
             <!--android:name=".ui.view.BuyerHomeActivity"-->
-            <!--android:theme="@style/AppTheme.Dark" />-->
-        <!--<activity-->
-            <!--android:name=".ui.view.MerchantHomeActivity"-->
             <!--android:theme="@style/AppTheme.Dark" />-->
     </application>
 
