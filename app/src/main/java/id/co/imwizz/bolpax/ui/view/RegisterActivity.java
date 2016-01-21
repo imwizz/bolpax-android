@@ -27,8 +27,6 @@ public class RegisterActivity extends AppCompatActivity {
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_signup)
     Button _signupButton;
-    @Bind(R.id.link_login)
-    TextView _loginLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,13 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        _loginLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
-                finish();
-            }
-        });
     }
 
     public void signup() {

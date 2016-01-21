@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="id.co.imwizz.bolpax.ui.view.BuyerTransactionDetailActivity" >
+
+    <item
+        android:id="@+id/action_name"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_account_circle_white_18dp"
+        android:title="Yuri Gorbachev"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_switch"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_account_circle_white_18dp"
+        android:title="Switch to Merchant"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_account_circle_white_18dp"
+        android:title="Log Out"
+        app:showAsAction="never"/>
+</menu>
