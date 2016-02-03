@@ -10,19 +10,23 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 
-public class Login extends AppCompatActivity{
-    ImageButton fb;
-    Button login,register;
+public class Login extends AppCompatActivity implements View.OnClickListener {
+    @Bind(R.id.btnlogin) Button login;
+    @Bind(R.id.btnregister) Button register;
+    @Bind(R.id.btnfb) ImageButton fb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        login=(Button)findViewById(R.id.btnlogin);
-        register=(Button)findViewById(R.id.btnregister);
-        fb=(ImageButton)findViewById(R.id.btnfb);
+        ButterKnife.bind(this);
+        register.setOnClickListener(this);
+        fb.setOnClickListener(this);
 
 
     }
@@ -48,14 +52,10 @@ public class Login extends AppCompatActivity{
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                // get The User name and Password
+
                 String userName=editTextUserName.getText().toString();
                 String password=editTextPassword.getText().toString();
 
-                // fetch the Password form database for respective user name
-                //String storedPassword=loginDataBaseAdapter.getSinlgeEntry(userName);
-
-                // check if the Stored password matches with  Password entered by user
                 if(userName.contains("")&&password.contains(""))
                 {
                     Intent nextActivity1 = new Intent(Login.this,BuyerHomeActivity.class);
@@ -77,5 +77,20 @@ public class Login extends AppCompatActivity{
 
 
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.btnregister:
+                Intent i = new Intent(Login.this,RegisterActivity.class);
+                startActivity(i);
+                break;
+            case R.id.btnfb:
+                Toast.makeText(Login.this, "Login With Facebook", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
     }
 }

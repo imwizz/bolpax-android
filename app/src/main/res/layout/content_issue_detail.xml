@@ -79,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:text="Reply Issue"
                     android:textSize="10sp"
+                    android:id="@+id/issbut"
                     android:textColor="#FFFFFF"
                     android:background="@color/colorPrimaryDark"/>
             </LinearLayout>

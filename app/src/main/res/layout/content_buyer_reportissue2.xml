@@ -43,7 +43,7 @@
             android:maxLines="4"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_above="@+id/button" />
+            android:layout_above="@+id/subbut" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -52,7 +52,7 @@
             android:gravity="bottom"
             android:layout_gravity="center_horizontal"
             android:text="submit"
-            android:id="@+id/button"
+            android:id="@+id/subbut"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>

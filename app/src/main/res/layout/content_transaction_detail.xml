@@ -80,7 +80,8 @@
                     android:text="Button"
                     android:textSize="10sp"
                     android:textColor="#FFFFFF"
-                    android:background="@color/colorPrimaryDark"/>
+                    android:background="@color/colorPrimaryDark"
+                    android:id="@+id/trxdetbut"/>
             </LinearLayout>
 
         </LinearLayout>
