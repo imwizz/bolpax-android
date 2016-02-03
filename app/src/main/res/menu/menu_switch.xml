@@ -7,8 +7,8 @@
         />
 
     <item
-        android:id="@+id/create_store"
-        android:title="Create Store"
+        android:id="@+id/switchto_buyer"
+        android:title="Switch To Buyer"
         android:showAsAction="ifRoom|withText"
         />
 

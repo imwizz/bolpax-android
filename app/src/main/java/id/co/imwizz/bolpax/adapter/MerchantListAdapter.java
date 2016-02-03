@@ -1,4 +1,4 @@
-package id.co.imwizz.bolpax.ui.view;
+package id.co.imwizz.bolpax.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

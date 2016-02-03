@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import id.co.imwizz.bolpax.R;
+import id.co.imwizz.bolpax.adapter.MerchantListAdapter;
 import id.co.imwizz.bolpax.data.entity.MerchantList;
 import id.co.imwizz.bolpax.data.service.DummyAPI;
 
@@ -68,7 +69,7 @@ public class MerchantList_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.phone:
+            case R.id.profile:
 //                Intent i = new Intent(BuyerHomeActivity.this, ProfileActivity.class);
 //                i.putExtra("email", email);
 //                i.putExtra("name", name);
@@ -78,7 +79,7 @@ public class MerchantList_Activity extends AppCompatActivity {
 
                 return true;
 
-            case R.id.computer:
+            case R.id.create_store:
 //                Intent i2 = new Intent(BuyerHomeActivity.this, ProfileActivity.class);
 //                i2.putExtra("email", email);
 //                i2.putExtra("name", name);
@@ -88,7 +89,7 @@ public class MerchantList_Activity extends AppCompatActivity {
 //
 //                return true;
 
-            case R.id.gamepad:
+            case R.id.quit:
 
                 return true;
 

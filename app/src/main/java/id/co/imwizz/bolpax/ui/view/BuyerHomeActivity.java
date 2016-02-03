@@ -75,7 +75,7 @@ public class BuyerHomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -83,7 +83,7 @@ public class BuyerHomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.phone:
+            case R.id.profile:
                 Intent i = new Intent(BuyerHomeActivity.this, ProfileActivity.class);
                 i.putExtra("email", email);
                 i.putExtra("name", name);
@@ -93,7 +93,7 @@ public class BuyerHomeActivity extends AppCompatActivity {
 
                 return true;
 
-            case R.id.computer:
+            case R.id.create_store:
                 Intent i2 = new Intent(BuyerHomeActivity.this, ProfileActivity.class);
                 i2.putExtra("email", email);
                 i2.putExtra("name", name);
@@ -103,7 +103,7 @@ public class BuyerHomeActivity extends AppCompatActivity {
 
                 return true;
 
-            case R.id.gamepad:
+            case R.id.quit:
 
                 return true;
 

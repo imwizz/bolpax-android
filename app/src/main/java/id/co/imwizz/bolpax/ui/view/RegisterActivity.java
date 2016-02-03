@@ -24,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText _nameText;
     @Bind(R.id.input_last_name) EditText _lastnameText;
     @Bind(R.id.input_email) EditText _emailText;
+    @Bind(R.id.input_phone) EditText _phoneText;
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_signup)
     Button _signupButton;
@@ -62,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String lastname = _lastnameText.getText().toString();
         String email = _emailText.getText().toString();
+        String phone = _phoneText.getText().toString();
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
@@ -97,6 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String lastname = _lastnameText.getText().toString();
         String email = _emailText.getText().toString();
+        String phone = _phoneText.getText().toString();
         String password = _passwordText.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {

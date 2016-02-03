@@ -11,6 +11,7 @@
         android:weightSum="3"
         android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/merchant"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
