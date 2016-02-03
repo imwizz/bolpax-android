@@ -1,13 +1,13 @@
 package id.co.imwizz.bolpax.ui.view;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -74,6 +74,8 @@ public class RegisterActivity extends AppCompatActivity {
                         // On complete call either onSignupSuccess or onSignupFailed
                         // depending on success
                         onSignupSuccess();
+                        Intent i = new Intent(RegisterActivity.this,Login.class);
+                        startActivity(i);
                         // onSignupFailed();
                         progressDialog.dismiss();
                     }

@@ -20,14 +20,14 @@ public class MerchantListAdapter extends ArrayAdapter<MerchantList> {
 //List<MerchantList> merchant;
 
     public MerchantListAdapter(Context context, MerchantList[] merchant) {
-        super(context, R.layout.merchantadater, merchant);
+        super(context, R.layout.merchant_list, merchant);
         this.merchant = merchant;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 //        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/SEGOEUI.TTF");
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
-        View customView = categoryInflater.inflate(R.layout.business_hour_list, parent, false);
+        View customView = categoryInflater.inflate(R.layout.merchant_list, parent, false);
 
         MerchantList merchant = getItem(position);
         TextView businessDay = (TextView) customView.findViewById(R.id.businessOpen);
