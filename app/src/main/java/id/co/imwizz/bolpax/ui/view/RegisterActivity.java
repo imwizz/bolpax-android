@@ -13,6 +13,11 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.User;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by User on 08/01/2016.
@@ -60,13 +65,31 @@ public class RegisterActivity extends AppCompatActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
-        String lastname = _lastnameText.getText().toString();
+        String fullname = _nameText.getText().toString() +" "+ _lastnameText.getText().toString();
         String email = _emailText.getText().toString();
         String phone = _phoneText.getText().toString();
         String password = _passwordText.getText().toString();
 
+        User user = new User();
+        user.setFullname(fullname);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setPhone(phone);
+
+
         // TODO: Implement your own signup logic here.
+        RestClient.getBolpax().getRegister(user, new Callback <String>(){
+
+            @Override
+            public void success(String string, Response response) {
+                Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -74,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                         // On complete call either onSignupSuccess or onSignupFailed
                         // depending on success
                         onSignupSuccess();
-                        Intent i = new Intent(RegisterActivity.this,Login.class);
+                        Intent i = new Intent(RegisterActivity.this,BuyerHomeActivity.class);
                         startActivity(i);
                         // onSignupFailed();
                         progressDialog.dismiss();
