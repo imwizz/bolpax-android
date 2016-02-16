@@ -91,11 +91,11 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantHomeActivity.this, ProfileActivity.class);
-                i.putExtra("email", email);
-                i.putExtra("name", name);
-                i.putExtra("phone", phone);
-                i.putExtra("balance", balance);
+                Intent i = new Intent(MerchantHomeActivity.this, MerchantProfile.class);
+//                i.putExtra("email", email);
+//                i.putExtra("name", name);
+//                i.putExtra("phone", phone);
+//                i.putExtra("balance", balance);
                 startActivity(i);
 
                 return true;

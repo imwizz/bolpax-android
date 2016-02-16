@@ -8,18 +8,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.MerchantList;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 
 
 /**
  * Created by MDeveloper on 1/18/2016.
  */
-public class MerchantListAdapter extends ArrayAdapter<MerchantList> {
-    MerchantList[] merchant;
-//List<MerchantList> merchant;
+public class MerchantListAdapter extends ArrayAdapter<MerchantBolpax> {
+//    MerchantBolpax[] merchant;merchantz
 
-    public MerchantListAdapter(Context context, MerchantList[] merchant) {
+    private List<MerchantBolpax> merchant;
+
+    public MerchantListAdapter(Context context, List<MerchantBolpax> merchant) {
         super(context, R.layout.merchant_list, merchant);
         this.merchant = merchant;
     }
@@ -29,16 +33,17 @@ public class MerchantListAdapter extends ArrayAdapter<MerchantList> {
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
         View customView = categoryInflater.inflate(R.layout.merchant_list, parent, false);
 
-        MerchantList merchant = getItem(position);
-        TextView businessDay = (TextView) customView.findViewById(R.id.businessOpen);
-//        TextView businessOpen = (TextView) customView.findViewById(R.id.businessOpen);
+        MerchantBolpax merchant = getItem(position);
+//        TextView businessDay = (TextView) customView.findViewById(R.id.businessOpen);
+        TextView businessOpen = (TextView) customView.findViewById(R.id.businessOpen);
 //        TextView businessClose = (TextView) customView.findViewById(R.id.businessClose);
 
         ImageView categoryImage = (ImageView) customView.findViewById(R.id.imageView7);
         //int test = businessHourses.getDay();
         //int[] test = new int[businessHourses.getDay()];
-        businessDay.setText(merchant.getMerchant());
+        businessOpen.setText(merchant.getMerchantName());
         //if (test != null){
+        String Test = merchant.getMerchantName();
 
 
         //}

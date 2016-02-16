@@ -5,27 +5,41 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.Payment;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by User on 08/01/2016.
  */
 public class BuyerPaymentActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = BuyerPaymentActivity.class.getSimpleName();
     protected Context mContext;
-    String email,name,phone,merchants;
+    String email,name,phone,merchantname,token,productName,amountString;
     Integer balance;
+    Long  userid,merchantid;
+    double amount;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.textView) TextView merchantName;
+    @Bind(R.id.merchantNameText) TextView merchantNameText;
+    @Bind(R.id.amountText)
+    EditText amountText;
+    @Bind(R.id.productNameText) EditText productNameText;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.payBut) Button pay;
 
@@ -52,9 +66,14 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
         });
 
         Intent i = getIntent();
-        merchants = i.getStringExtra("merchant").toString();
+        merchantid = i.getLongExtra("merchantId", 1L);
+        merchantname = i.getStringExtra("merchantName").toString();
 
-        merchantName.setText(merchants);
+        merchantNameText.setText(merchantname);
+        userid = BolpaxStatic.getUserid();
+        token = BolpaxStatic.getToken();
+
+
 
 
     }
@@ -103,9 +122,29 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
         switch (id) {
 
             case R.id.payBut:
-                Toast.makeText(BuyerPaymentActivity.this, "Thank You", Toast.LENGTH_SHORT).show();
-                Intent i2 = new Intent(BuyerPaymentActivity.this,BuyerTransactionDetailActivity.class);
-                startActivity(i2);
+                amountString = amountText.getText().toString();
+                productName= productNameText.getText().toString();
+                amount = Double.parseDouble(amountString);
+                Payment payment = new Payment();
+                payment.setUserId(userid);
+                payment.setMerchantId(merchantid);
+                payment.setAmount(amount);
+                payment.setProduct(productName);
+                payment.setToken(token);
+
+                RestClient.getBolpax().getBuyerPayment(payment, new Callback<String>() {
+                    @Override
+                    public void success(String s, Response response) {
+//                        Toast.makeText(getBaseContext(), "cek di database", Toast.LENGTH_LONG).show();
+//                        Intent i2 = new Intent(BuyerPaymentActivity.this,BuyerTransactionDetailActivity.class);
+//                        startActivity(i2);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, error.getMessage());
+                    }
+                });
                 break;
 
 

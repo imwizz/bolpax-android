@@ -30,6 +30,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_buyer_home" />
+    <include layout="@layout/content_merchant_profile" />
 
 </android.support.design.widget.CoordinatorLayout>
