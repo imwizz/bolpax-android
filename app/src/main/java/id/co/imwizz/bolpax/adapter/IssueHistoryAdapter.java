@@ -12,15 +12,16 @@ import java.util.List;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.IssueHistory;
 import id.co.imwizz.bolpax.data.entity.TrxHistory;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryBolpax;
 
 /**
  * Created by bimosektiw on 1/14/16.
  */
-public class IssueHistoryAdapter extends ArrayAdapter<IssueHistory> {
+public class IssueHistoryAdapter extends ArrayAdapter<IssueHistoryBolpax> {
 
-    private List<IssueHistory> issueHistories;
+    private List<IssueHistoryBolpax> issueHistories;
 
-    public IssueHistoryAdapter (Context context, List<IssueHistory> issueHistories){
+    public IssueHistoryAdapter (Context context, List<IssueHistoryBolpax> issueHistories){
         super(context, R.layout.issue_detail_list, issueHistories);
         this.issueHistories = issueHistories;
     }
@@ -29,7 +30,7 @@ public class IssueHistoryAdapter extends ArrayAdapter<IssueHistory> {
         LayoutInflater trxHistoryInflater = LayoutInflater.from(getContext());
         View customView = trxHistoryInflater.inflate(R.layout.issue_detail_list, parent, false);
 
-        IssueHistory trxHistory = getItem(position);
+        IssueHistoryBolpax trxHistory = getItem(position);
 
         TextView issuehistoryDate = (TextView) customView.findViewById(R.id.date);
         TextView issuehistoryMessage = (TextView) customView.findViewById(R.id.issuemessage);

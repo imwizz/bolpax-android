@@ -5,33 +5,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.Profile;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by User on 08/01/2016.
  */
 public class ProfileActivity extends AppCompatActivity {
-
+    private static final String TAG = ProfileActivity.class.getSimpleName();
     protected Context mContext;
-    String email,name,phone;
-    Integer balance;
+    String email,name,phone, userid,token,balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.tvname) TextView Name;
-    @Bind(R.id.tvmail) TextView Balance;
-    @Bind(R.id.tvcall) TextView Email;
-    @Bind(R.id.tvbalance) TextView Call;
+    @Bind(R.id.tvname) TextView tvName;
+    @Bind(R.id.tvmail) TextView tvEmail;
+    @Bind(R.id.tvcall) TextView tvCall;
+    @Bind(R.id.tvbalance) TextView tvBalance;
+    Long bolpax;
 
 
     @Override
@@ -39,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_profile);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
@@ -52,18 +56,31 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar.setTitle("");
         toolbarTitle.setText("BOLPAX");
 
-        String json = DummyAPI.getJson(ProfileActivity.this, R.raw.profile);
-        Gson gson = new Gson();
-        Profile profile = gson.fromJson(json, Profile.class);
-        email = profile.getEmail();
-        name = profile.getName();
-        phone = profile.getPhone();
-        balance = profile.getBalance();
+        bolpax = BolpaxStatic.getUserid();
+        userid = bolpax.toString();
+        token = BolpaxStatic.getToken();
 
-        Name.setText(name);
-        Email.setText(email);
-        Call.setText(phone);
-        Balance.setText("Rp. "+balance);
+
+        RestClient.getBolpax().getProfile(userid.toString(), token.toString(), new Callback<ProfileBolpax>() {
+                    @Override
+                    public void success(ProfileBolpax profileBolpax, Response response) {
+                        name = profileBolpax.getFullname();
+                        email = profileBolpax.getEmail();
+                        phone = profileBolpax.getPhone();
+                        balance = profileBolpax.getBalance();
+
+                        tvName.setText(name);
+                        tvEmail.setText(email);
+                        tvCall.setText(phone);
+                        tvBalance.setText("Rp. "+balance);
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, error.getMessage());
+                    }
+                });
 
 
 

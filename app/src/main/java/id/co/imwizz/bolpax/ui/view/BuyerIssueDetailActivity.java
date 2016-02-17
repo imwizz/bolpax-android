@@ -23,14 +23,21 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueHistoryAdapter;
 import id.co.imwizz.bolpax.data.entity.IssueDetail;
 import id.co.imwizz.bolpax.data.entity.IssueHistory;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
 import id.co.imwizz.bolpax.data.service.DummyAPI;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by bimosektiw on 1/14/16.
  */
 public class BuyerIssueDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
-    List<IssueHistory> issueHistory;
+    List<IssueHistoryBolpax> issueHistory;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.suspect) TextView suspectText;
@@ -47,27 +54,55 @@ public class BuyerIssueDetailActivity extends AppCompatActivity implements View.
         setToolbar();
         replayIssue.setOnClickListener(this);
 
-        String json = DummyAPI.getJson(BuyerIssueDetailActivity.this ,R.raw.issue_detail);
-        Gson gson = new Gson();
-        IssueDetail issueDetail = gson.fromJson(json, IssueDetail.class);
+//        String json = DummyAPI.getJson(BuyerIssueDetailActivity.this ,R.raw.issue_detail);
+//        Gson gson = new Gson();
+//        IssueDetail issueDetail = gson.fromJson(json, IssueDetail.class);
+//
+//        String suspect = issueDetail.getSuspect();
+//        String amount = issueDetail.getAmount();
+//        String product = issueDetail.getProduct();
+//        String laststatus = issueDetail.getIssueLastStatus();
+//
+//        issueHistory = issueDetail.getIssueHistory();
+//        issueDetailText.setSelector(new ColorDrawable(0));
+//        String[] issue = new String[issueHistory.size() + 1];
+//        for (int i = 0; i < issueHistory.size(); i++) {
+//            issue[i] = issueHistory.get(i).getTime();
+//            issue[i] = issueHistory.get(i).getMessage();
+//        }
+//        ListAdapter listAdapter = new IssueHistoryAdapter(BuyerIssueDetailActivity.this, issueHistory);
+//        issueDetailText.setAdapter(listAdapter);
+//        suspectText.setText(suspect);
+//        amountText.setText("Rp "+amount +" for "+ product);
+//        issueLastStatusText.setText(laststatus);
 
-        String suspect = issueDetail.getSuspect();
-        String amount = issueDetail.getAmount();
-        String product = issueDetail.getProduct();
-        String laststatus = issueDetail.getIssueLastStatus();
+        RestClient.getBolpax().getIssueDetail("1", new Callback<IssueDetailBolpax>() {
+            @Override
+            public void success(IssueDetailBolpax issueDetailBolpax, Response response) {
+                String suspect = issueDetailBolpax.getSuspect();
+                String amount = issueDetailBolpax.getAmount();
+                String product = issueDetailBolpax.getProduct();
+                String laststatus = issueDetailBolpax.getIssueLastStatus();
 
-        issueHistory = issueDetail.getIssueHistory();
-        issueDetailText.setSelector(new ColorDrawable(0));
-        String[] issue = new String[issueHistory.size() + 1];
-        for (int i = 0; i < issueHistory.size(); i++) {
-            issue[i] = issueHistory.get(i).getTime();
-            issue[i] = issueHistory.get(i).getMessage();
-        }
-        ListAdapter listAdapter = new IssueHistoryAdapter(BuyerIssueDetailActivity.this, issueHistory);
-        issueDetailText.setAdapter(listAdapter);
-        suspectText.setText(suspect);
-        amountText.setText("Rp "+amount +" for "+ product);
-        issueLastStatusText.setText(laststatus);
+                issueHistory = issueDetailBolpax.getIssueHistory();
+                issueDetailText.setSelector(new ColorDrawable(0));
+                String[] issue = new String[issueHistory.size() + 1];
+                for (int i = 0; i < issueHistory.size(); i++) {
+                    issue[i] = issueHistory.get(i).getTime();
+                    issue[i] = issueHistory.get(i).getMessage();
+                }
+                ListAdapter listAdapter = new IssueHistoryAdapter(BuyerIssueDetailActivity.this, issueHistory);
+                issueDetailText.setAdapter(listAdapter);
+                suspectText.setText(suspect);
+                amountText.setText("Rp "+amount +" for "+ product);
+                issueLastStatusText.setText(laststatus);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 
     private void setToolbar(){

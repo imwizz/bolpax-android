@@ -90,8 +90,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
-
         new android.os.Handler().postDelayed(
+
                 new Runnable() {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
