@@ -17,12 +17,12 @@
             android:text="Subject:"
             android:textSize="18dp"
             android:textColor="@color/aluminum"/>
-        <TextView
-            android:layout_width="match_parent"
+
+        <EditText
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Payment Pending"
-            android:textSize="18dp"
-            android:textColor="@color/black"/>
+            android:id="@+id/subject_report"
+            android:layout_weight="1" />
 
     </LinearLayout>
     <View
@@ -41,6 +41,7 @@
             android:textColorHint="@color/aluminum"
             android:background="@android:color/transparent"
             android:maxLines="4"
+            android:id="@+id/desc_report"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/subbut" />

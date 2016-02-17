@@ -1,6 +1,5 @@
 package id.co.imwizz.bolpax.ui.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -65,7 +64,7 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         switch (id) {
             case R.id.transaction:
                 Toast.makeText(MerchantHomeActivity.this, "Pindah ke merchant transaction list", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(MerchantHomeActivity.this, MerchantTransactionListActivity.class);
+                Intent i = new Intent(MerchantHomeActivity.this, MerchantTransactionList.class);
                 startActivity(i);
                 break;
             case R.id.issue:

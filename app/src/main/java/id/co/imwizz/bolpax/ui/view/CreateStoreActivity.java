@@ -9,12 +9,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.Store;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by User on 08/01/2016.
@@ -24,7 +30,9 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
     protected Context mContext;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.button) Button submit;
+    @Bind(R.id.submit_store) Button submit;
+    @Bind(R.id.store_name) EditText storeName;
+    String createStore;
     //LinearLayout merchant,transaction,issue;
     //Toolbar toolbar;
 //    TextView toolbarTitle;
@@ -47,13 +55,16 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
                 Toast.makeText(CreateStoreActivity.this, "This Home", Toast.LENGTH_SHORT).show();
             }
         });
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(CreateStoreActivity.this, MerchantHomeActivity.class);
-                startActivity(i);
-            }
-        });
+
+
+        submit.setOnClickListener(this);
+//        submit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(CreateStoreActivity.this, MerchantHomeActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
 
 
@@ -101,8 +112,32 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
+            case R.id.submit_store:
+                createStore();
+                break;
 
         }
 
+    }
+
+    private void createStore() {
+        createStore = storeName.getText().toString();
+        Store store = new Store();
+        store.setName(createStore);
+        store.setUserId(2);
+        RestClient.getBolpax().postStore(store, new Callback<String>() {
+
+            @Override
+            public void success(String string, Response response) {
+                Toast.makeText(getBaseContext(), "Create Store Success", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(CreateStoreActivity.this,MerchantList_Activity.class);
+                startActivity(i);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 }

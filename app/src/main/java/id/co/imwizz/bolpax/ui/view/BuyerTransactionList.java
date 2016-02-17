@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,15 +14,19 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionListAdapter;
-import id.co.imwizz.bolpax.data.entity.TransactionLIst;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionListPojo;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by User on 08/01/2016.
@@ -29,12 +34,14 @@ import id.co.imwizz.bolpax.data.service.DummyAPI;
 public class BuyerTransactionList extends AppCompatActivity implements View.OnClickListener {
 
     protected Context mContext;
+    private static final String TAG = BuyerTransactionList.class.getSimpleName();
     String email,name,phone;
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.listviewTransaction) ListView transaction;
-    TransactionLIst transactionlist;
+    BuyerTransactionListPojo transactionlist;
+    List<BuyerTransactionListPojo> buyerTransactionListPojos;
 
 
     @Override
@@ -52,29 +59,58 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(BuyerTransactionList.this,BuyerHomeActivity.class);
+                Intent i = new Intent(BuyerTransactionList.this, BuyerHomeActivity.class);
                 startActivity(i);
             }
         });
+        long userId=1;
 
+        RestClient.getBolpax().getBuyerTransactionlist("1", new Callback<List<BuyerTransactionListPojo>>() {
+                    @Override
+                    public void success(List<BuyerTransactionListPojo> result, Response response) {
+                        buyerTransactionListPojos = new ArrayList<BuyerTransactionListPojo>(result);
+                        for (int i = 0; i < buyerTransactionListPojos.size(); i++) {
+                            long id = buyerTransactionListPojos.get(i).getTrxId();
+                            String date = buyerTransactionListPojos.get(i).getTrxDate();
+                            String status = buyerTransactionListPojos.get(i).getTrxLastStatus();
+                            Double amount = buyerTransactionListPojos.get(i).getAmount();
+                            String merchant = buyerTransactionListPojos.get(i).getMerchant();
+                            String product = buyerTransactionListPojos.get(i).getProduct();
 
-        String json = DummyAPI.getJson(BuyerTransactionList.this, R.raw.trx_list);
-        Gson gson = new Gson();
-        TransactionLIst[] transactionList = gson.fromJson(json, TransactionLIst[].class);
+                        }
+                        ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionList.this, buyerTransactionListPojos);
+                        transaction.setAdapter(transactionListAdapter);
 
-        ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionList.this, transactionList);
-        transaction.setAdapter(transactionListAdapter);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
+
+//                String json = DummyAPI.getJson(BuyerTransactionList.this, R.raw.trx_list);
+//        Gson gson = new Gson();
+//        TransactionLIst[] transactionList = gson.fromJson(json, TransactionLIst[].class);
+//
+//        ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionList.this, transactionList);
+//        transaction.setAdapter(transactionListAdapter);
 
     }
+
+
+
     @OnItemClick(R.id.listviewTransaction)
     void onItemClick(AdapterView<?> parent, View view,
                      int position, long id) {
-        transactionlist = (TransactionLIst) parent.getItemAtPosition(position);
+        transactionlist = (BuyerTransactionListPojo) parent.getItemAtPosition(position);
         Intent myIntent = new Intent(BuyerTransactionList.this, BuyerTransactionDetailActivity.class);
         myIntent.putExtra("amount", (transactionlist.getAmount()));
         myIntent.putExtra("merchant", (transactionlist.getMerchant()));
         myIntent.putExtra("date", (transactionlist.getTrxDate()));
         myIntent.putExtra("status", (transactionlist.getTrxLastStatus()));
+        myIntent.putExtra("product", (transactionlist.getProduct()));
         startActivity(myIntent);
     }
 

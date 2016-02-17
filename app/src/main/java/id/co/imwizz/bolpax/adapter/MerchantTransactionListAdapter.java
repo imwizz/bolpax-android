@@ -11,20 +11,20 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionListPojo;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionListPojo;
 
 //import com.squareup.picasso.Picasso;
 //import id.co.imwizz.gokeel.R;
 //import id.co.imwizz.gokeel.domain.service.Category;
 
-public class TransactionListAdapter extends ArrayAdapter<BuyerTransactionListPojo> {
+public class MerchantTransactionListAdapter extends ArrayAdapter<MerchantTransactionListPojo> {
 
 
-    private List<BuyerTransactionListPojo> transactionList;
-//    TransactionLIst[] transactionList2;
+    private List<MerchantTransactionListPojo> transactionList;
+    //    TransactionLIst[] transactionList2;
     Context mContext;
 
-    public TransactionListAdapter(Context context, List<BuyerTransactionListPojo> transactionList) {
+    public MerchantTransactionListAdapter(Context context, List<MerchantTransactionListPojo> transactionList) {
         super(context, R.layout.transaction_list, transactionList);
         this.transactionList = transactionList;
     }
@@ -35,7 +35,7 @@ public class TransactionListAdapter extends ArrayAdapter<BuyerTransactionListPoj
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
         View customView = categoryInflater.inflate(R.layout.transaction_list, parent, false);
 
-        BuyerTransactionListPojo transaction = getItem(position);
+        MerchantTransactionListPojo transaction = getItem(position);
 
         TextView dateText = (TextView) customView.findViewById(R.id.tvdate);
         TextView statusText = (TextView) customView.findViewById(R.id.tvsatus);

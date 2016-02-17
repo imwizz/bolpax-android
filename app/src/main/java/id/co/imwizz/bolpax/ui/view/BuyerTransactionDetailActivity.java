@@ -1,28 +1,21 @@
 package id.co.imwizz.bolpax.ui.view;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.google.gson.Gson;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.adapter.TransactionHistoryAdapter;
-import id.co.imwizz.bolpax.data.entity.TransactionDetail;
 import id.co.imwizz.bolpax.data.entity.TrxHistory;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
 
 /**
  * Created by bimosektiw on 11/01/2016.
@@ -47,6 +40,12 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
         toolbar.setTitle("");
+        Bundle bundle = this.getIntent().getExtras();
+        Integer Amount = bundle.getInt("amount");
+        String Merchant = bundle.getString("merchant");
+        String Date = bundle.getString("date");
+        String Status = bundle.getString("status");
+        String Product = bundle.getString("product");
 
         toolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -57,27 +56,27 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
             }
         });
 
-        String json = DummyAPI.getJson(BuyerTransactionDetailActivity.this ,R.raw.trx_detail);
-        Gson gson = new Gson();
-        TransactionDetail transactionDetail = gson.fromJson(json, TransactionDetail.class);
-
-        String merchant = transactionDetail.getMerchant();
-        String amount = transactionDetail.getAmount();
-        String product = transactionDetail.getProduct();
-        String laststatus = transactionDetail.getTrxLastStatus();
-
-        trxHistory = transactionDetail.getTrxHistory();
-        trxDetailText.setSelector(new ColorDrawable(0));
-        String[] trx = new String[trxHistory.size() + 1];
-        for (int i = 0; i < trxHistory.size(); i++) {
-            trx[i] = trxHistory.get(i).getTime();
-            trx[i] = trxHistory.get(i).getStatus();
-        }
-        ListAdapter listAdapter = new TransactionHistoryAdapter(BuyerTransactionDetailActivity.this, trxHistory);
-        trxDetailText.setAdapter(listAdapter);
-        merchantText.setText(merchant);
-        amountText.setText("Rp "+amount +" for "+ product);
-        laststatusText.setText(laststatus);
+//        String json = DummyAPI.getJson(BuyerTransactionDetailActivity.this ,R.raw.trx_detail);
+//        Gson gson = new Gson();
+//        TransactionDetail transactionDetail = gson.fromJson(json, TransactionDetail.class);
+//
+//        String merchant = transactionDetail.getMerchant();
+//        String amount = transactionDetail.getAmount();
+//        String product = transactionDetail.getProduct();
+//        String laststatus = transactionDetail.getTrxLastStatus();
+//
+//        trxHistory = transactionDetail.getTrxHistory();
+//        trxDetailText.setSelector(new ColorDrawable(0));
+//        String[] trx = new String[trxHistory.size() + 1];
+//        for (int i = 0; i < trxHistory.size(); i++) {
+//            trx[i] = trxHistory.get(i).getTime();
+//            trx[i] = trxHistory.get(i).getStatus();
+//        }
+//        ListAdapter listAdapter = new TransactionHistoryAdapter(BuyerTransactionDetailActivity.this, trxHistory);
+//        trxDetailText.setAdapter(listAdapter);
+        merchantText.setText(Merchant);
+        amountText.setText("Rp "+Amount +" for "+ Product);
+        laststatusText.setText(Status);
     }
 
 

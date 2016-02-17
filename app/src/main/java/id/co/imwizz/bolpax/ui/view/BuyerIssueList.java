@@ -5,22 +5,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueListAdapter;
-import id.co.imwizz.bolpax.data.entity.IssueList;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by User on 08/01/2016.
@@ -29,10 +35,12 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
 
     protected Context mContext;
     String email,name,phone,merchants;
+    private static final String TAG = BuyerIssueList.class.getSimpleName();
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.listviewIssue) ListView issue;
+    List<BuyerIssueListPojo> buyerIssueListPojos;
 
 
 
@@ -52,18 +60,59 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(BuyerIssueList.this,BuyerHomeActivity.class);
+                Intent i = new Intent(BuyerIssueList.this, BuyerHomeActivity.class);
                 startActivity(i);
             }
         });
 
+        RestClient.getBolpax().getBuyerIssuelist("1", new Callback<List<BuyerIssueListPojo>>() {
+                    @Override
+                    public void success(List<BuyerIssueListPojo> result, Response response) {
+                        buyerIssueListPojos = new ArrayList<BuyerIssueListPojo>(result);
+                        for (int i = 0; i < buyerIssueListPojos.size(); i++) {
+                            long id = buyerIssueListPojos.get(i).getIssueId();
+                            String date = buyerIssueListPojos.get(i).getIssueDate();
+                            String status = buyerIssueListPojos.get(i).getIssueLastStatus();
+                            Double amount = buyerIssueListPojos.get(i).getAmount();
+                            String suspect = buyerIssueListPojos.get(i).getSuspect();
 
-        String json = DummyAPI.getJson(BuyerIssueList.this, R.raw.issue_list);
-        Gson gson = new Gson();
-        IssueList[] issueList = gson.fromJson(json, IssueList[].class);
+                            ListAdapter issueListAdapter = new IssueListAdapter(BuyerIssueList.this, buyerIssueListPojos);
+                            issue.setAdapter(issueListAdapter);
 
-        ListAdapter issueListAdapter = new IssueListAdapter(BuyerIssueList.this, issueList);
-        issue.setAdapter(issueListAdapter);
+
+                        }
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
+
+
+//                String json = DummyAPI.getJson(BuyerIssueList.this, R.raw.issue_list);
+//        Gson gson = new Gson();
+//        IssueList[] issueList = gson.fromJson(json, IssueList[].class);
+//
+//        ListAdapter issueListAdapter = new IssueListAdapter(BuyerIssueList.this, issueList);
+//        issue.setAdapter(issueListAdapter);
+        issue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+//                issue = (IssueList) parent.getItemAtPosition(position);
+                //catVal = Category.getCategoryName();
+                //catVal = (Category)getIntent().getSerializableExtra("category");
+                Intent myIntent = new Intent(BuyerIssueList.this, BuyerIssueDetailActivity.class);
+//                myIntent.putExtra("amount", (transactionlist.getAmount()));
+//                myIntent.putExtra("merchant", (transactionlist.getMerchant()));
+//                myIntent.putExtra("date", (transactionlist.getTrxDate()));
+//                myIntent.putExtra("status", (transactionlist.getTrxLastStatus()));
+                startActivity(myIntent);
+
+            }
+        });
 
 
 

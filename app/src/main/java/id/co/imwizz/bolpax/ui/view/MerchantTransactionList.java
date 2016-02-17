@@ -5,90 +5,113 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
+import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.adapter.TransactionListAdapter;
-import id.co.imwizz.bolpax.data.entity.TransactionLIst;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
+import id.co.imwizz.bolpax.adapter.MerchantTransactionListAdapter;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionListPojo;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by User on 08/01/2016.
  */
-public class MerchantTransactionList extends AppCompatActivity {
+public class MerchantTransactionList extends AppCompatActivity implements View.OnClickListener {
 
     protected Context mContext;
-    String email,name,phone,merchants;
+    private static final String TAG = BuyerTransactionList.class.getSimpleName();
+    String email,name,phone;
     Integer balance;
-    LinearLayout merchant;
-    TextView merchantName;
-    ListView transaction;
-    TransactionLIst transactionlist;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar_title) TextView toolbarTitle;
+    @Bind(R.id.listviewTransaction) ListView transaction;
+    MerchantTransactionListPojo transactionlist;
+    List<MerchantTransactionListPojo> merchantTransactionListPojos;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction);
-        merchantName=(TextView)findViewById(R.id.textView);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+
+        toolbar.setTitle("");
+
+        toolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MerchantTransactionList.this, "Home", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(MerchantTransactionList.this, BuyerHomeActivity.class);
+                startActivity(i);
             }
         });
-        toolbar.setTitle("");
-        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("BOLPAX");
+        long userId=1;
 
-        transaction=(ListView)findViewById(R.id.listviewTransaction);
-        String json = DummyAPI.getJson(MerchantTransactionList.this, R.raw.trx_list);
-        Gson gson = new Gson();
-//        JSONArray jsonArr = new JSONArray();
+        RestClient.getBolpax().getMerchantTransactionlist("2", new Callback<List<MerchantTransactionListPojo>>() {
+            @Override
+            public void success(List<MerchantTransactionListPojo> result, Response response) {
+                merchantTransactionListPojos = new ArrayList<MerchantTransactionListPojo>(result);
+                for (int i = 0; i < merchantTransactionListPojos.size(); i++) {
+                    long id = merchantTransactionListPojos.get(i).getTrxId();
+                    String date = merchantTransactionListPojos.get(i).getTrxDate();
+                    String status = merchantTransactionListPojos.get(i).getTrxLastStatus();
+                    Double amount = merchantTransactionListPojos.get(i).getAmount();
+                    String merchant = merchantTransactionListPojos.get(i).getMerchant();
+                    String product = merchantTransactionListPojos.get(i).getProduct();
 
-        TransactionLIst[] transactionList = gson.fromJson(json, TransactionLIst[].class);
+                }
+                ListAdapter transactionListAdapter = new MerchantTransactionListAdapter(MerchantTransactionList.this, merchantTransactionListPojos);
+                transaction.setAdapter(transactionListAdapter);
 
-//        String Test = merchant.getMerchant();
-//        String[] catValues5 = new String[merchant.size() + 1];
-//        for (int i = 0; i < merchant.size(); i++) {
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(TAG, error.getMessage());
+
+            }
+        });
+
+//                String json = DummyAPI.getJson(BuyerTransactionList.this, R.raw.trx_list);
+//        Gson gson = new Gson();
+//        TransactionLIst[] transactionList = gson.fromJson(json, TransactionLIst[].class);
 //
-//        }
-        ListAdapter transactionListAdapter = new TransactionListAdapter(MerchantTransactionList.this, transactionList);
-        transaction.setAdapter(transactionListAdapter);
-//        MerchantListAdapter merchantlistAdapter = new MerchantListAdapter(MerchantList_Activity.this, merchant);
-//        listView.setAdapter(merchantlistAdapter);
+//        ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionList.this, transactionList);
+//        transaction.setAdapter(transactionListAdapter);
 
-        transaction.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                transactionlist = (TransactionLIst) parent.getItemAtPosition(position);
-                //catVal = Category.getCategoryName();
-                //catVal = (Category)getIntent().getSerializableExtra("category");
-                Intent myIntent = new Intent(MerchantTransactionList.this, BuyerTransactionDetailActivity.class);
-                myIntent.putExtra("amount", (transactionlist.getAmount()));
-                myIntent.putExtra("merchant", (transactionlist.getMerchant()));
-                myIntent.putExtra("date", (transactionlist.getTrxDate()));
-                myIntent.putExtra("status", (transactionlist.getTrxLastStatus()));
-                startActivity(myIntent);
-
-            }
-        });
+    }
 
 
+
+    @OnItemClick(R.id.listviewTransaction)
+    void onItemClick(AdapterView<?> parent, View view,
+                     int position, long id) {
+        transactionlist = (MerchantTransactionListPojo) parent.getItemAtPosition(position);
+        Intent myIntent = new Intent(MerchantTransactionList.this, MerchantTransactionDetailActivity.class);
+        myIntent.putExtra("amount", (transactionlist.getAmount()));
+        myIntent.putExtra("merchant", (transactionlist.getMerchant()));
+        myIntent.putExtra("date", (transactionlist.getTrxDate()));
+        myIntent.putExtra("status", (transactionlist.getTrxLastStatus()));
+        myIntent.putExtra("product", (transactionlist.getProduct()));
+        startActivity(myIntent);
     }
 
     @Override
@@ -104,20 +127,12 @@ public class MerchantTransactionList extends AppCompatActivity {
         {
             case R.id.profile:
                 Intent i = new Intent(MerchantTransactionList.this, ProfileActivity.class);
-                i.putExtra("email", email);
-                i.putExtra("name", name);
-                i.putExtra("phone", phone);
-                i.putExtra("balance", balance);
                 startActivity(i);
 
                 return true;
 
             case R.id.create_store:
-                Intent i2 = new Intent(MerchantTransactionList.this, MerchantHomeActivity.class);
-                i2.putExtra("email", email);
-                i2.putExtra("name", name);
-                i2.putExtra("phone", phone);
-                i2.putExtra("balance", balance);
+                Intent i2 = new Intent(MerchantTransactionList.this, CreateStoreActivity.class);
                 startActivity(i2);
 
                 return true;
@@ -135,5 +150,14 @@ public class MerchantTransactionList extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+
+
+        }
     }
 }

@@ -10,17 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.adapter.IssueListAdapter;
 import id.co.imwizz.bolpax.data.entity.IssueList;
 import id.co.imwizz.bolpax.data.entity.TransactionLIst;
 import id.co.imwizz.bolpax.data.service.DummyAPI;
@@ -54,27 +51,11 @@ public class MerchantTransactionListActivity extends AppCompatActivity {
 
         IssueList[] issueList = gson.fromJson(json, IssueList[].class);
 
-//        String Test = merchant.getMerchant();
-//        String[] catValues5 = new String[merchant.size() + 1];
-//        for (int i = 0; i < merchant.size(); i++) {
-//
-//        }
-        ListAdapter issueListAdapter = new IssueListAdapter(MerchantTransactionListActivity.this, issueList);
-        issue.setAdapter(issueListAdapter);
-//        MerchantListAdapter merchantlistAdapter = new MerchantListAdapter(MerchantList_Activity.this, merchant);
-//        listView.setAdapter(merchantlistAdapter);
 
         issue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-//                issue = (IssueList) parent.getItemAtPosition(position);
-                //catVal = Category.getCategoryName();
-                //catVal = (Category)getIntent().getSerializableExtra("category");
                 Intent myIntent = new Intent(MerchantTransactionListActivity.this, MerchantTransactionDetailActivity.class);
-//                myIntent.putExtra("amount", (transactionlist.getAmount()));
-//                myIntent.putExtra("merchant", (transactionlist.getMerchant()));
-//                myIntent.putExtra("date", (transactionlist.getTrxDate()));
-//                myIntent.putExtra("status", (transactionlist.getTrxLastStatus()));
                 startActivity(myIntent);
 
             }

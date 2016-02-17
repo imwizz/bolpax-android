@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,17 +14,20 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.adapter.IssueListAdapter;
-import id.co.imwizz.bolpax.data.entity.IssueList;
+import id.co.imwizz.bolpax.adapter.MerchantIssueListAdapter;
 import id.co.imwizz.bolpax.data.entity.TransactionLIst;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueListPojo;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by User on 08/01/2016.
@@ -38,6 +42,8 @@ public class MerchantIssueList extends AppCompatActivity {
     @Bind(R.id.listviewIssue) ListView issue;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
+    List<MerchantIssueListPojo> merchantIssueListPojos;
+    private static final String TAG = MerchantIssueList.class.getSimpleName();
 
 
     @Override
@@ -47,19 +53,45 @@ public class MerchantIssueList extends AppCompatActivity {
         ButterKnife.bind(this);
         setToolbar();
 
-        String json = DummyAPI.getJson(MerchantIssueList.this, R.raw.issue_list);
-        Gson gson = new Gson();
-//        JSONArray jsonArr = new JSONArray();
+        RestClient.getBolpax().getMerchantIssuelist("2", new Callback<List<MerchantIssueListPojo>>() {
+            @Override
+            public void success(List<MerchantIssueListPojo> result, Response response) {
+                merchantIssueListPojos = new ArrayList<MerchantIssueListPojo>(result);
+                for (int i = 0; i < merchantIssueListPojos.size(); i++) {
+                    long id = merchantIssueListPojos.get(i).getIssueId();
+                    String date = merchantIssueListPojos.get(i).getIssueDate();
+                    String status = merchantIssueListPojos.get(i).getIssueLastStatus();
+                    Double amount = merchantIssueListPojos.get(i).getAmount();
+                    String suspect = merchantIssueListPojos.get(i).getSuspect();
 
-        IssueList[] issueList = gson.fromJson(json, IssueList[].class);
+                    ListAdapter issueListAdapter = new MerchantIssueListAdapter(MerchantIssueList.this, merchantIssueListPojos);
+                    issue.setAdapter(issueListAdapter);
+
+
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(TAG, error.getMessage());
+
+            }
+        });
+
+//        String json = DummyAPI.getJson(MerchantIssueList.this, R.raw.issue_list);
+//        Gson gson = new Gson();
+////        JSONArray jsonArr = new JSONArray();
+//
+//        IssueList[] issueList = gson.fromJson(json, IssueList[].class);
 
 //        String Test = merchant.getMerchant();
 //        String[] catValues5 = new String[merchant.size() + 1];
 //        for (int i = 0; i < merchant.size(); i++) {
 //
 //        }
-        ListAdapter issueListAdapter = new IssueListAdapter(MerchantIssueList.this, issueList);
-        issue.setAdapter(issueListAdapter);
+//        ListAdapter issueListAdapter = new IssueListAdapter(MerchantIssueList.this, issueList);
+//        issue.setAdapter(issueListAdapter);
 //        MerchantListAdapter merchantlistAdapter = new MerchantListAdapter(MerchantList_Activity.this, merchant);
 //        listView.setAdapter(merchantlistAdapter);
 

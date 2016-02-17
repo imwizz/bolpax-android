@@ -11,22 +11,22 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.IssueList;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
 
 //import com.squareup.picasso.Picasso;
 //import id.co.imwizz.gokeel.R;
 //import id.co.imwizz.gokeel.domain.service.Category;
 
-public class IssueListAdapter extends ArrayAdapter<IssueList> {
+public class IssueListAdapter extends ArrayAdapter<BuyerIssueListPojo> {
 
 
-    private List<IssueList> issueList;
-    IssueList[] issueList2;
+    private List<BuyerIssueListPojo> issueList;
+//    IssueList[] issueList2;
     Context mContext;
 
-    public IssueListAdapter(Context context, IssueList[] issueList2) {
-        super(context, R.layout.issue_list, issueList2);
-        this.issueList2 = issueList2;
+    public IssueListAdapter(Context context, List<BuyerIssueListPojo> issueList) {
+        super(context, R.layout.issue_list, issueList);
+        this.issueList = issueList;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class IssueListAdapter extends ArrayAdapter<IssueList> {
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
         View customView = categoryInflater.inflate(R.layout.issue_list, parent, false);
 
-        IssueList category = getItem(position);
+        BuyerIssueListPojo category = getItem(position);
 
         TextView dateText = (TextView) customView.findViewById(R.id.tvdate);
         TextView statusText = (TextView) customView.findViewById(R.id.tvsatus);

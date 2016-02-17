@@ -11,49 +11,45 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionListPojo;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueListPojo;
 
 //import com.squareup.picasso.Picasso;
 //import id.co.imwizz.gokeel.R;
 //import id.co.imwizz.gokeel.domain.service.Category;
 
-public class TransactionListAdapter extends ArrayAdapter<BuyerTransactionListPojo> {
+public class MerchantIssueListAdapter extends ArrayAdapter<MerchantIssueListPojo> {
 
 
-    private List<BuyerTransactionListPojo> transactionList;
-//    TransactionLIst[] transactionList2;
+    private List<MerchantIssueListPojo> issueList;
+    //    IssueList[] issueList2;
     Context mContext;
 
-    public TransactionListAdapter(Context context, List<BuyerTransactionListPojo> transactionList) {
-        super(context, R.layout.transaction_list, transactionList);
-        this.transactionList = transactionList;
+    public MerchantIssueListAdapter(Context context, List<MerchantIssueListPojo> issueList) {
+        super(context, R.layout.issue_list, issueList);
+        this.issueList = issueList;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 //        Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/SEGOEUI.TTF");
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
-        View customView = categoryInflater.inflate(R.layout.transaction_list, parent, false);
+        View customView = categoryInflater.inflate(R.layout.issue_list, parent, false);
 
-        BuyerTransactionListPojo transaction = getItem(position);
+        MerchantIssueListPojo category = getItem(position);
 
         TextView dateText = (TextView) customView.findViewById(R.id.tvdate);
         TextView statusText = (TextView) customView.findViewById(R.id.tvsatus);
         TextView nominalText = (TextView) customView.findViewById(R.id.tvnominal);
 //        ImageView categoryImage = (ImageView) customView.findViewById(R.id.categoryImage);
 
-        String status = transaction.getTrxLastStatus();
+//        String status = category.getTrxLastStatus();
 
-        dateText.setText(transaction.getTrxDate());
-        if(status.contains("Transaction complete")){
-            statusText.setText(transaction.getTrxLastStatus());
-            statusText.setTextColor(Color.GREEN);
-        }else{
-            statusText.setText(transaction.getTrxLastStatus());
-            statusText.setTextColor(Color.YELLOW);
-        }
+        dateText.setText(category.getIssueDate());
+        statusText.setText(category.getIssueLastStatus());
+        statusText.setTextColor(Color.YELLOW);
 
-        nominalText.setText("Rp."+transaction.getAmount()+" to "+transaction.getMerchant()+"");
+
+        nominalText.setText(category.getSuspect());
 //        categoryText.setTypeface(tf);
 //        if(category.getIcon() != null) {
 //            Uri uri = Uri.parse(category.getIcon());
