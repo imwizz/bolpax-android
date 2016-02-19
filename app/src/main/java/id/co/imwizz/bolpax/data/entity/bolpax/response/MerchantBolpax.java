@@ -15,16 +15,16 @@ public class MerchantBolpax {
     @SerializedName("merchantName")
     @Expose
     private String merchantName;
-    @SerializedName("profileBolpax")
+    @SerializedName("user")
     @Expose
-    private ProfileBolpax profileBolpax;
+    private ProfileBolpax user;
 
-    public ProfileBolpax getProfileBolpax() {
-        return profileBolpax;
+    public ProfileBolpax getUser() {
+        return user;
     }
 
-    public void setProfileBolpax(ProfileBolpax profileBolpax) {
-        this.profileBolpax = profileBolpax;
+    public void setUser(ProfileBolpax user) {
+        this.user = user;
     }
 
     public Long getMerchantId() {

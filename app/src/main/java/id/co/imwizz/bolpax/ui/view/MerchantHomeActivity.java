@@ -16,15 +16,24 @@ import com.google.gson.Gson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.Profile;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
 import id.co.imwizz.bolpax.data.service.DummyAPI;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by User on 08/01/2016.
  */
 public class MerchantHomeActivity extends AppCompatActivity implements View.OnClickListener{
-    String email,name,phone;
+    String email,name,phone,token,nama;
     Integer balance;
+    Long userid;
+    MenuItem createstore,switchtomerchant,buyername;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.transaction) LinearLayout transaction;
@@ -36,14 +45,16 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_merchant_home);
         ButterKnife.bind(this);
         setToolbar();
+        userid = BolpaxStatic.getUserid();
+        token = BolpaxStatic.getToken();
 
-        String json = DummyAPI.getJson(MerchantHomeActivity.this, R.raw.profile);
-        Gson gson = new Gson();
-        Profile profile = gson.fromJson(json, Profile.class);
-        email = profile.getEmail();
-        name = profile.getName();
-        phone = profile.getPhone();
-        balance = profile.getBalance();
+//        String json = DummyAPI.getJson(MerchantHomeActivity.this, R.raw.profile);
+//        Gson gson = new Gson();
+//        Profile profile = gson.fromJson(json, Profile.class);
+//        email = profile.getEmail();
+//        name = profile.getName();
+//        phone = profile.getPhone();
+//        balance = profile.getBalance();
         transaction.setOnClickListener(this);
         issue.setOnClickListener(this);
     }
@@ -81,35 +92,45 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_switch, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        createstore = menu.findItem(R.id.create_store);
+        switchtomerchant = menu.findItem(R.id.switchto_merchant);
+        buyername = menu.findItem(R.id.profile);
+
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+            @Override
+            public void success(MerchantBolpax merchantBolpax, Response response) {
+                nama = merchantBolpax.getMerchantName();
+                buyername.setTitle(nama.toString());
+                createstore.setVisible(false);
+                switchtomerchant.setTitle("Switch To Buyer");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId())
         {
             case R.id.profile:
                 Intent i = new Intent(MerchantHomeActivity.this, MerchantProfile.class);
-//                i.putExtra("email", email);
-//                i.putExtra("name", name);
-//                i.putExtra("phone", phone);
-//                i.putExtra("balance", balance);
                 startActivity(i);
 
                 return true;
-
-            case R.id.switchto_buyer:
-                Intent i2 = new Intent(MerchantHomeActivity.this, BuyerHomeActivity.class);
-                i2.putExtra("email", email);
-                i2.putExtra("name", name);
-                i2.putExtra("phone", phone);
-                i2.putExtra("balance", balance);
-                startActivity(i2);
+            case R.id.switchto_merchant:
+                Intent i3 = new Intent(MerchantHomeActivity.this, BuyerHomeActivity.class);
+                startActivity(i3);
 
                 return true;
 
             case R.id.quit:
+                finish();
 
                 return true;
 
@@ -120,5 +141,6 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
 }

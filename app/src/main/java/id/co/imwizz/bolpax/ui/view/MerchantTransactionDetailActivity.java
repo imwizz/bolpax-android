@@ -13,9 +13,12 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -24,6 +27,8 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionHistoryAdapter;
 import id.co.imwizz.bolpax.data.entity.TransactionDetail;
 import id.co.imwizz.bolpax.data.entity.TrxHistory;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.Id;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
 import id.co.imwizz.bolpax.data.service.DummyAPI;
@@ -35,9 +40,9 @@ import retrofit.client.Response;
 /**
  * Created by bimosektiw on 1/22/16.
  */
-public class MerchantTransactionDetailActivity extends AppCompatActivity {
+public class MerchantTransactionDetailActivity extends AppCompatActivity  {
 
-    private static final String TAG = BuyerTransactionDetailActivity.class.getSimpleName();
+    private static final String TAG = MerchantTransactionDetailActivity.class.getSimpleName();
     List<TransactionHistoryBolpax> trxHistory;
     @Bind(R.id.merchant) TextView merchantText;
     @Bind(R.id.amount) TextView amountText;
@@ -53,29 +58,6 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_detail);
         ButterKnife.bind(this);
         setToolbar();
-
-//        String json = DummyAPI.getJson(MerchantTransactionDetailActivity.this ,R.raw.trx_detail);
-//        Gson gson = new Gson();
-//        TransactionDetail transactionDetail = gson.fromJson(json, TransactionDetail.class);
-//
-//        String merchant = transactionDetail.getMerchant();
-//        String amount = transactionDetail.getAmount();
-//        String product = transactionDetail.getProduct();
-//        String laststatus = transactionDetail.getTrxLastStatus();
-//
-//        trxHistory = transactionDetail.getTrxHistory();
-//        trxDetailText.setSelector(new ColorDrawable(0));
-//        String[] trx = new String[trxHistory.size() + 1];
-//        for (int i = 0; i < trxHistory.size(); i++) {
-//            trx[i] = trxHistory.get(i).getTime();
-//            trx[i] = trxHistory.get(i).getStatus();
-//        }
-//        ListAdapter listAdapter = new TransactionHistoryAdapter(MerchantTransactionDetailActivity.this, trxHistory);
-//        trxDetailText.setAdapter(listAdapter);
-//        merchantText.setText(merchant);
-//        amountText.setText("Rp "+amount +" for "+ product);
-//        laststatusText.setText(laststatus);
-//        reply.setVisibility(View.GONE);
 
         RestClient.getBolpax().getTransactionDetail("1", "merchant",new Callback<TransactionDetailBolpax>() {
             @Override
@@ -97,6 +79,36 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
                 merchantText.setText(merchant);
                 amountText.setText("Rp "+amount +" for "+ product);
                 laststatusText.setText(laststatus);
+
+                if (trxHistory.size() == 2) {
+                    reply.setText("Item Shipment");
+                    reply.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getBaseContext(), "ditekan", Toast.LENGTH_LONG).show();
+                            AddHistoryTrxBolpax addHistoryTrxBolpax = new AddHistoryTrxBolpax();
+                            addHistoryTrxBolpax.setTrxId("1");
+                            Id id = new Id();
+                            id.setId(Long.valueOf(3));
+                            List<Id> ids = new ArrayList<>();
+                            ids.add(id);
+                            addHistoryTrxBolpax.setTrxStatusMapping(ids);
+                            RestClient.getBolpax().postAddHistoryTransaction(addHistoryTrxBolpax, new Callback<String>() {
+                                @Override
+                                public void success(String s, Response response) {
+
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    Log.e(TAG, error.getMessage());
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    reply.setVisibility(View.GONE);
+                }
             }
 
             @Override

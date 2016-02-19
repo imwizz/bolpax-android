@@ -11,6 +11,13 @@
         android:id="@+id/create_store"
         android:title="Create Store"
         android:showAsAction="ifRoom|withText"
+        android:visible="true"
+        />
+    <item
+        android:id="@+id/switchto_merchant"
+        android:title="Switch to Merchant"
+        android:showAsAction="ifRoom|withText"
+        android:visible="true"
         />
 
     <item
