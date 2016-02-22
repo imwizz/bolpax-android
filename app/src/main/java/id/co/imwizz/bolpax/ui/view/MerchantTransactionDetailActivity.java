@@ -15,23 +15,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionHistoryAdapter;
-import id.co.imwizz.bolpax.data.entity.TransactionDetail;
-import id.co.imwizz.bolpax.data.entity.TrxHistory;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Id;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -40,9 +34,9 @@ import retrofit.client.Response;
 /**
  * Created by bimosektiw on 1/22/16.
  */
-public class MerchantTransactionDetailActivity extends AppCompatActivity  {
+public class MerchantTransactionDetailActivity extends AppCompatActivity {
 
-    private static final String TAG = MerchantTransactionDetailActivity.class.getSimpleName();
+    private static final String TAG = BuyerTransactionDetailActivity.class.getSimpleName();
     List<TransactionHistoryBolpax> trxHistory;
     @Bind(R.id.merchant) TextView merchantText;
     @Bind(R.id.amount) TextView amountText;
@@ -51,15 +45,23 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity  {
     @Bind(R.id.list_detail) ListView trxDetailText;
     @Bind(R.id.reply) Button reply;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    Long  userid,merchantid,bolpax;
+    String token,trxId;
+    long trxid;
+//    private static final String TAG = MerchantTransactionDetailActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_detail);
+        Intent i = getIntent();
+        trxid = i.getLongExtra("trxid",0);
+        trxId = String.valueOf(trxid);
         ButterKnife.bind(this);
         setToolbar();
 
-        RestClient.getBolpax().getTransactionDetail("1", "merchant",new Callback<TransactionDetailBolpax>() {
+
+        RestClient.getBolpax().getTransactionDetail(trxId, "merchant",new Callback<TransactionDetailBolpax>() {
             @Override
             public void success(TransactionDetailBolpax transactionDetailBolpax, Response response) {
                 String merchant = transactionDetailBolpax.getMerchant();

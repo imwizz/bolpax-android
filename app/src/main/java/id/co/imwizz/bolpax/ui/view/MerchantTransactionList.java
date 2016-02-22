@@ -1,6 +1,8 @@
 package id.co.imwizz.bolpax.ui.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.MerchantTransactionListAdapter;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionListPojo;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -35,13 +38,15 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
 
     protected Context mContext;
     private static final String TAG = BuyerTransactionList.class.getSimpleName();
-    String email,name,phone;
+    String email,name,phone,userid,token,merchantId;
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.listviewTransaction) ListView transaction;
     MerchantTransactionListPojo transactionlist;
     List<MerchantTransactionListPojo> merchantTransactionListPojos;
+    final Context context = this;
+    Long bolpax;
 
 
     @Override
@@ -63,23 +68,66 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
                 startActivity(i);
             }
         });
-        long userId=1;
+//        long userId=1;
 
-        RestClient.getBolpax().getMerchantTransactionlist("2", new Callback<List<MerchantTransactionListPojo>>() {
+        bolpax = BolpaxStatic.getMerchantid();
+        merchantId = bolpax.toString();
+        token = BolpaxStatic.getToken();
+
+        RestClient.getBolpax().getMerchantTransactionlist(merchantId.toString(), new Callback<List<MerchantTransactionListPojo>>() {
             @Override
             public void success(List<MerchantTransactionListPojo> result, Response response) {
-                merchantTransactionListPojos = new ArrayList<MerchantTransactionListPojo>(result);
-                for (int i = 0; i < merchantTransactionListPojos.size(); i++) {
-                    long id = merchantTransactionListPojos.get(i).getTrxId();
-                    String date = merchantTransactionListPojos.get(i).getTrxDate();
-                    String status = merchantTransactionListPojos.get(i).getTrxLastStatus();
-                    Double amount = merchantTransactionListPojos.get(i).getAmount();
-                    String merchant = merchantTransactionListPojos.get(i).getMerchant();
-                    String product = merchantTransactionListPojos.get(i).getProduct();
 
+                if(result==null){
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            context);
+
+                    // set title
+                    alertDialogBuilder.setTitle("You don't have transaction");
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setMessage("Do you want to create this transaction?")
+                            .setCancelable(false)
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // if this button is clicked, just close
+                                    // the dialog box and do nothing
+                                    finish();
+                                    dialog.cancel();
+//                                ringProgressDialog.dismiss();
+                                }
+                            })
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // if this button is clicked, just close
+                                    // the dialog box and do nothing
+                                    Intent i3 = new Intent(MerchantTransactionList.this, MerchantIssueList.class);
+                                    startActivity(i3);
+                                    dialog.cancel();
+//                                ringProgressDialog.dismiss();
+                                }
+                            });
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+                }else {
+                    merchantTransactionListPojos = new ArrayList<MerchantTransactionListPojo>(result);
+                    for (int i = 0; i < merchantTransactionListPojos.size(); i++) {
+                        long id = merchantTransactionListPojos.get(i).getTrxId();
+                        String date = merchantTransactionListPojos.get(i).getTrxDate();
+                        String status = merchantTransactionListPojos.get(i).getTrxLastStatus();
+                        Double amount = merchantTransactionListPojos.get(i).getAmount();
+                        String merchant = merchantTransactionListPojos.get(i).getMerchant();
+                        String product = merchantTransactionListPojos.get(i).getProduct();
+
+                    }
+                    ListAdapter transactionListAdapter = new MerchantTransactionListAdapter(MerchantTransactionList.this, merchantTransactionListPojos);
+                    transaction.setAdapter(transactionListAdapter);
                 }
-                ListAdapter transactionListAdapter = new MerchantTransactionListAdapter(MerchantTransactionList.this, merchantTransactionListPojos);
-                transaction.setAdapter(transactionListAdapter);
 
             }
 
@@ -99,14 +147,13 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
 
     }
 
-
-
     @OnItemClick(R.id.listviewTransaction)
     void onItemClick(AdapterView<?> parent, View view,
                      int position, long id) {
         transactionlist = (MerchantTransactionListPojo) parent.getItemAtPosition(position);
         Intent myIntent = new Intent(MerchantTransactionList.this, MerchantTransactionDetailActivity.class);
         myIntent.putExtra("amount", (transactionlist.getAmount()));
+        myIntent.putExtra("trxid", (transactionlist.getTrxId()));
         myIntent.putExtra("merchant", (transactionlist.getMerchant()));
         myIntent.putExtra("date", (transactionlist.getTrxDate()));
         myIntent.putExtra("status", (transactionlist.getTrxLastStatus()));

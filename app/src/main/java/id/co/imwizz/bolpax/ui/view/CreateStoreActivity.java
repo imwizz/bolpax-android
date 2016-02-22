@@ -16,6 +16,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Store;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -32,7 +33,8 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.submit_store) Button submit;
     @Bind(R.id.store_name) EditText storeName;
-    String createStore;
+    String createStore,token;
+    Long  userid,merchantid,bolpax;
     //LinearLayout merchant,transaction,issue;
     //Toolbar toolbar;
 //    TextView toolbarTitle;
@@ -121,16 +123,19 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void createStore() {
+        bolpax = BolpaxStatic.getUserid();
+        userid = BolpaxStatic.getUserid();
+        token = BolpaxStatic.getToken();
         createStore = storeName.getText().toString();
         Store store = new Store();
         store.setName(createStore);
-        store.setUserId(2);
+        store.setUserId(userid);
         RestClient.getBolpax().postStore(store, new Callback<String>() {
 
             @Override
             public void success(String string, Response response) {
                 Toast.makeText(getBaseContext(), "Create Store Success", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(CreateStoreActivity.this,MerchantList_Activity.class);
+                Intent i = new Intent(CreateStoreActivity.this,MerchantHomeActivity.class);
                 startActivity(i);
             }
 

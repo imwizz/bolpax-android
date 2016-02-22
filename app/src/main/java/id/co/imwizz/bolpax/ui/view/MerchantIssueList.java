@@ -1,6 +1,8 @@
 package id.co.imwizz.bolpax.ui.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.MerchantIssueListAdapter;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.TransactionLIst;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueListPojo;
 import id.co.imwizz.bolpax.rest.RestClient;
@@ -35,7 +38,7 @@ import retrofit.client.Response;
 public class MerchantIssueList extends AppCompatActivity {
 
     protected Context mContext;
-    String email,name,phone,merchants;
+    String email,name,phone,merchants,userid,token;
     Integer balance;
     LinearLayout merchant;
     TransactionLIst transactionlist;
@@ -43,7 +46,9 @@ public class MerchantIssueList extends AppCompatActivity {
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     List<MerchantIssueListPojo> merchantIssueListPojos;
+    Long bolpax;
     private static final String TAG = MerchantIssueList.class.getSimpleName();
+    final Context context = this;
 
 
     @Override
@@ -53,9 +58,41 @@ public class MerchantIssueList extends AppCompatActivity {
         ButterKnife.bind(this);
         setToolbar();
 
+        bolpax = BolpaxStatic.getMerchantid();
+        userid = bolpax.toString();
+        token = BolpaxStatic.getToken();
+
         RestClient.getBolpax().getMerchantIssuelist("2", new Callback<List<MerchantIssueListPojo>>() {
             @Override
             public void success(List<MerchantIssueListPojo> result, Response response) {
+                if(result==null){
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            context);
+
+                    // set title
+                    alertDialogBuilder.setTitle("You don't have transaction");
+
+                    // set dialog message
+                    alertDialogBuilder
+                            .setMessage("Please Click Yes to back to main menu")
+                            .setCancelable(false)
+                            .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // if this button is clicked, just close
+                                    // the dialog box and do nothing
+                                    finish();
+                                    dialog.cancel();
+//                                ringProgressDialog.dismiss();
+                                }
+                            });
+
+
+                    // create alert dialog
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // show it
+                    alertDialog.show();
+                }else{
                 merchantIssueListPojos = new ArrayList<MerchantIssueListPojo>(result);
                 for (int i = 0; i < merchantIssueListPojos.size(); i++) {
                     long id = merchantIssueListPojos.get(i).getIssueId();
@@ -66,6 +103,7 @@ public class MerchantIssueList extends AppCompatActivity {
 
                     ListAdapter issueListAdapter = new MerchantIssueListAdapter(MerchantIssueList.this, merchantIssueListPojos);
                     issue.setAdapter(issueListAdapter);
+                }
 
 
                 }

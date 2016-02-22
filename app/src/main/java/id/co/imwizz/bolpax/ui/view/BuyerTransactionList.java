@@ -1,6 +1,8 @@
 package id.co.imwizz.bolpax.ui.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionListAdapter;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionListPojo;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -34,14 +37,16 @@ import retrofit.client.Response;
 public class BuyerTransactionList extends AppCompatActivity implements View.OnClickListener {
 
     protected Context mContext;
+    final Context context = this;
     private static final String TAG = BuyerTransactionList.class.getSimpleName();
-    String email,name,phone;
+    String email,name,phone,userid,token;
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.listviewTransaction) ListView transaction;
     BuyerTransactionListPojo transactionlist;
     List<BuyerTransactionListPojo> buyerTransactionListPojos;
+    Long bolpax;
 
 
     @Override
@@ -63,23 +68,70 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
                 startActivity(i);
             }
         });
-        long userId=1;
+//        long userId=1;
 
-        RestClient.getBolpax().getBuyerTransactionlist("1", new Callback<List<BuyerTransactionListPojo>>() {
+        bolpax = BolpaxStatic.getUserid();
+        userid = bolpax.toString();
+        token = BolpaxStatic.getToken();
+
+        RestClient.getBolpax().getBuyerTransactionlist(userid.toString(), new Callback<List<BuyerTransactionListPojo>>() {
                     @Override
                     public void success(List<BuyerTransactionListPojo> result, Response response) {
-                        buyerTransactionListPojos = new ArrayList<BuyerTransactionListPojo>(result);
-                        for (int i = 0; i < buyerTransactionListPojos.size(); i++) {
-                            long id = buyerTransactionListPojos.get(i).getTrxId();
-                            String date = buyerTransactionListPojos.get(i).getTrxDate();
-                            String status = buyerTransactionListPojos.get(i).getTrxLastStatus();
-                            Double amount = buyerTransactionListPojos.get(i).getAmount();
-                            String merchant = buyerTransactionListPojos.get(i).getMerchant();
-                            String product = buyerTransactionListPojos.get(i).getProduct();
+                        String test="";
 
+                        if(result==null){
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                                    context);
+
+                            // set title
+                            alertDialogBuilder.setTitle("You don't have transaction");
+
+                            // set dialog message
+                            alertDialogBuilder
+                                    .setMessage("Do you want to create this transaction?")
+                                    .setCancelable(false)
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // if this button is clicked, just close
+                                            // the dialog box and do nothing
+                                            finish();
+                                            dialog.cancel();
+//                                ringProgressDialog.dismiss();
+                                        }
+                                    })
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // if this button is clicked, just close
+                                    // the dialog box and do nothing
+                                    Intent i3 = new Intent(BuyerTransactionList.this, BuyerIssueList.class);
+                                    startActivity(i3);
+                                    dialog.cancel();
+//                                ringProgressDialog.dismiss();
+                                }
+                            });
+
+                            // create alert dialog
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+
+                            // show it
+                            alertDialog.show();
+                        }else {
+
+                            buyerTransactionListPojos = new ArrayList<BuyerTransactionListPojo>(result);
+
+
+                            for (int i = 0; i < buyerTransactionListPojos.size(); i++) {
+                                long id = buyerTransactionListPojos.get(i).getTrxId();
+                                String date = buyerTransactionListPojos.get(i).getTrxDate();
+                                String status = buyerTransactionListPojos.get(i).getTrxLastStatus();
+                                Double amount = buyerTransactionListPojos.get(i).getAmount();
+                                String merchant = buyerTransactionListPojos.get(i).getMerchant();
+                                String product = buyerTransactionListPojos.get(i).getProduct();
+
+                            }
+                            ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionList.this, buyerTransactionListPojos);
+                            transaction.setAdapter(transactionListAdapter);
                         }
-                        ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionList.this, buyerTransactionListPojos);
-                        transaction.setAdapter(transactionListAdapter);
 
                     }
 
@@ -111,6 +163,7 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
         myIntent.putExtra("date", (transactionlist.getTrxDate()));
         myIntent.putExtra("status", (transactionlist.getTrxLastStatus()));
         myIntent.putExtra("product", (transactionlist.getProduct()));
+        myIntent.putExtra("trxid", (transactionlist.getTrxId()));
         startActivity(myIntent);
     }
 

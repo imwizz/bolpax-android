@@ -75,7 +75,7 @@ public interface ApiService {
 
     @Headers( "Content-Type: application/json" )
     @POST("/trx/payment")
-    public void getBuyerPayment(@Body Payment payment, Callback<String> callback);
+    public void getBuyerPayment(@Body Payment payment, Callback<PaymentResponse> callback);
 
 
     @Headers( "Content-Type: application/json" )

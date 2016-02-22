@@ -12,13 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Payment;
+import id.co.imwizz.bolpax.rest.PaymentResponse;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -33,7 +33,7 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
     protected Context mContext;
     String email,name,phone,merchantname,token,productName,amountString;
     Integer balance;
-    Long  userid,merchantid;
+    Long  userid,merchantid,trxid;
     double amount;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.merchantNameText) TextView merchantNameText;
@@ -132,12 +132,16 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
                 payment.setProduct(productName);
                 payment.setToken(token);
 
-                RestClient.getBolpax().getBuyerPayment(payment, new Callback<String>() {
+                RestClient.getBolpax().getBuyerPayment(payment, new Callback<PaymentResponse>() {
                     @Override
-                    public void success(String s, Response response) {
+                    public void success(PaymentResponse s, Response response) {
+                        trxid = s.getTrxId();
+                        String test = s.getAmount();
+                        String test2=s.getFromAccount();
 //                        Toast.makeText(getBaseContext(), "cek di database", Toast.LENGTH_LONG).show();
-//                        Intent i2 = new Intent(BuyerPaymentActivity.this,BuyerTransactionDetailActivity.class);
-//                        startActivity(i2);
+                        Intent i2 = new Intent(BuyerPaymentActivity.this,BuyerTransactionDetailActivity.class);
+                        i2.putExtra("trxid", trxid);
+                        startActivity(i2);
                     }
 
                     @Override

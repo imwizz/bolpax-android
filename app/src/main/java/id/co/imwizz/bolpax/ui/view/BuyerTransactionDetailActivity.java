@@ -1,6 +1,7 @@
 package id.co.imwizz.bolpax.ui.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +32,6 @@ import id.co.imwizz.bolpax.data.entity.bolpax.request.Id;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -52,12 +52,17 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
     @Bind(R.id.list_detail) ListView trxDetailText;
     @Bind(R.id.reply)
     Button reply;
+    String trxId;
+    long trxid;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_detail);
+        Intent i = getIntent();
+        trxid = i.getLongExtra("trxid",0);
+        trxId = String.valueOf(trxid);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -73,7 +78,9 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
             }
         });
 
-        RestClient.getBolpax().getTransactionDetail("1","buyer", new Callback<TransactionDetailBolpax>() {
+
+
+        RestClient.getBolpax().getTransactionDetail(trxId,"buyer", new Callback<TransactionDetailBolpax>() {
             @Override
             public void success(TransactionDetailBolpax transactionDetailBolpax, Response response) {
                 String merchant = transactionDetailBolpax.getMerchant();
@@ -92,7 +99,13 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                 trxDetailText.setAdapter(listAdapter);
                 merchantText.setText(merchant);
                 amountText.setText("Rp "+amount +" for "+ product);
-                laststatusText.setText(laststatus);
+                if (laststatus.contains("Transaction complete")) {
+                    laststatusText.setText(laststatus);
+                    laststatusText.setTextColor(Color.GREEN);
+                }else {
+                    laststatusText.setText(laststatus);
+                    laststatusText.setTextColor(Color.YELLOW);
+                }
 
                 if (trxHistory.size() == 3){
                     reply.setText("Item Received");
