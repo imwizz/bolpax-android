@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.view.MerchantTransactionDetailActivity"
+            android:name=".ui.view.Login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,24 +63,24 @@
             android:theme="@style/AppTheme.Dark">
             >
         </activity>
-        <!--<activity-->
-            <!--android:name=".ui.view.BuyerTransactionDetailActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/AppTheme.Dark">-->
-            <!--&gt;-->
-        <!--</activity>-->
+        <activity
+            android:name=".ui.view.BuyerTransactionDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark">
+            >
+        </activity>
         <activity
             android:name=".ui.view.BuyerIssueList"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
             >
         </activity>
-        <!--<activity-->
-            <!--android:name=".ui.view.BuyerIssueDetailActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/AppTheme.Dark">-->
-            <!--&gt;-->
-        <!--</activity>-->
+        <activity
+            android:name=".ui.view.BuyerIssueDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dark">
+            >
+        </activity>
         <activity
             android:name=".ui.view.MerchantIssueList"
             android:screenOrientation="portrait"
@@ -111,12 +111,12 @@
             android:theme="@style/AppTheme.NoActionBar">
             >
         </activity>
-        <!--<activity-->
-            <!--android:name=".ui.view.MerchantTransactionDetailActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/AppTheme.NoActionBar">-->
-            <!--&gt;-->
-        <!--</activity>-->
+        <activity
+            android:name=".ui.view.MerchantTransactionDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            >
+        </activity>
         <activity
             android:name=".ui.view.MerchantIssueDetailActivity"
             android:screenOrientation="portrait"
