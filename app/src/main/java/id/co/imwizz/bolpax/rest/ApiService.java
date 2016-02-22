@@ -2,6 +2,7 @@ package id.co.imwizz.bolpax.rest;
 
 import java.util.List;
 
+import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Payment;
 
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
@@ -86,7 +87,7 @@ public interface ApiService {
 
     @Headers( "Content-Type: application/json" )
     @POST("/trx/insertTrail")
-    public void postMerchantIssueDtl(@Body History history, Callback<String> callback);
+    public void postAddHistoryTransaction(@Body AddHistoryTrxBolpax addHistoryTrxBolpax, Callback<String> callback);
 
 
 }

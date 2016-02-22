@@ -15,16 +15,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionHistoryAdapter;
-import id.co.imwizz.bolpax.data.BolpaxStatic;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.Id;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
-import id.co.imwizz.bolpax.rest.History;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -33,20 +34,21 @@ import retrofit.client.Response;
 /**
  * Created by bimosektiw on 1/22/16.
  */
-public class MerchantTransactionDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class MerchantTransactionDetailActivity extends AppCompatActivity {
 
+    private static final String TAG = BuyerTransactionDetailActivity.class.getSimpleName();
     List<TransactionHistoryBolpax> trxHistory;
     @Bind(R.id.merchant) TextView merchantText;
     @Bind(R.id.amount) TextView amountText;
     @Bind(R.id.laststatus) TextView laststatusText;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.list_detail) ListView trxDetailText;
-    @Bind(R.id.reply) Button butShipment;
+    @Bind(R.id.reply) Button reply;
     @Bind(R.id.toolbar) Toolbar toolbar;
     Long  userid,merchantid,bolpax;
     String token,trxId;
     long trxid;
-    private static final String TAG = MerchantTransactionDetailActivity.class.getSimpleName();
+//    private static final String TAG = MerchantTransactionDetailActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,6 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity impleme
         trxid = i.getLongExtra("trxid",0);
         trxId = String.valueOf(trxid);
         ButterKnife.bind(this);
-        butShipment.setOnClickListener(this);
         setToolbar();
 
 
@@ -80,6 +81,36 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity impleme
                 merchantText.setText(merchant);
                 amountText.setText("Rp "+amount +" for "+ product);
                 laststatusText.setText(laststatus);
+
+                if (trxHistory.size() == 2) {
+                    reply.setText("Item Shipment");
+                    reply.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(getBaseContext(), "ditekan", Toast.LENGTH_LONG).show();
+                            AddHistoryTrxBolpax addHistoryTrxBolpax = new AddHistoryTrxBolpax();
+                            addHistoryTrxBolpax.setTrxId("1");
+                            Id id = new Id();
+                            id.setId(Long.valueOf(3));
+                            List<Id> ids = new ArrayList<>();
+                            ids.add(id);
+                            addHistoryTrxBolpax.setTrxStatusMapping(ids);
+                            RestClient.getBolpax().postAddHistoryTransaction(addHistoryTrxBolpax, new Callback<String>() {
+                                @Override
+                                public void success(String s, Response response) {
+
+                                }
+
+                                @Override
+                                public void failure(RetrofitError error) {
+                                    Log.e(TAG, error.getMessage());
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    reply.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -126,41 +157,5 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity impleme
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-
-        switch (id) {
-            case R.id.reply :
-                bolpax = BolpaxStatic.getMerchantid();
-                userid = BolpaxStatic.getMerchantid();
-                token = BolpaxStatic.getToken();
-                History history = new History();
-                history.setTrxId(trxid);
-                history.setTrxStatusMapping("{"+"id"+":"+"3}");
-                RestClient.getBolpax().postMerchantIssueDtl(history, new Callback<String>() {
-
-                    @Override
-                    public void success(String string, Response response) {
-                        Toast.makeText(getBaseContext(), "Report Submitted", Toast.LENGTH_LONG).show();
-//                        Intent i = new Intent(MerchantTransactionDetailActivity.this, BuyerIssueDetailActivity.class);
-//                        startActivity(i);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e(TAG, error.getMessage());
-
-                    }
-                });
-
-//                Toast.makeText(BuyerReportIssueActivity2.this, "Report Submitted", Toast.LENGTH_SHORT).show();
-//                Intent i = new Intent(BuyerReportIssueActivity2.this,BuyerIssueDetailActivity.class);
-//                startActivity(i);
-                break;
-
-        }
     }
 }

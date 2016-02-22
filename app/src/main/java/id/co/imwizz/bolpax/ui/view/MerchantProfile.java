@@ -53,9 +53,9 @@ public class MerchantProfile extends AppCompatActivity {
             public void success(MerchantBolpax merchantBolpax, Response response) {
 //                User user = new User();
                 name = merchantBolpax.getMerchantName();
-                email = merchantBolpax.getProfileBolpax().getEmail();
-                call = merchantBolpax.getProfileBolpax().getPhone();
-                balance = merchantBolpax.getProfileBolpax().getBalance();
+                email = merchantBolpax.getUser().getEmail();
+                call = merchantBolpax.getUser().getPhone();
+                balance = merchantBolpax.getUser().getBalance();
                 Name.setText(name.toString());
                 Email.setText(email.toString());
                 Call.setText(call.toString());
