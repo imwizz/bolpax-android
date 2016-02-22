@@ -1,6 +1,8 @@
 package id.co.imwizz.bolpax.ui.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueListAdapter;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -34,13 +37,15 @@ import retrofit.client.Response;
 public class BuyerIssueList extends AppCompatActivity implements View.OnClickListener {
 
     protected Context mContext;
-    String email,name,phone,merchants;
+    String email,name,phone,merchants,userid,token;
     private static final String TAG = BuyerIssueList.class.getSimpleName();
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.listviewIssue) ListView issue;
     List<BuyerIssueListPojo> buyerIssueListPojos;
+    final Context context = this;
+    Long bolpax;
 
 
 
@@ -65,9 +70,42 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        RestClient.getBolpax().getBuyerIssuelist("1", new Callback<List<BuyerIssueListPojo>>() {
+        bolpax = BolpaxStatic.getUserid();
+        userid = bolpax.toString();
+        token = BolpaxStatic.getToken();
+
+        RestClient.getBolpax().getBuyerIssuelist(userid.toString(), new Callback<List<BuyerIssueListPojo>>() {
                     @Override
                     public void success(List<BuyerIssueListPojo> result, Response response) {
+
+                        if(result==null){
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                                    context);
+
+                            // set title
+                            alertDialogBuilder.setTitle("You don't have transaction");
+
+                            // set dialog message
+                            alertDialogBuilder
+                                    .setMessage("Please Click Yes to back to main menu")
+                                    .setCancelable(false)
+                                    .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // if this button is clicked, just close
+                                            // the dialog box and do nothing
+                                            finish();
+                                            dialog.cancel();
+//                                ringProgressDialog.dismiss();
+                                        }
+                                    });
+
+
+                            // create alert dialog
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+
+                            // show it
+                            alertDialog.show();
+                        }else{
                         buyerIssueListPojos = new ArrayList<BuyerIssueListPojo>(result);
                         for (int i = 0; i < buyerIssueListPojos.size(); i++) {
                             long id = buyerIssueListPojos.get(i).getIssueId();
@@ -78,6 +116,7 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
 
                             ListAdapter issueListAdapter = new IssueListAdapter(BuyerIssueList.this, buyerIssueListPojos);
                             issue.setAdapter(issueListAdapter);
+                        }
 
 
                         }

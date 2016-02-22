@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,24 +12,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.Profile;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.rest.RestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by User on 08/01/2016.
  */
 public class MerchantHomeActivity extends AppCompatActivity implements View.OnClickListener{
-    String email,name,phone;
+    String email,name,phone,userid,token;
+    private static final String TAG = MerchantHomeActivity.class.getSimpleName();
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.transaction) LinearLayout transaction;
     @Bind(R.id.issue) LinearLayout issue;
+    Long bolpax,merchantId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +42,23 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         ButterKnife.bind(this);
         setToolbar();
 
-        String json = DummyAPI.getJson(MerchantHomeActivity.this, R.raw.profile);
-        Gson gson = new Gson();
-        Profile profile = gson.fromJson(json, Profile.class);
-        email = profile.getEmail();
-        name = profile.getName();
-        phone = profile.getPhone();
-        balance = profile.getBalance();
+        bolpax = BolpaxStatic.getUserid();
+        userid = bolpax.toString();
+        token = BolpaxStatic.getToken();
+
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+            @Override
+            public void success(MerchantBolpax merchantBolpax, Response response) {
+                BolpaxStatic.setMerchantid(merchantBolpax.getMerchantId());
+                BolpaxStatic.setMerchantname(merchantBolpax.getMerchantName());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(TAG, error.getMessage());
+            }
+        });
+
         transaction.setOnClickListener(this);
         issue.setOnClickListener(this);
     }

@@ -12,17 +12,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.Profile;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.User;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.LoginBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -49,19 +43,6 @@ public class MerchantProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_profile);
         ButterKnife.bind(this);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(MerchantProfile.this,BuyerHomeActivity.class);
-//                startActivity(i);
-//            }
-//        });
-//        toolbar.setTitle("");
-//        toolbarTitle.setText("BOLPAX");
-
 
         bolpax = BolpaxStatic.getUserid();
         userid = bolpax.toString();

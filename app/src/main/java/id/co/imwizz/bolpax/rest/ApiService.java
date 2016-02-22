@@ -73,7 +73,7 @@ public interface ApiService {
 
     @Headers( "Content-Type: application/json" )
     @POST("/trx/payment")
-    public void getBuyerPayment(@Body Payment payment, Callback<String> callback);
+    public void getBuyerPayment(@Body Payment payment, Callback<PaymentResponse> callback);
 
 
     @Headers( "Content-Type: application/json" )
@@ -83,6 +83,10 @@ public interface ApiService {
     @Headers( "Content-Type: application/json" )
     @POST("/issue/create")
     public void postBuyerReport(@Body Report report, Callback<String> callback);
+
+    @Headers( "Content-Type: application/json" )
+    @POST("/trx/insertTrail")
+    public void postMerchantIssueDtl(@Body History history, Callback<String> callback);
 
 
 }

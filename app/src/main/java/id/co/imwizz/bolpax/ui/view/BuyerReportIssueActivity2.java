@@ -16,6 +16,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -31,8 +32,9 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
     @Bind(R.id.subject_report) EditText subjectReport;
     @Bind(R.id.desc_report) EditText descReport;
     @Bind(R.id.subbut)Button subBut;
-    String createSubjectReport,createDescReport;
+    String createSubjectReport,createDescReport,token;
     private static final String TAG = BuyerReportIssueActivity2.class.getSimpleName();
+    Long  userid,merchantid,bolpax;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,9 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
 
         switch (id) {
             case R.id.subbut :
+                bolpax = BolpaxStatic.getUserid();
+                userid = BolpaxStatic.getUserid();
+                token = BolpaxStatic.getToken();
                 createSubjectReport = subjectReport.getText().toString();
                 createDescReport = descReport.getText().toString();
                 Report report = new Report();

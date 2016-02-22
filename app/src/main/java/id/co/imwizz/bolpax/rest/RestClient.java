@@ -11,7 +11,7 @@ import retrofit.client.OkClient;
 public class RestClient {
 
     private static ApiService REST_CLIENT_BOLPAX;
-    private static String ROOT_BOLPAX = "http://imztest.mybluemix.net/";
+    private static String ROOT_BOLPAX = "http://bolpax.mybluemix.net/";
     private static ApiService REST_CLIENT_MANDIRI;
     private static String ROOT_MANDIRI = "https://api.apim.ibmcloud.com/ex-icha-fmeirisidibmcom-ecash-be/sb/emoney/v1";
 

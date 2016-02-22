@@ -13,20 +13,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionHistoryAdapter;
-import id.co.imwizz.bolpax.data.entity.TransactionDetail;
-import id.co.imwizz.bolpax.data.entity.TrxHistory;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -45,12 +39,17 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
     @Bind(R.id.amount) TextView amountText;
     @Bind(R.id.laststatus) TextView laststatusText;
     @Bind(R.id.list_detail) ListView trxDetailText;
+    String trxId;
+    long trxid;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_detail);
+        Intent i = getIntent();
+        trxid = i.getLongExtra("trxid",0);
+        trxId = String.valueOf(trxid);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -66,29 +65,9 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
             }
         });
 
-//        String json = DummyAPI.getJson(BuyerTransactionDetailActivity.this ,R.raw.trx_detail);
-//        Gson gson = new Gson();
-//        TransactionDetail transactionDetail = gson.fromJson(json, TransactionDetail.class);
 
-//        String merchant = transactionDetail.getMerchant();
-//        String amount = transactionDetail.getAmount();
-//        String product = transactionDetail.getProduct();
-//        String laststatus = transactionDetail.getTrxLastStatus();
-//
-//        trxHistory = transactionDetail.getTrxHistory();
-//        trxDetailText.setSelector(new ColorDrawable(0));
-//        String[] trx = new String[trxHistory.size() + 1];
-//        for (int i = 0; i < trxHistory.size(); i++) {
-//            trx[i] = trxHistory.get(i).getTime();
-//            trx[i] = trxHistory.get(i).getStatus();
-//        }
-//        ListAdapter listAdapter = new TransactionHistoryAdapter(BuyerTransactionDetailActivity.this, trxHistory);
-//        trxDetailText.setAdapter(listAdapter);
-//        merchantText.setText(merchant);
-//        amountText.setText("Rp "+amount +" for "+ product);
-//        laststatusText.setText(laststatus);
 
-        RestClient.getBolpax().getTransactionDetail("1","buyer", new Callback<TransactionDetailBolpax>() {
+        RestClient.getBolpax().getTransactionDetail(trxId,"buyer", new Callback<TransactionDetailBolpax>() {
             @Override
             public void success(TransactionDetailBolpax transactionDetailBolpax, Response response) {
                 String merchant = transactionDetailBolpax.getMerchant();
