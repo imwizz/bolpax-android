@@ -163,6 +163,7 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
         myIntent.putExtra("date", (transactionlist.getTrxDate()));
         myIntent.putExtra("status", (transactionlist.getTrxLastStatus()));
         myIntent.putExtra("product", (transactionlist.getProduct()));
+        myIntent.putExtra("trxid", (transactionlist.getTrxId()));
         startActivity(myIntent);
     }
 

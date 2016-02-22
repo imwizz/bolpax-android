@@ -45,12 +45,14 @@ public class MerchantTransactionListAdapter extends ArrayAdapter<MerchantTransac
         String status = transaction.getTrxLastStatus();
 
         dateText.setText(transaction.getTrxDate());
-        if(status.contains("Transaction complete")){
-            statusText.setText(transaction.getTrxLastStatus());
-            statusText.setTextColor(Color.GREEN);
-        }else{
-            statusText.setText(transaction.getTrxLastStatus());
-            statusText.setTextColor(Color.YELLOW);
+        if (status != null) {
+            if (status.contains("Transaction complete")) {
+                statusText.setText(transaction.getTrxLastStatus());
+                statusText.setTextColor(Color.GREEN);
+            }else {
+                statusText.setText(transaction.getTrxLastStatus());
+                statusText.setTextColor(Color.YELLOW);
+            }
         }
 
         nominalText.setText("Rp."+transaction.getAmount()+" to "+transaction.getMerchant()+"");

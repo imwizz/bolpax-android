@@ -1,6 +1,7 @@
 package id.co.imwizz.bolpax.ui.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -98,7 +99,13 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                 trxDetailText.setAdapter(listAdapter);
                 merchantText.setText(merchant);
                 amountText.setText("Rp "+amount +" for "+ product);
-                laststatusText.setText(laststatus);
+                if (laststatus.contains("Transaction complete")) {
+                    laststatusText.setText(laststatus);
+                    laststatusText.setTextColor(Color.GREEN);
+                }else {
+                    laststatusText.setText(laststatus);
+                    laststatusText.setTextColor(Color.YELLOW);
+                }
 
                 if (trxHistory.size() == 3){
                     reply.setText("Item Received");
