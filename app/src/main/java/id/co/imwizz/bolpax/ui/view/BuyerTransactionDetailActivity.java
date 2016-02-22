@@ -77,9 +77,12 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        refreshHistory();
 
 
 
+    }
+    private void refreshHistory(){
         RestClient.getBolpax().getTransactionDetail(trxId,"buyer", new Callback<TransactionDetailBolpax>() {
             @Override
             public void success(TransactionDetailBolpax transactionDetailBolpax, Response response) {
@@ -114,7 +117,7 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             Toast.makeText(getBaseContext(), "ditekan", Toast.LENGTH_LONG).show();
                             AddHistoryTrxBolpax addHistoryTrxBolpax = new AddHistoryTrxBolpax();
-                            addHistoryTrxBolpax.setTrxId("1");
+                            addHistoryTrxBolpax.setTrxId(trxId);
                             Id id = new Id();
                             id.setId(Long.valueOf(4));
                             Id id2 = new Id();
@@ -126,7 +129,7 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                             RestClient.getBolpax().postAddHistoryTransaction(addHistoryTrxBolpax, new Callback<String>() {
                                 @Override
                                 public void success(String s, Response response) {
-
+                                    refreshHistory();
                                 }
 
                                 @Override
@@ -147,7 +150,6 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -59,8 +59,10 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
         trxId = String.valueOf(trxid);
         ButterKnife.bind(this);
         setToolbar();
+        refreshHistory();
+    }
 
-
+    private void refreshHistory(){
         RestClient.getBolpax().getTransactionDetail(trxId, "merchant",new Callback<TransactionDetailBolpax>() {
             @Override
             public void success(TransactionDetailBolpax transactionDetailBolpax, Response response) {
@@ -82,14 +84,14 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
                 amountText.setText("Rp "+amount +" for "+ product);
                 laststatusText.setText(laststatus);
 
-                if (trxHistory.size() == 2) {
+                if (trxHistory.size() == 1) {
                     reply.setText("Item Shipment");
                     reply.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(getBaseContext(), "ditekan", Toast.LENGTH_LONG).show();
                             AddHistoryTrxBolpax addHistoryTrxBolpax = new AddHistoryTrxBolpax();
-                            addHistoryTrxBolpax.setTrxId("1");
+                            addHistoryTrxBolpax.setTrxId(trxId);
                             Id id = new Id();
                             id.setId(Long.valueOf(3));
                             List<Id> ids = new ArrayList<>();
@@ -98,7 +100,7 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
                             RestClient.getBolpax().postAddHistoryTransaction(addHistoryTrxBolpax, new Callback<String>() {
                                 @Override
                                 public void success(String s, Response response) {
-
+                                    refreshHistory();
                                 }
 
                                 @Override
