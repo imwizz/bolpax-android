@@ -16,6 +16,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryIssueBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -120,6 +121,22 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
                     @Override
                     public void failure(RetrofitError error) {
                         Log.e(TAG, error.getMessage());
+
+                    }
+                });
+                AddHistoryIssueBolpax addHistoryIssueBolpax = new AddHistoryIssueBolpax();
+                addHistoryIssueBolpax.setFromAdmin("N");
+                addHistoryIssueBolpax.setMessage(createDescReport);
+                addHistoryIssueBolpax.setIssueId(Long.valueOf(1));
+//                addHistoryIssueBolpax.setIssueStatusId();
+                RestClient.getBolpax().postAddHistoryIssue(addHistoryIssueBolpax, new Callback<String>() {
+                    @Override
+                    public void success(String s, Response response) {
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
 
                     }
                 });

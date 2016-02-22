@@ -35,7 +35,7 @@ import retrofit.client.Response;
 /**
  * Created by bimosektiw on 1/14/16.
  */
-public class BuyerIssueDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class BuyerIssueDetailActivity extends AppCompatActivity{
 
     List<IssueHistoryBolpax> issueHistory;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -52,7 +52,6 @@ public class BuyerIssueDetailActivity extends AppCompatActivity implements View.
         setContentView(R.layout.activity_issue_detail);
         ButterKnife.bind(this);
         setToolbar();
-        replayIssue.setOnClickListener(this);
 
 //        String json = DummyAPI.getJson(BuyerIssueDetailActivity.this ,R.raw.issue_detail);
 //        Gson gson = new Gson();
@@ -96,6 +95,14 @@ public class BuyerIssueDetailActivity extends AppCompatActivity implements View.
                 suspectText.setText(suspect);
                 amountText.setText("Rp "+amount +" for "+ product);
                 issueLastStatusText.setText(laststatus);
+                replayIssue.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerReportIssueActivity2.class);
+//                        i.putExtra("", );
+                        startActivity(i);
+                    }
+                });
             }
 
             @Override
@@ -157,17 +164,5 @@ public class BuyerIssueDetailActivity extends AppCompatActivity implements View.
                 return super.onOptionsItemSelected(item);
         }
 
-    }
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-
-        switch (id) {
-            case R.id.replyissue :
-                Intent i = new Intent(BuyerIssueDetailActivity.this,BuyerReportIssueActivity2.class);
-                startActivity(i);
-                break;
-
-        }
     }
 }
