@@ -122,9 +122,12 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                             id.setId(Long.valueOf(4));
                             Id id2 = new Id();
                             id2.setId(Long.valueOf(5));
+                            Id id3 = new Id();
+                            id3.setId(Long.valueOf(6));
                             List<Id> ids = new ArrayList<>();
                             ids.add(id);
                             ids.add(id2);
+                            ids.add(id3);
                             addHistoryTrxBolpax.setTrxStatusMapping(ids);
                             RestClient.getBolpax().postAddHistoryTransaction(addHistoryTrxBolpax, new Callback<String>() {
                                 @Override
