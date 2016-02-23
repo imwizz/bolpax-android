@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,9 +32,9 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
     @Bind(R.id.subject_report) EditText subjectReport;
     @Bind(R.id.desc_report) EditText descReport;
     @Bind(R.id.subbut)Button subBut;
-    String createSubjectReport,createDescReport,token;
+    String createSubjectReport,createDescReport,token,subject;
     private static final String TAG = BuyerReportIssueActivity2.class.getSimpleName();
-    Long  userid,merchantid,bolpax;
+    Long  userid,issueId,bolpax;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,10 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
         ButterKnife.bind(this);
         subBut.setOnClickListener(this);
         setToolbar();
+        Intent i = getIntent();
+        subject = i.getStringExtra("Subject");
+        issueId = i.getLongExtra("issueid",0);
+        subjectReport.setText(subject);
     }
     private void setToolbar(){
         setSupportActionBar(toolbar);
@@ -114,34 +117,40 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
                 report.setDesc(createDescReport);
                 report.setRole("buyer");
                 report.setTrxId(1);
-                RestClient.getBolpax().postBuyerReport(report, new Callback<String>() {
-
+//                RestClient.getBolpax().postBuyerReport(report, new Callback<String>() {
+//
+//                    @Override
+//                    public void success(String string, Response response) {
+//                        Toast.makeText(getBaseContext(), "Report Submitted", Toast.LENGTH_LONG).show();
+//                        Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerIssueDetailActivity.class);
+//                        startActivity(i);
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+//
+//                    }
+//                });
+                AddHistoryIssueBolpax addHistoryIssueBolpax = new AddHistoryIssueBolpax();
+                addHistoryIssueBolpax.setFromAdmin("N");
+                addHistoryIssueBolpax.setMessage(createDescReport);
+                addHistoryIssueBolpax.setIssueId(issueId);
+                addHistoryIssueBolpax.setIssueStatusId(Long.valueOf(3));
+                RestClient.getBolpax().postAddHistoryIssue(addHistoryIssueBolpax, new Callback<String>() {
                     @Override
-                    public void success(String string, Response response) {
-                        Toast.makeText(getBaseContext(), "Report Submitted", Toast.LENGTH_LONG).show();
+                    public void success(String s, Response response) {
+
                         Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerIssueDetailActivity.class);
+                        i.putExtra("issueId", issueId);
                         startActivity(i);
+
+
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Log.e(TAG, error.getMessage());
-
-                    }
-                });
-                AddHistoryIssueBolpax addHistoryIssueBolpax = new AddHistoryIssueBolpax();
-                addHistoryIssueBolpax.setFromAdmin("N");
-                addHistoryIssueBolpax.setMessage(createDescReport);
-                addHistoryIssueBolpax.setIssueId(Long.valueOf(1));
-//                addHistoryIssueBolpax.setIssueStatusId();
-                RestClient.getBolpax().postAddHistoryIssue(addHistoryIssueBolpax, new Callback<String>() {
-                    @Override
-                    public void success(String s, Response response) {
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
 
                     }
                 });

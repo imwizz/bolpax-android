@@ -12,20 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.Profile;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
-import id.co.imwizz.bolpax.rest.RestClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 import id.co.imwizz.bolpax.rest.RestClient;
@@ -93,12 +82,12 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
 
         switch (id) {
             case R.id.transaction:
-                Toast.makeText(MerchantHomeActivity.this, "Pindah ke merchant transaction list", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MerchantHomeActivity.this, "Pindah ke merchant transaction list", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MerchantHomeActivity.this, MerchantTransactionList.class);
                 startActivity(i);
                 break;
             case R.id.issue:
-                Toast.makeText(MerchantHomeActivity.this, "Pindah ke merchant issue list", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MerchantHomeActivity.this, "Pindah ke merchant issue list", Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(MerchantHomeActivity.this, MerchantIssueList.class);
                 startActivity(myIntent);
                 break;

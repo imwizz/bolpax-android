@@ -1,8 +1,6 @@
 package id.co.imwizz.bolpax.ui.view;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,32 +65,7 @@ public class MerchantIssueList extends AppCompatActivity {
             @Override
             public void success(List<MerchantIssueListPojo> result, Response response) {
                 if(result==null){
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                            context);
-
-                    // set title
-                    alertDialogBuilder.setTitle("You don't have transaction");
-
-                    // set dialog message
-                    alertDialogBuilder
-                            .setMessage("Please Click Yes to back to main menu")
-                            .setCancelable(false)
-                            .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // if this button is clicked, just close
-                                    // the dialog box and do nothing
-                                    finish();
-                                    dialog.cancel();
-//                                ringProgressDialog.dismiss();
-                                }
-                            });
-
-
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-
-                    // show it
-                    alertDialog.show();
+                    Toast.makeText(MerchantIssueList.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
                 }else{
                 merchantIssueListPojos = new ArrayList<MerchantIssueListPojo>(result);
                 for (int i = 0; i < merchantIssueListPojos.size(); i++) {

@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import id.co.imwizz.bolpax.data.entity.IssueHistory;
-
 /**
  * Created by bimosektiw on 2/15/16.
  */
@@ -23,6 +21,18 @@ public class IssueDetailBolpax {
     @SerializedName("issueLastStatus")
     @Expose
     private String issueLastStatus;
+    @SerializedName("subject")
+    @Expose
+    private String subject;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     private List<IssueHistoryBolpax> issueHistory;
 
     public String getSuspect() {

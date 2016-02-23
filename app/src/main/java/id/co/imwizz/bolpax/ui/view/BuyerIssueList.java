@@ -1,8 +1,6 @@
 package id.co.imwizz.bolpax.ui.view;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +43,9 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.listviewIssue) ListView issue;
     List<BuyerIssueListPojo> buyerIssueListPojos;
+    BuyerIssueListPojo issuelist;
     final Context context = this;
-    Long bolpax;
+    Long bolpax,id;
 
 
 
@@ -79,36 +79,11 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
                     public void success(List<BuyerIssueListPojo> result, Response response) {
 
                         if(result==null){
-                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                                    context);
-
-                            // set title
-                            alertDialogBuilder.setTitle("You don't have transaction");
-
-                            // set dialog message
-                            alertDialogBuilder
-                                    .setMessage("Please Click Yes to back to main menu")
-                                    .setCancelable(false)
-                                    .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            // if this button is clicked, just close
-                                            // the dialog box and do nothing
-                                            finish();
-                                            dialog.cancel();
-//                                ringProgressDialog.dismiss();
-                                        }
-                                    });
-
-
-                            // create alert dialog
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-
-                            // show it
-                            alertDialog.show();
+                            Toast.makeText(BuyerIssueList.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
                         }else{
                         buyerIssueListPojos = new ArrayList<BuyerIssueListPojo>(result);
                         for (int i = 0; i < buyerIssueListPojos.size(); i++) {
-                            long id = buyerIssueListPojos.get(i).getIssueId();
+                            id = buyerIssueListPojos.get(i).getIssueId();
                             String date = buyerIssueListPojos.get(i).getIssueDate();
                             String status = buyerIssueListPojos.get(i).getIssueLastStatus();
                             Double amount = buyerIssueListPojos.get(i).getAmount();
@@ -116,6 +91,17 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
 
                             ListAdapter issueListAdapter = new IssueListAdapter(BuyerIssueList.this, buyerIssueListPojos);
                             issue.setAdapter(issueListAdapter);
+
+                            issue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                public void onItemClick(AdapterView<?> parent, View view,
+                                                        int position, long id) {
+                                    issuelist = (BuyerIssueListPojo) parent.getItemAtPosition(position);
+                                    Intent myIntent = new Intent(BuyerIssueList.this, BuyerIssueDetailActivity.class);
+                                    myIntent.putExtra("issueId", (issuelist.getIssueId()));
+                                    startActivity(myIntent);
+
+                                }
+                            });
                         }
 
 
@@ -137,21 +123,7 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
 //
 //        ListAdapter issueListAdapter = new IssueListAdapter(BuyerIssueList.this, issueList);
 //        issue.setAdapter(issueListAdapter);
-        issue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-//                issue = (IssueList) parent.getItemAtPosition(position);
-                //catVal = Category.getCategoryName();
-                //catVal = (Category)getIntent().getSerializableExtra("category");
-                Intent myIntent = new Intent(BuyerIssueList.this, BuyerIssueDetailActivity.class);
-//                myIntent.putExtra("amount", (transactionlist.getAmount()));
-//                myIntent.putExtra("merchant", (transactionlist.getMerchant()));
-//                myIntent.putExtra("date", (transactionlist.getTrxDate()));
-//                myIntent.putExtra("status", (transactionlist.getTrxLastStatus()));
-                startActivity(myIntent);
 
-            }
-        });
 
 
 
