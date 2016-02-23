@@ -23,15 +23,19 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 1/18/16.
+ * Created by bimosektiw on 2/23/16.
  */
-public class BuyerReportIssueActivity2 extends AppCompatActivity implements View.OnClickListener {
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.subject_report) EditText subjectReport;
+public class BuyerCreateReport extends AppCompatActivity implements View.OnClickListener {
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @Bind(R.id.subject_report)
+    EditText subjectReport;
     @Bind(R.id.desc_report) EditText descReport;
     @Bind(R.id.subbut)Button subBut;
     String createSubjectReport,createDescReport,subject,trxid;
+    Long trxId;
     private static final String TAG = BuyerReportIssueActivity2.class.getSimpleName();
 
     @Override
@@ -44,6 +48,7 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
         Intent i = getIntent();
         subject = i.getStringExtra("subject").toString();
         trxid = i.getStringExtra("trxid").toString();
+        trxId = Long.valueOf(trxid);
         subjectReport.setText(subject);
     }
     private void setToolbar(){
@@ -55,7 +60,7 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerHomeActivity.class);
+                Intent i = new Intent(BuyerCreateReport.this, BuyerHomeActivity.class);
                 startActivity(i);
             }
         });
@@ -64,7 +69,7 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_report, menu);
         return true;
     }
 
@@ -72,25 +77,7 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.profile:
-                Intent i = new Intent(BuyerReportIssueActivity2.this, ProfileActivity.class);
-                startActivity(i);
-
-                return true;
-
-            case R.id.create_store:
-                Intent i2 = new Intent(BuyerReportIssueActivity2.this, CreateStoreActivity.class);
-                startActivity(i2);
-
-                return true;
-
-            case R.id.quit:
-                finish();
-
-                return true;
-
-            case R.id.action_settings:
-
+            case R.id.action_report:
                 return true;
 
             default:
@@ -111,13 +98,13 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
                 report.setSubject(createDescReport);
                 report.setDesc(createDescReport);
                 report.setRole("buyer");
-                report.setTrxId(1);
+                report.setTrxId(trxId);
                 RestClient.getBolpax().postBuyerReport(report, new Callback<String>() {
 
                     @Override
                     public void success(String string, Response response) {
                         Toast.makeText(getBaseContext(), "Report Submitted", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerIssueDetailActivity.class);
+                        Intent i = new Intent(BuyerCreateReport.this, BuyerIssueDetailActivity.class);
                         startActivity(i);
                     }
 

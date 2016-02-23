@@ -6,6 +6,5 @@
         android:id="@+id/action_report"
         android:orderInCategory="100"
         android:title="Report"
-        android:icon="@drawable/ic_person_white_18dp"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>

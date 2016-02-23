@@ -157,7 +157,7 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_report, menu);
         return true;
     }
 
@@ -165,24 +165,10 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.profile:
-                Intent i = new Intent(BuyerTransactionDetailActivity.this, ProfileActivity.class);
-                startActivity(i);
-
-                return true;
-
-            case R.id.create_store:
-                Intent i2 = new Intent(BuyerTransactionDetailActivity.this, CreateStoreActivity.class);
-                startActivity(i2);
-
-                return true;
-
-            case R.id.quit:
-                finish();
-
-                return true;
-
-            case R.id.action_settings:
+            case R.id.action_report:
+                Intent i6 = new Intent(BuyerTransactionDetailActivity.this, BuyerReportIssueActivity.class);
+                i6.putExtra("trxid",trxId);
+                startActivity(i6);
 
                 return true;
 

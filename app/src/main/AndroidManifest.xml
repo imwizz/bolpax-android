@@ -106,6 +106,12 @@
             >
         </activity>
         <activity
+            android:name=".ui.view.BuyerCreateReport"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            >
+        </activity>
+        <activity
             android:name=".ui.view.MerchantHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -125,6 +131,12 @@
         </activity>
         <activity
             android:name=".ui.view.BuyerReportIssueActivity2"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            >
+        </activity>
+        <activity
+            android:name=".ui.view.BuyerReportIssueActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >

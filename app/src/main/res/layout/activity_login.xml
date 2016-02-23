@@ -1,45 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnfb"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/fb"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_marginTop="45dp"
+            android:src="@drawable/iCon_bolpax"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/btnlogin"
+            android:layout_alignEnd="@+id/btnlogin" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="70dp">
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="90dp"
-        android:layout_height="50dp"
-        android:id="@+id/btnlogin"
-        android:background="@drawable/login"
-        android:layout_below="@+id/btnfb"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
-        android:onClick="signIn"/>
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:id="@+id/btnlogin"
+                android:background="@drawable/login"
+                android:layout_centerHorizontal="true"
+                android:onClick="signIn"/>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="90dp"
-        android:layout_height="50dp"
-        android:id="@+id/btnregister"
-        android:background="@drawable/register"
-        android:layout_alignTop="@+id/btnlogin"
-        android:layout_alignRight="@+id/btnfb"
-        android:layout_alignEnd="@+id/btnfb"
-        android:layout_marginRight="17dp"
-        android:layout_marginEnd="17dp" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_marginTop="45dp"
-        android:src="@drawable/logo"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/btnlogin"
-        android:layout_alignEnd="@+id/btnlogin" />
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:id="@+id/btnregister"
+                android:background="@drawable/register"
+                android:layout_alignTop="@+id/btnlogin"/>
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
