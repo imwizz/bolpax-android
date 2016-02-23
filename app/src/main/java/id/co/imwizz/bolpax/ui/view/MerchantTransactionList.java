@@ -1,8 +1,6 @@
 package id.co.imwizz.bolpax.ui.view;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,41 +78,7 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
             public void success(List<MerchantTransactionListPojo> result, Response response) {
 
                 if(result==null){
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                            context);
-
-                    // set title
-                    alertDialogBuilder.setTitle("You don't have transaction");
-
-                    // set dialog message
-                    alertDialogBuilder
-                            .setMessage("Do you want to create this transaction?")
-                            .setCancelable(false)
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // if this button is clicked, just close
-                                    // the dialog box and do nothing
-                                    finish();
-                                    dialog.cancel();
-//                                ringProgressDialog.dismiss();
-                                }
-                            })
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // if this button is clicked, just close
-                                    // the dialog box and do nothing
-                                    Intent i3 = new Intent(MerchantTransactionList.this, MerchantIssueList.class);
-                                    startActivity(i3);
-                                    dialog.cancel();
-//                                ringProgressDialog.dismiss();
-                                }
-                            });
-
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-
-                    // show it
-                    alertDialog.show();
+                    Toast.makeText(MerchantTransactionList.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
                 }else {
                     merchantTransactionListPojos = new ArrayList<MerchantTransactionListPojo>(result);
                     for (int i = 0; i < merchantTransactionListPojos.size(); i++) {

@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,20 +14,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueHistoryAdapter;
-import id.co.imwizz.bolpax.data.entity.IssueDetail;
-import id.co.imwizz.bolpax.data.entity.IssueHistory;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -39,12 +34,15 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
 
     List<IssueHistoryBolpax> issueHistory;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    private static final String TAG = BuyerIssueDetailActivity.class.getSimpleName();
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.suspect) TextView suspectText;
     @Bind(R.id.amount) TextView amountText;
     @Bind(R.id.laststatus) TextView issueLastStatusText;
     @Bind(R.id.list_detail) ListView issueDetailText;
     @Bind(R.id.replyissue) Button replayIssue;
+    Long bolpax,issueid;
+    String userid,token,issueId,subject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,36 +50,24 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
         setContentView(R.layout.activity_issue_detail);
         ButterKnife.bind(this);
         setToolbar();
+        Intent i = getIntent();
+        issueid = i.getLongExtra("issueId",0);
+        issueId = String.valueOf(issueid);
 
-//        String json = DummyAPI.getJson(BuyerIssueDetailActivity.this ,R.raw.issue_detail);
-//        Gson gson = new Gson();
-//        IssueDetail issueDetail = gson.fromJson(json, IssueDetail.class);
-//
-//        String suspect = issueDetail.getSuspect();
-//        String amount = issueDetail.getAmount();
-//        String product = issueDetail.getProduct();
-//        String laststatus = issueDetail.getIssueLastStatus();
-//
-//        issueHistory = issueDetail.getIssueHistory();
-//        issueDetailText.setSelector(new ColorDrawable(0));
-//        String[] issue = new String[issueHistory.size() + 1];
-//        for (int i = 0; i < issueHistory.size(); i++) {
-//            issue[i] = issueHistory.get(i).getTime();
-//            issue[i] = issueHistory.get(i).getMessage();
-//        }
-//        ListAdapter listAdapter = new IssueHistoryAdapter(BuyerIssueDetailActivity.this, issueHistory);
-//        issueDetailText.setAdapter(listAdapter);
-//        suspectText.setText(suspect);
-//        amountText.setText("Rp "+amount +" for "+ product);
-//        issueLastStatusText.setText(laststatus);
+//        bolpax = BolpaxStatic.getUserid();
+//        userid = bolpax.toString();
+//        token = BolpaxStatic.getToken();
 
-        RestClient.getBolpax().getIssueDetail("1", new Callback<IssueDetailBolpax>() {
+
+        RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailBolpax>() {
             @Override
             public void success(IssueDetailBolpax issueDetailBolpax, Response response) {
                 String suspect = issueDetailBolpax.getSuspect();
                 String amount = issueDetailBolpax.getAmount();
                 String product = issueDetailBolpax.getProduct();
                 String laststatus = issueDetailBolpax.getIssueLastStatus();
+                subject = issueDetailBolpax.getSubject();
+
 
                 issueHistory = issueDetailBolpax.getIssueHistory();
                 issueDetailText.setSelector(new ColorDrawable(0));
@@ -99,7 +85,8 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerReportIssueActivity2.class);
-//                        i.putExtra("", );
+                        i.putExtra("Subject", subject);
+                        i.putExtra("issueid", issueid);
                         startActivity(i);
                     }
                 });
@@ -107,6 +94,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
 
             @Override
             public void failure(RetrofitError error) {
+                Log.e(TAG, error.getMessage());
 
             }
         });

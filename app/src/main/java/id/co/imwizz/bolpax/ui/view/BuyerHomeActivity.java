@@ -114,7 +114,7 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
                 return true;
 
             case R.id.create_store:
-                Intent i2 = new Intent(BuyerHomeActivity.this, MerchantHomeActivity.class);
+                Intent i2 = new Intent(BuyerHomeActivity.this, CreateStoreActivity.class);
                 startActivity(i2);
 
                 return true;

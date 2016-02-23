@@ -11,11 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryIssueBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -31,8 +32,9 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
     @Bind(R.id.subject_report) EditText subjectReport;
     @Bind(R.id.desc_report) EditText descReport;
     @Bind(R.id.subbut)Button subBut;
-    String createSubjectReport,createDescReport,subject,trxid;
+    String createSubjectReport,createDescReport,token,subject;
     private static final String TAG = BuyerReportIssueActivity2.class.getSimpleName();
+    Long  userid,issueId,bolpax;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,8 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
         subBut.setOnClickListener(this);
         setToolbar();
         Intent i = getIntent();
-        subject = i.getStringExtra("subject").toString();
-        trxid = i.getStringExtra("trxid").toString();
+        subject = i.getStringExtra("Subject");
+        issueId = i.getLongExtra("issueid",0);
         subjectReport.setText(subject);
     }
     private void setToolbar(){
@@ -105,6 +107,9 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
 
         switch (id) {
             case R.id.subbut :
+                bolpax = BolpaxStatic.getUserid();
+                userid = BolpaxStatic.getUserid();
+                token = BolpaxStatic.getToken();
                 createSubjectReport = subjectReport.getText().toString();
                 createDescReport = descReport.getText().toString();
                 Report report = new Report();
@@ -112,13 +117,35 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
                 report.setDesc(createDescReport);
                 report.setRole("buyer");
                 report.setTrxId(1);
-                RestClient.getBolpax().postBuyerReport(report, new Callback<String>() {
-
+//                RestClient.getBolpax().postBuyerReport(report, new Callback<String>() {
+//
+//                    @Override
+//                    public void success(String string, Response response) {
+//                        Toast.makeText(getBaseContext(), "Report Submitted", Toast.LENGTH_LONG).show();
+//                        Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerIssueDetailActivity.class);
+//                        startActivity(i);
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+//
+//                    }
+//                });
+                AddHistoryIssueBolpax addHistoryIssueBolpax = new AddHistoryIssueBolpax();
+                addHistoryIssueBolpax.setFromAdmin("N");
+                addHistoryIssueBolpax.setMessage(createDescReport);
+                addHistoryIssueBolpax.setIssueId(issueId);
+                addHistoryIssueBolpax.setIssueStatusId(Long.valueOf(3));
+                RestClient.getBolpax().postAddHistoryIssue(addHistoryIssueBolpax, new Callback<String>() {
                     @Override
-                    public void success(String string, Response response) {
-                        Toast.makeText(getBaseContext(), "Report Submitted", Toast.LENGTH_LONG).show();
+                    public void success(String s, Response response) {
+
                         Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerIssueDetailActivity.class);
+                        i.putExtra("issueId", issueId);
                         startActivity(i);
+
+
                     }
 
                     @Override
