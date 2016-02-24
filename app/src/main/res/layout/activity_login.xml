@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
             android:layout_marginTop="45dp"
-            android:src="@drawable/iCon_bolpax"
+            android:src="@drawable/icon_bolpax"
             android:layout_alignParentTop="true"
             android:layout_alignRight="@+id/btnlogin"
             android:layout_alignEnd="@+id/btnlogin" />

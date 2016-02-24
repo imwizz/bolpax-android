@@ -154,6 +154,7 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_report) {
             Intent i = new Intent(MerchantTransactionDetailActivity.this, MerchantReportIssueActivity.class);
+            i.putExtra("trxid",trxId);
             startActivity(i);
             return true;
         }

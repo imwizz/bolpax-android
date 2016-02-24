@@ -28,8 +28,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     Button login;
     @Bind(R.id.btnregister)
     Button register;
-    @Bind(R.id.btnfb)
-    ImageButton fb;
     private String phone, pass, status;
 
 
@@ -39,7 +37,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         register.setOnClickListener(this);
-        fb.setOnClickListener(this);
     }
 
     public void signIn(View V) {
@@ -102,9 +99,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             case R.id.btnregister:
                 Intent i = new Intent(Login.this, RegisterActivity.class);
                 startActivity(i);
-                break;
-            case R.id.btnfb:
-                Toast.makeText(Login.this, "Login With Facebook", Toast.LENGTH_SHORT).show();
                 break;
 
         }

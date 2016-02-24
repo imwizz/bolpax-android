@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.HeaderViewListAdapter;
@@ -21,9 +22,10 @@ import id.co.imwizz.bolpax.R;
 /**
  * Created by bimosektiw on 1/27/16.
  */
-public class MerchantReportIssueActivity extends AppCompatActivity {
+public class MerchantReportIssueActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private ListView mListView;
+    private ListView mListView,listView;
+    private String trxid,selectedFromList;
     @Bind(R.id.back) TextView back;
     @Bind(R.id.button2) Button button2;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -35,11 +37,19 @@ public class MerchantReportIssueActivity extends AppCompatActivity {
         setContentView(R.layout.activity_buyer_reportissue);
         ButterKnife.bind(this);
         setToolbar();
+        Intent x = getIntent();
+        trxid = x.getStringExtra("trxid").toString();
 
         String[] names = new String[] { "Item Delay", "Claim Payment"};
         setListAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_single_choice, android.R.id.text1, names));
-        ListView listView = getListView();
+        final ListView listView = getListView();
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedFromList =(listView.getItemAtPosition(position).toString());
+            }
+        });
 
         back.setText("<");
         button2.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +115,20 @@ public class MerchantReportIssueActivity extends AppCompatActivity {
             return ((HeaderViewListAdapter)adapter).getWrappedAdapter();
         } else {
             return adapter;
+        }
+    }
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.button2:
+                Intent myIntent = new Intent(MerchantReportIssueActivity.this, MerchantCreateReport.class);
+                myIntent.putExtra("subject",selectedFromList);
+                myIntent.putExtra("trxid",trxid);
+                startActivity(myIntent);
+                break;
+
+
         }
     }
 }
