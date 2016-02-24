@@ -20,7 +20,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Merchant"
+                android:text="MERCHANT"
                 android:textSize="22dp"
                 android:textColor="#ffffff"/>
 
@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Transaction"
+                android:text="TRANSACTION"
                 android:textSize="22dp"
                 android:textColor="#ffffff"/>
 
@@ -50,7 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reporting"
+                android:text="ISSUE"
                 android:textSize="22dp"
                 android:textColor="#ffffff"/>
 

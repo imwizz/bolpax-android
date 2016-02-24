@@ -17,6 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIDBolpax;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -99,12 +100,11 @@ public class MerchantCreateReport extends AppCompatActivity implements View.OnCl
                 report.setDesc(createDescReport);
                 report.setRole("merchant");
                 report.setTrxId(trxId);
-                RestClient.getBolpax().postBuyerReport(report, new Callback<String>() {
-
+                RestClient.getBolpax().postBuyerReport(report, new Callback<IssueIDBolpax>() {
                     @Override
-                    public void success(String string, Response response) {
-                        Toast.makeText(getBaseContext(), "Report Submitted", Toast.LENGTH_LONG).show();
+                    public void success(IssueIDBolpax issueIDBolpax, Response response) {
                         Intent i = new Intent(MerchantCreateReport.this, MerchantIssueDetailActivity.class);
+                        i.putExtra("issueId", issueIDBolpax.getIssueId());
                         startActivity(i);
                     }
 

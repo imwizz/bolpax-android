@@ -17,6 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIDBolpax;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -36,7 +37,7 @@ public class BuyerCreateReport extends AppCompatActivity implements View.OnClick
     @Bind(R.id.subbut)Button subBut;
     String createSubjectReport,createDescReport,subject,trxid;
     Long trxId;
-    private static final String TAG = BuyerReportIssueActivity2.class.getSimpleName();
+    private static final String TAG = BuyerCreateReport.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,19 +100,17 @@ public class BuyerCreateReport extends AppCompatActivity implements View.OnClick
                 report.setDesc(createDescReport);
                 report.setRole("buyer");
                 report.setTrxId(trxId);
-                RestClient.getBolpax().postBuyerReport(report, new Callback<String>() {
-
+                RestClient.getBolpax().postBuyerReport(report, new Callback<IssueIDBolpax>() {
                     @Override
-                    public void success(String string, Response response) {
-                        Toast.makeText(getBaseContext(), "Report Submitted", Toast.LENGTH_LONG).show();
+                    public void success(IssueIDBolpax issueIDBolpax, Response response) {
                         Intent i = new Intent(BuyerCreateReport.this, BuyerIssueDetailActivity.class);
+                        i.putExtra("issueId", issueIDBolpax.getIssueId());
                         startActivity(i);
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         Log.e(TAG, error.getMessage());
-
                     }
                 });
 
