@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -45,6 +46,7 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         setToolbar();
         userid = BolpaxStatic.getUserid();
         token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
 //        bolpax = BolpaxStatic.getUserid();
 //        userid = bolpax.toString();
@@ -82,12 +84,10 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
 
         switch (id) {
             case R.id.transaction:
-                //Toast.makeText(MerchantHomeActivity.this, "Pindah ke merchant transaction list", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MerchantHomeActivity.this, MerchantTransactionList.class);
                 startActivity(i);
                 break;
             case R.id.issue:
-                //Toast.makeText(MerchantHomeActivity.this, "Pindah ke merchant issue list", Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(MerchantHomeActivity.this, MerchantIssueList.class);
                 startActivity(myIntent);
                 break;
@@ -138,7 +138,29 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if (success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MerchantHomeActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
 
                 return true;
 

@@ -12,9 +12,6 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -22,11 +19,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueHistoryAdapter;
-import id.co.imwizz.bolpax.data.entity.IssueDetail;
-import id.co.imwizz.bolpax.data.entity.IssueHistory;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryBolpax;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -45,6 +39,8 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
     @Bind(R.id.list_detail) ListView issueDetailText;
     @Bind(R.id.replyissue) Button replyissueButton;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    Long bolpax,issueid;
+    String userid,token,issueId,subject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,35 +48,20 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_issue_detail);
         ButterKnife.bind(this);
         setToolbar();
+        Intent i = getIntent();
+        issueid = i.getLongExtra("issueId", 0);
+        issueId = String.valueOf(issueid);
 
-//        String json = DummyAPI.getJson(MerchantIssueDetailActivity.this ,R.raw.issue_detail);
-//        Gson gson = new Gson();
-//        IssueDetail issueDetail = gson.fromJson(json, IssueDetail.class);
-//
-//        String suspect = issueDetail.getSuspect();
-//        String amount = issueDetail.getAmount();
-//        String product = issueDetail.getProduct();
-//        String laststatus = issueDetail.getIssueLastStatus();
-//
-//        issueHistory = issueDetail.getIssueHistory();
-//        issueDetailText.setSelector(new ColorDrawable(0));
-//        String[] issue = new String[issueHistory.size() + 1];
-//        for (int i = 0; i < issueHistory.size(); i++) {
-//            issue[i] = issueHistory.get(i).getTime();
-//            issue[i] = issueHistory.get(i).getMessage();
-//        }
-//        ListAdapter listAdapter = new IssueHistoryAdapter(MerchantIssueDetailActivity.this, issueHistory);
-//        issueDetailText.setAdapter(listAdapter);
-//        suspectText.setText(suspect);
-//        amountText.setText("Rp "+amount +" for "+ product);
-//        issueLastStatusText.setText(laststatus);
-        RestClient.getBolpax().getIssueDetail("1", new Callback<IssueDetailBolpax>() {
+
+
+        RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailBolpax>() {
             @Override
             public void success(IssueDetailBolpax issueDetailBolpax, Response response) {
                 String suspect = issueDetailBolpax.getSuspect();
                 String amount = issueDetailBolpax.getAmount();
                 String product = issueDetailBolpax.getProduct();
                 String laststatus = issueDetailBolpax.getIssueLastStatus();
+                subject = issueDetailBolpax.getSubject();
 
                 issueHistory = issueDetailBolpax.getIssueHistory();
                 issueDetailText.setSelector(new ColorDrawable(0));
@@ -92,8 +73,18 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
                 ListAdapter listAdapter = new IssueHistoryAdapter(MerchantIssueDetailActivity.this, issueHistory);
                 issueDetailText.setAdapter(listAdapter);
                 suspectText.setText(suspect);
-                amountText.setText("Rp "+amount +" for "+ product);
+                amountText.setText("Rp " + amount + " for " + product);
                 issueLastStatusText.setText(laststatus);
+
+                replyissueButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(MerchantIssueDetailActivity.this, MerchantReportIssueActivity2.class);
+                        i.putExtra("Subject", subject);
+                        i.putExtra("issueid", issueid);
+                        startActivity(i);
+                    }
+                });
             }
 
             @Override
@@ -101,13 +92,7 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
 
             }
         });
-        replyissueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MerchantIssueDetailActivity.this, MerchantReportIssueActivity2.class);
-                startActivity(i);
-            }
-        });
+
     }
 
     private void setToolbar(){

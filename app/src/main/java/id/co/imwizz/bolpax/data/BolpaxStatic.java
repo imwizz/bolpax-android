@@ -5,7 +5,15 @@ package id.co.imwizz.bolpax.data;
  */
 public class BolpaxStatic {
     static Long userid, merchantid;
-    static String token,merchantname;
+    static String token,merchantname,phonenumber;
+
+    public static String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public static void setPhonenumber(String phonenumber) {
+        BolpaxStatic.phonenumber = phonenumber;
+    }
 
     public static String getMerchantname() {
         return merchantname;
