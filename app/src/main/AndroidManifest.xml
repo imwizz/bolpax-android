@@ -9,7 +9,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/icon_bolpax"
+        android:icon="@drawable/ic_bolpax"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
