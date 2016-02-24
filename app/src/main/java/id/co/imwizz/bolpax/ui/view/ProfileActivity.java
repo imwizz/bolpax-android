@@ -10,12 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -49,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ProfileActivity.this,BuyerHomeActivity.class);
+                Intent i = new Intent(ProfileActivity.this, BuyerHomeActivity.class);
                 startActivity(i);
             }
         });
@@ -59,6 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
         bolpax = BolpaxStatic.getUserid();
         userid = bolpax.toString();
         token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
 
         RestClient.getBolpax().getProfile(userid.toString(), token.toString(), new Callback<ProfileBolpax>() {
@@ -109,7 +112,29 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if (success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(ProfileActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
 
                 return true;
 

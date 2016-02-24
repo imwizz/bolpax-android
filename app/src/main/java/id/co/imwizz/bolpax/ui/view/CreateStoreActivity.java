@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Store;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -33,7 +34,7 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.submit_store) Button submit;
     @Bind(R.id.store_name) EditText storeName;
-    String createStore,token;
+    String createStore,token,phone;
     Long  userid,merchantid,bolpax;
     //LinearLayout merchant,transaction,issue;
     //Toolbar toolbar;
@@ -48,6 +49,9 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+        userid = BolpaxStatic.getUserid();
+        token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
         toolbar.setTitle("");
         toolbarTitle.setText("BOLPAX");
@@ -96,7 +100,29 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                @Override
+                public void success(Logout s, Response response) {
+
+                    String success = s.getStatus();
+                    if (success.contains("SUCCESS")) {
+                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("EXIT", true);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(CreateStoreActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+
+                }
+            });
 
                 return true;
 

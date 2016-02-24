@@ -50,6 +50,10 @@ public interface ApiService {
     public void getMerchantIssuelist(@Query("merchantid") String id, Callback<List<MerchantIssueListPojo>> callback);
 
     @Headers( "Content-Type: application/json" )
+    @GET("/profile/dologout")
+    public void getLogout(@Query("token") String id,@Query("phone") String phone, Callback<Logout> callback);
+
+    @Headers( "Content-Type: application/json" )
     @POST("/profile/createUser")
     public void getRegister(@Body User user, Callback<String> callback);
 

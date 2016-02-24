@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -38,6 +40,7 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
     @Bind(R.id.issue) LinearLayout issue;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
+    private static final String TAG = MerchantReportIssueActivity2.class.getSimpleName();
 
 
     @Override
@@ -63,6 +66,7 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
         });
         userid = BolpaxStatic.getUserid();
         token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
     }
     @Override
@@ -125,7 +129,31 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token,phone,new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if(success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(BuyerHomeActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
+
+
 
                 return true;
 

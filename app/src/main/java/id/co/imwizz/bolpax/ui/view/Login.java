@@ -8,7 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.Bind;
@@ -28,6 +29,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     Button login;
     @Bind(R.id.btnregister)
     Button register;
+    @Bind(R.id.notif)
+    TextView notif;
+    @Bind(R.id.progressBar)
+    ProgressBar progressBar;
     private String phone, pass, status;
 
 
@@ -37,6 +42,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         register.setOnClickListener(this);
+
     }
 
     public void signIn(View V) {
@@ -57,9 +63,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-
+                dialog.dismiss();
+                progressBar.setVisibility(View.VISIBLE);
+                notif.setVisibility(View.VISIBLE);
                 String userName = editTextUserName.getText().toString();
                 String password = editTextPassword.getText().toString();
+                BolpaxStatic.setPhonenumber(userName);
 
                 if (userName.isEmpty() || password.isEmpty()) {
                     Toast.makeText(Login.this, "Masukkan nomor telepon dan password", Toast.LENGTH_LONG).show();
@@ -72,9 +81,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         public void success(LoginBolpax loginBolpax, Response response) {
                             BolpaxStatic.setUserid(loginBolpax.getUserId());
                             BolpaxStatic.setToken(loginBolpax.getToken());
-                            Intent i = new Intent(Login.this, BuyerHomeActivity.class);
-                            startActivity(i);
-                            dialog.dismiss();
+                            String success = loginBolpax.getStatus();
+                            if(success.contains("VALID")) {
+                                Intent i = new Intent(Login.this, BuyerHomeActivity.class);
+                                progressBar.setVisibility(View.GONE);
+                                notif.setVisibility(View.GONE);
+                                startActivity(i);
+
+                            }else{
+                                notif.setText("Please Check Your Phone Number or Password");
+                                progressBar.setVisibility(View.GONE);
+                                notif.setVisibility(View.VISIBLE);
+                            }
 
                         }
 

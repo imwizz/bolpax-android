@@ -46,6 +46,7 @@ public class MerchantIssueList extends AppCompatActivity {
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     List<MerchantIssueListPojo> merchantIssueListPojos;
     Long bolpax;
+    MerchantIssueListPojo issuelist;
     private static final String TAG = MerchantIssueList.class.getSimpleName();
     final Context context = this;
 
@@ -61,7 +62,7 @@ public class MerchantIssueList extends AppCompatActivity {
         userid = bolpax.toString();
         token = BolpaxStatic.getToken();
 
-        RestClient.getBolpax().getMerchantIssuelist("2", new Callback<List<MerchantIssueListPojo>>() {
+        RestClient.getBolpax().getMerchantIssuelist(userid, new Callback<List<MerchantIssueListPojo>>() {
             @Override
             public void success(List<MerchantIssueListPojo> result, Response response) {
                 if(result==null){
@@ -110,14 +111,9 @@ public class MerchantIssueList extends AppCompatActivity {
         issue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-//                issue = (IssueList) parent.getItemAtPosition(position);
-                //catVal = Category.getCategoryName();
-                //catVal = (Category)getIntent().getSerializableExtra("category");
+                issuelist = (MerchantIssueListPojo) parent.getItemAtPosition(position);
                 Intent myIntent = new Intent(MerchantIssueList.this, MerchantIssueDetailActivity.class);
-//                myIntent.putExtra("amount", (transactionlist.getAmount()));
-//                myIntent.putExtra("merchant", (transactionlist.getMerchant()));
-//                myIntent.putExtra("date", (transactionlist.getTrxDate()));
-//                myIntent.putExtra("status", (transactionlist.getTrxLastStatus()));
+                myIntent.putExtra("issueId", (issuelist.getIssueId()));
                 startActivity(myIntent);
 
             }

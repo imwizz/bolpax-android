@@ -25,6 +25,7 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.MerchantTransactionListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionListPojo;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -72,6 +73,7 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
         bolpax = BolpaxStatic.getMerchantid();
         merchantId = bolpax.toString();
         token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
         RestClient.getBolpax().getMerchantTransactionlist(merchantId.toString(), new Callback<List<MerchantTransactionListPojo>>() {
             @Override
@@ -150,7 +152,29 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if (success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MerchantTransactionList.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
 
                 return true;
 

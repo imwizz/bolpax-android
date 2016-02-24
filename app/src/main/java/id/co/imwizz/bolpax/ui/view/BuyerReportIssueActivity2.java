@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -117,21 +118,7 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
                 report.setDesc(createDescReport);
                 report.setRole("buyer");
                 report.setTrxId(1);
-//                RestClient.getBolpax().postBuyerReport(report, new Callback<String>() {
-//
-//                    @Override
-//                    public void success(String string, Response response) {
-//                        Toast.makeText(getBaseContext(), "Report Submitted", Toast.LENGTH_LONG).show();
-//                        Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerIssueDetailActivity.class);
-//                        startActivity(i);
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        Log.e(TAG, error.getMessage());
-//
-//                    }
-//                });
+
                 AddHistoryIssueBolpax addHistoryIssueBolpax = new AddHistoryIssueBolpax();
                 addHistoryIssueBolpax.setFromAdmin("N");
                 addHistoryIssueBolpax.setMessage(createDescReport);
@@ -144,6 +131,7 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
                         Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerIssueDetailActivity.class);
                         i.putExtra("issueId", issueId);
                         startActivity(i);
+                        Toast.makeText(BuyerReportIssueActivity2.this, "Report Submitted", Toast.LENGTH_SHORT).show();
 
 
                     }

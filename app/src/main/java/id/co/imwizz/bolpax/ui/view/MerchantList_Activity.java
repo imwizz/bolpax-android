@@ -13,8 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.google.gson.Gson;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ import id.co.imwizz.bolpax.adapter.MerchantListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.MerchantList;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.service.DummyAPI;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -39,7 +38,7 @@ import retrofit.client.Response;
 public class MerchantList_Activity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = MerchantList_Activity.class.getSimpleName();
     protected Context mContext;
-    String email,name,phone,userid;
+    String email,name,phone,userid,token;
     Integer balance;
     List<MerchantList> merchant2;
     MerchantBolpax merchants;
@@ -64,13 +63,15 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MerchantList_Activity.this,BuyerHomeActivity.class);
+                Intent i = new Intent(MerchantList_Activity.this, BuyerHomeActivity.class);
                 startActivity(i);
             }
         });
 
         bolpax = BolpaxStatic.getUserid();
         userid = bolpax.toString();
+        token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
         RestClient.getBolpax().getMerchantList(userid.toString(), new Callback<List<MerchantBolpax>>() {
             @Override
             public void success(List<MerchantBolpax> merchantBolpaxes, Response response) {
@@ -121,7 +122,29 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if (success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MerchantList_Activity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
 
                 return true;
 
