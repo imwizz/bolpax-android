@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -28,7 +29,8 @@ import retrofit.client.Response;
 public class MerchantProfile extends AppCompatActivity {
     private static final String TAG = MerchantProfile.class.getSimpleName();
     protected Context mContext;
-    String email,name,phone,call,userid,token,balance;
+    String email,name,phone,call,userid,token,balance,nama;
+    MenuItem createstore,switchtomerchant,buyername;
     Long bolpax;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
@@ -47,6 +49,7 @@ public class MerchantProfile extends AppCompatActivity {
         bolpax = BolpaxStatic.getUserid();
         userid = bolpax.toString();
         token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
         RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
             @Override
@@ -59,7 +62,7 @@ public class MerchantProfile extends AppCompatActivity {
                 Name.setText(name.toString());
                 Email.setText(email.toString());
                 Call.setText(call.toString());
-                Balance.setText("Rp. "+balance);
+                Balance.setText(balance);
             }
 
             @Override
@@ -91,25 +94,66 @@ public class MerchantProfile extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        createstore = menu.findItem(R.id.create_store);
+        switchtomerchant = menu.findItem(R.id.switchto_merchant);
+        buyername = menu.findItem(R.id.profile);
+
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+            @Override
+            public void success(MerchantBolpax merchantBolpax, Response response) {
+                nama = merchantBolpax.getMerchantName();
+                buyername.setTitle(nama.toString());
+                createstore.setVisible(false);
+                switchtomerchant.setTitle("Switch To Buyer");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantProfile.this, ProfileActivity.class);
+                Intent i = new Intent(MerchantProfile.this, MerchantProfile.class);
                 startActivity(i);
 
                 return true;
+            case R.id.switchto_merchant:
+                Intent i3 = new Intent(MerchantProfile.this, BuyerHomeActivity.class);
+                startActivity(i3);
 
-            case R.id.create_store:
-                Toast.makeText(MerchantProfile.this, "This Merchant Profile", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if (success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MerchantProfile.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
 
                 return true;
 
@@ -119,7 +163,6 @@ public class MerchantProfile extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
-
         }
 
     }

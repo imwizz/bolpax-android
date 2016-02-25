@@ -1,6 +1,7 @@
 package id.co.imwizz.bolpax.ui.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,8 +22,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueHistoryAdapter;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryBolpax;
+import id.co.imwizz.bolpax.rest.Logout;
+import id.co.imwizz.bolpax.rest.RefoundResponse;
+import id.co.imwizz.bolpax.rest.Refund;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -37,12 +44,16 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
     private static final String TAG = BuyerIssueDetailActivity.class.getSimpleName();
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.suspect) TextView suspectText;
+    @Bind(R.id.subject) TextView subjectText;
     @Bind(R.id.amount) TextView amountText;
     @Bind(R.id.laststatus) TextView issueLastStatusText;
     @Bind(R.id.list_detail) ListView issueDetailText;
     @Bind(R.id.replyissue) Button replayIssue;
+    @Bind(R.id.refundissue) Button refundIssue;
     Long bolpax,issueid;
-    String userid,token,issueId,subject;
+    String userid,token,issueId,subject,phone,suspect,amount,product,laststatus;
+    BuyerIssueListPojo issuelist;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +62,27 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         setToolbar();
         Intent i = getIntent();
-        issueid = i.getLongExtra("issueId",0);
+        issueid = i.getLongExtra("issueId", 0);
         issueId = String.valueOf(issueid);
+        refreshHistory();
 
-//        bolpax = BolpaxStatic.getUserid();
+        bolpax = BolpaxStatic.getUserid();
 //        userid = bolpax.toString();
-//        token = BolpaxStatic.getToken();
+        token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
 
+
+    }
+
+    private void refreshHistory() {
         RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailBolpax>() {
             @Override
             public void success(IssueDetailBolpax issueDetailBolpax, Response response) {
-                String suspect = issueDetailBolpax.getSuspect();
-                String amount = issueDetailBolpax.getAmount();
-                String product = issueDetailBolpax.getProduct();
-                String laststatus = issueDetailBolpax.getIssueLastStatus();
+                suspect = issueDetailBolpax.getSuspect();
+                amount = issueDetailBolpax.getAmount();
+                product = issueDetailBolpax.getProduct();
+                laststatus = issueDetailBolpax.getIssueLastStatus();
                 subject = issueDetailBolpax.getSubject();
 
 
@@ -75,17 +92,58 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                 for (int i = 0; i < issueHistory.size(); i++) {
                     issue[i] = issueHistory.get(i).getTime();
                     issue[i] = issueHistory.get(i).getMessage();
+
+
                 }
                 ListAdapter listAdapter = new IssueHistoryAdapter(BuyerIssueDetailActivity.this, issueHistory);
                 issueDetailText.setAdapter(listAdapter);
                 suspectText.setText(suspect);
+                subjectText.setText(subject);
                 amountText.setText("Rp "+amount +" for "+ product);
-                issueLastStatusText.setText(laststatus);
+
+                if(laststatus.contains("Refund")){
+                    refundIssue.setVisibility(View.VISIBLE);
+                    issueLastStatusText.setText(laststatus);
+                    issueLastStatusText.setTextColor(Color.YELLOW);
+                }else if (laststatus.contains("Closed")){
+                    replayIssue.setVisibility(View.GONE);
+                    refundIssue.setVisibility(View.GONE);
+                    issueLastStatusText.setText(laststatus);
+                    issueLastStatusText.setTextColor(Color.RED);
+                }else{
+                    replayIssue.setVisibility(View.VISIBLE);
+                    issueLastStatusText.setText(laststatus);
+                    issueLastStatusText.setTextColor(Color.YELLOW);
+                }
+                refundIssue.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Refund refund = new Refund();
+                        refund.setIssueId(issueid);
+                        RestClient.getBolpax().postRefund(refund, new Callback<RefoundResponse>() {
+                            @Override
+                            public void success(RefoundResponse s, Response response) {
+
+                                refreshHistory();
+
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.e(TAG, error.getMessage());
+
+                            }
+                        });
+
+                    }
+                });
                 replayIssue.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
+                        //issuelist = (BuyerIssueListPojo) parent.getItemAtPosition(position);
                         Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerReportIssueActivity2.class);
                         i.putExtra("Subject", subject);
+//                        i.putExtra("Subject", (issueHistory.get(i).getIssueStatus()));
                         i.putExtra("issueid", issueid);
                         startActivity(i);
                     }
@@ -98,6 +156,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
 
             }
         });
+
     }
 
     private void setToolbar(){
@@ -140,7 +199,29 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if (success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(BuyerIssueDetailActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
 
                 return true;
 

@@ -61,7 +61,7 @@ public class MerchantCreateReport extends AppCompatActivity implements View.OnCl
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MerchantCreateReport.this, BuyerHomeActivity.class);
+                Intent i = new Intent(MerchantCreateReport.this, MerchantHomeActivity.class);
                 startActivity(i);
             }
         });

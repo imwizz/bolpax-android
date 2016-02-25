@@ -19,6 +19,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
+import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
@@ -49,6 +50,9 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
         setToolbar();
         Intent x = getIntent();
         trxid = x.getStringExtra("trxid").toString();
+        userid = BolpaxStatic.getUserid();
+        token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
         String[] names = new String[] { "Item Delay", "Claim Payment"};
         setListAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_single_choice, android.R.id.text1, names));
@@ -62,13 +66,7 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
         });
 
         back.setText("<");
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MerchantReportIssueActivity.this, MerchantReportIssueActivity2.class);
-                startActivity(i);
-            }
-        });
+        button2.setOnClickListener(this);
 
     }
 

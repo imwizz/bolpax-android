@@ -99,5 +99,9 @@ public interface ApiService {
     @POST("/issue/insertTrail")
     public void postAddHistoryIssue(@Body AddHistoryIssueBolpax addHistoryIssueBolpax, Callback<String> callback);
 
+    @Headers( "Content-Type: application/json" )
+    @POST("/trx/refund")
+    public void postRefund(@Body Refund refund, Callback<RefoundResponse> callback);
+
 
 }

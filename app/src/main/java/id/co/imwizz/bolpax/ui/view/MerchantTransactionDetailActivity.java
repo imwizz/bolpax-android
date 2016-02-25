@@ -85,6 +85,7 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
                 laststatusText.setText(laststatus);
 
                 if (trxHistory.size() == 1) {
+                    reply.setVisibility(View.VISIBLE);
                     reply.setText("Item Shipment");
                     reply.setOnClickListener(new View.OnClickListener() {
                         @Override

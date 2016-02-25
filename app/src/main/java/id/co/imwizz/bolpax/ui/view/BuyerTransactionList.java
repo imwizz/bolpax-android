@@ -25,6 +25,8 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionListPojo;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -39,7 +41,8 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
     protected Context mContext;
     final Context context = this;
     private static final String TAG = BuyerTransactionList.class.getSimpleName();
-    String email,name,phone,userid,token;
+    String email,name,phone,userid,token,nama;
+    MenuItem createstore,switchtomerchant,buyername;
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
@@ -138,11 +141,42 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        createstore = menu.findItem(R.id.create_store);
+        switchtomerchant = menu.findItem(R.id.switchto_merchant);
+        buyername = menu.findItem(R.id.profile);
+        RestClient.getBolpax().getProfile(userid.toString(), token.toString(), new Callback<ProfileBolpax>() {
+            @Override
+            public void success(ProfileBolpax profileBolpax, Response response) {
+                nama = profileBolpax.getFullname();
+                buyername.setTitle(nama.toString());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+            @Override
+            public void success(MerchantBolpax merchantBolpax, Response response) {
+                if (merchantBolpax != null){
+                    createstore.setVisible(false);
+                } else {
+                    switchtomerchant.setVisible(false);
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId())
         {
             case R.id.profile:
@@ -156,19 +190,24 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
                 startActivity(i2);
 
                 return true;
+            case R.id.switchto_merchant:
+                Intent i3 = new Intent(BuyerTransactionList.this, MerchantHomeActivity.class);
+                startActivity(i3);
+
+                return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token,phone,new Callback<Logout>() {
                     @Override
                     public void success(Logout s, Response response) {
 
                         String success = s.getStatus();
-                        if (success.contains("SUCCESS")) {
+                        if(success.contains("SUCCESS")) {
                             Intent intent = new Intent(getApplicationContext(), Login.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
-                        } else {
+                        }else{
                             Toast.makeText(BuyerTransactionList.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
                         }
 
@@ -177,10 +216,12 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
 
                     @Override
                     public void failure(RetrofitError error) {
-//                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, error.getMessage());
 
                     }
                 });
+
+
 
                 return true;
 

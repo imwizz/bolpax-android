@@ -19,6 +19,7 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryIssueBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -33,7 +34,7 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
     @Bind(R.id.subject_report) EditText subjectReport;
     @Bind(R.id.desc_report) EditText descReport;
     @Bind(R.id.subbut)Button subBut;
-    String createSubjectReport,createDescReport,token,subject;
+    String createSubjectReport,createDescReport,token,subject,phone;
     private static final String TAG = BuyerReportIssueActivity2.class.getSimpleName();
     Long  userid,issueId,bolpax;
 
@@ -48,6 +49,9 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
         subject = i.getStringExtra("Subject");
         issueId = i.getLongExtra("issueid",0);
         subjectReport.setText(subject);
+        userid = BolpaxStatic.getUserid();
+        token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
     }
     private void setToolbar(){
         setSupportActionBar(toolbar);
@@ -88,7 +92,29 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if (success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(BuyerReportIssueActivity2.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
 
                 return true;
 

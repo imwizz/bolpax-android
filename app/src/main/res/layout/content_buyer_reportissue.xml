@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Item not delivered"
+            android:text="Transaction Detail"
             android:textColor="#FFFFFF"
             android:layout_gravity="center"
             android:gravity="center"/>

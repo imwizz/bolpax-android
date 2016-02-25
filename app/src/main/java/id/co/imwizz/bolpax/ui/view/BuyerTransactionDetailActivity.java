@@ -111,6 +111,7 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                 }
 
                 if (trxHistory.size() == 3){
+                    reply.setVisibility(View.VISIBLE);
                     reply.setText("Item Received");
                     reply.setOnClickListener(new View.OnClickListener(){
                         @Override
