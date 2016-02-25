@@ -19,7 +19,8 @@
                 android:text="Item not delivered"
                 android:textColor="#FFFFFF"
                 android:layout_gravity="center"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:id="@+id/subject"/>
         </RelativeLayout>
 
         <LinearLayout

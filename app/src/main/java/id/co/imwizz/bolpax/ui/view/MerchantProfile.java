@@ -62,7 +62,7 @@ public class MerchantProfile extends AppCompatActivity {
                 Name.setText(name.toString());
                 Email.setText(email.toString());
                 Call.setText(call.toString());
-                Balance.setText("Rp. "+balance);
+                Balance.setText(balance);
             }
 
             @Override

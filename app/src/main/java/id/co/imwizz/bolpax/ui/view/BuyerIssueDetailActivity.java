@@ -44,6 +44,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
     private static final String TAG = BuyerIssueDetailActivity.class.getSimpleName();
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.suspect) TextView suspectText;
+    @Bind(R.id.subject) TextView subjectText;
     @Bind(R.id.amount) TextView amountText;
     @Bind(R.id.laststatus) TextView issueLastStatusText;
     @Bind(R.id.list_detail) ListView issueDetailText;
@@ -97,6 +98,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                 ListAdapter listAdapter = new IssueHistoryAdapter(BuyerIssueDetailActivity.this, issueHistory);
                 issueDetailText.setAdapter(listAdapter);
                 suspectText.setText(suspect);
+                subjectText.setText(subject);
                 amountText.setText("Rp "+amount +" for "+ product);
 
                 if(laststatus.contains("Refund")){
