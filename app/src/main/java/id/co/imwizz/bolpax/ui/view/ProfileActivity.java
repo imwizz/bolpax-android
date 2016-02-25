@@ -6,18 +6,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
-import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -75,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
                         tvName.setText(name);
                         tvEmail.setText(email);
                         tvCall.setText(phone);
-                        tvBalance.setText("Rp. "+balance);
+                        tvBalance.setText(balance);
 
                     }
 

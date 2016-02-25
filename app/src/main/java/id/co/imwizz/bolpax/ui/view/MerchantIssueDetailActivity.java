@@ -38,6 +38,7 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.list_detail) ListView issueDetailText;
     @Bind(R.id.replyissue) Button replyissueButton;
+    @Bind(R.id.subject) TextView subjectText;
     @Bind(R.id.toolbar) Toolbar toolbar;
     Long bolpax,issueid;
     String userid,token,issueId,subject;
@@ -73,6 +74,7 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
                 ListAdapter listAdapter = new IssueHistoryAdapter(MerchantIssueDetailActivity.this, issueHistory);
                 issueDetailText.setAdapter(listAdapter);
                 suspectText.setText(suspect);
+                subjectText.setText(subject);
                 amountText.setText("Rp " + amount + " for " + product);
                 issueLastStatusText.setText(laststatus);
 
