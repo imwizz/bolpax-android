@@ -25,6 +25,7 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.MerchantTransactionListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionListPojo;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -38,7 +39,8 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
 
     protected Context mContext;
     private static final String TAG = BuyerTransactionList.class.getSimpleName();
-    String email,name,phone,userid,token,merchantId;
+    MenuItem createstore,switchtomerchant,buyername;
+    String email,name,phone,token,merchantId,nama;
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
@@ -46,7 +48,7 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
     MerchantTransactionListPojo transactionlist;
     List<MerchantTransactionListPojo> merchantTransactionListPojos;
     final Context context = this;
-    Long bolpax;
+    Long bolpax,userid;
 
 
     @Override
@@ -64,7 +66,7 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MerchantTransactionList.this, BuyerHomeActivity.class);
+                Intent i = new Intent(MerchantTransactionList.this, MerchantHomeActivity.class);
                 startActivity(i);
             }
         });
@@ -72,6 +74,7 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
 
         bolpax = BolpaxStatic.getMerchantid();
         merchantId = bolpax.toString();
+        userid = BolpaxStatic.getUserid();
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
 
@@ -89,6 +92,7 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
                         String status = merchantTransactionListPojos.get(i).getTrxLastStatus();
                         Double amount = merchantTransactionListPojos.get(i).getAmount();
                         String merchant = merchantTransactionListPojos.get(i).getMerchant();
+                        String buyer = merchantTransactionListPojos.get(i).getBuyer();
                         String product = merchantTransactionListPojos.get(i).getProduct();
 
                     }
@@ -132,22 +136,39 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        createstore = menu.findItem(R.id.create_store);
+        switchtomerchant = menu.findItem(R.id.switchto_merchant);
+        buyername = menu.findItem(R.id.profile);
+
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+            @Override
+            public void success(MerchantBolpax merchantBolpax, Response response) {
+                nama = merchantBolpax.getMerchantName();
+                buyername.setTitle(nama.toString());
+                createstore.setVisible(false);
+                switchtomerchant.setTitle("Switch To Buyer");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantTransactionList.this, ProfileActivity.class);
+                Intent i = new Intent(MerchantTransactionList.this, MerchantProfile.class);
                 startActivity(i);
 
                 return true;
-
-            case R.id.create_store:
-                Intent i2 = new Intent(MerchantTransactionList.this, CreateStoreActivity.class);
-                startActivity(i2);
+            case R.id.switchto_merchant:
+                Intent i3 = new Intent(MerchantTransactionList.this, BuyerHomeActivity.class);
+                startActivity(i3);
 
                 return true;
 

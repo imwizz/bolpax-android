@@ -1,60 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <LinearLayout
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="id.co.imwizz.bolpax.ui.view.BuyerHomeActivity">
+
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:layout_marginTop="45dp"
-            android:src="@drawable/icon_bolpax"
-            android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/btnlogin"
-            android:layout_alignEnd="@+id/btnlogin" />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="70dp">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#546E7A"
+            app:popupTheme="@style/AppTheme.PopupOverlay" >
+            <TextView
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="20dp"
+                android:textColor="#ffffff" />
+        </android.support.v7.widget.Toolbar>
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="90dp"
-                android:layout_height="50dp"
-                android:id="@+id/btnlogin"
-                android:background="@drawable/login"
-                android:layout_centerHorizontal="true"
-                android:onClick="signIn"/>
+    </android.support.design.widget.AppBarLayout>
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="90dp"
-                android:layout_height="50dp"
-                android:id="@+id/btnregister"
-                android:background="@drawable/register"
-                android:layout_alignTop="@+id/btnlogin"/>
-        </LinearLayout>
+    <include layout="@layout/content_login" />
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:visibility="gone"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Please Wait"
-            android:visibility="gone"
-            android:id="@+id/notif"
-            android:layout_gravity="center_horizontal" />
-    </LinearLayout>
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

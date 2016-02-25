@@ -46,7 +46,7 @@ public class MerchantTransactionListAdapter extends ArrayAdapter<MerchantTransac
 
         dateText.setText(transaction.getTrxDate());
         if (status != null) {
-            if (status.contains("Transaction complete")) {
+            if (status.contains("Payment Completed")) {
                 statusText.setText(transaction.getTrxLastStatus());
                 statusText.setTextColor(Color.GREEN);
             }else {
@@ -55,7 +55,7 @@ public class MerchantTransactionListAdapter extends ArrayAdapter<MerchantTransac
             }
         }
 
-        nominalText.setText("Rp."+transaction.getAmount()+" to "+transaction.getMerchant()+"");
+        nominalText.setText("Rp."+transaction.getAmount()+" from "+transaction.getBuyer()+"");
 //        categoryText.setTypeface(tf);
 //        if(category.getIcon() != null) {
 //            Uri uri = Uri.parse(category.getIcon());

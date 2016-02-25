@@ -26,6 +26,8 @@ import id.co.imwizz.bolpax.adapter.MerchantIssueListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.TransactionLIst;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueListPojo;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -37,10 +39,11 @@ import retrofit.client.Response;
 public class MerchantIssueList extends AppCompatActivity {
 
     protected Context mContext;
-    String email,name,phone,merchants,userid,token;
+    String email,name,phone,merchants,userid,token,nama,merchantid;
     Integer balance;
     LinearLayout merchant;
     TransactionLIst transactionlist;
+    MenuItem createstore,switchtomerchant,buyername;
     @Bind(R.id.listviewIssue) ListView issue;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
@@ -59,10 +62,11 @@ public class MerchantIssueList extends AppCompatActivity {
         setToolbar();
 
         bolpax = BolpaxStatic.getMerchantid();
-        userid = bolpax.toString();
+        merchantid = bolpax.toString();
+        userid = BolpaxStatic.getUserid().toString();
         token = BolpaxStatic.getToken();
 
-        RestClient.getBolpax().getMerchantIssuelist(userid, new Callback<List<MerchantIssueListPojo>>() {
+        RestClient.getBolpax().getMerchantIssuelist(merchantid, new Callback<List<MerchantIssueListPojo>>() {
             @Override
             public void success(List<MerchantIssueListPojo> result, Response response) {
                 if(result==null){
@@ -140,36 +144,67 @@ public class MerchantIssueList extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_switch, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        createstore = menu.findItem(R.id.create_store);
+        switchtomerchant = menu.findItem(R.id.switchto_merchant);
+        buyername = menu.findItem(R.id.profile);
+
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+            @Override
+            public void success(MerchantBolpax merchantBolpax, Response response) {
+                nama = merchantBolpax.getMerchantName();
+                buyername.setTitle(nama.toString());
+                createstore.setVisible(false);
+                switchtomerchant.setTitle("Switch To Buyer");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantIssueList.this, ProfileActivity.class);
-                i.putExtra("email", email);
-                i.putExtra("name", name);
-                i.putExtra("phone", phone);
-                i.putExtra("balance", balance);
+                Intent i = new Intent(MerchantIssueList.this, MerchantProfile.class);
                 startActivity(i);
 
                 return true;
-
-            case R.id.switchto_buyer:
-                Intent i2 = new Intent(MerchantIssueList.this, BuyerHomeActivity.class);
-                i2.putExtra("email", email);
-                i2.putExtra("name", name);
-                i2.putExtra("phone", phone);
-                i2.putExtra("balance", balance);
-                startActivity(i2);
+            case R.id.switchto_merchant:
+                Intent i3 = new Intent(MerchantIssueList.this, BuyerHomeActivity.class);
+                startActivity(i3);
 
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if (success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MerchantIssueList.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
 
                 return true;
 

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,9 @@ import retrofit.client.Response;
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = Login.class.getSimpleName();
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.btnlogin)
     Button login;
     @Bind(R.id.btnregister)
@@ -43,6 +47,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         ButterKnife.bind(this);
         register.setOnClickListener(this);
 
+    }
+    public void setToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(MerchantProfile.this,BuyerHomeActivity.class);
+//                startActivity(i);
+//            }
+//        });
+        toolbar.setTitle("");
+        toolbarTitle.setText("BOLPAX");
     }
 
     public void signIn(View V) {

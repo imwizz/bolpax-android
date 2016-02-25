@@ -25,6 +25,17 @@ public class MerchantTransactionListPojo {
     @SerializedName("product")
     @Expose
     private String product;
+    @SerializedName("buyer")
+    @Expose
+    private String buyer;
+
+    public String getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(String buyer) {
+        this.buyer = buyer;
+    }
 
     public long getTrxId() {
         return trxId;

@@ -25,6 +25,9 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -36,7 +39,7 @@ import retrofit.client.Response;
 public class BuyerIssueList extends AppCompatActivity implements View.OnClickListener {
 
     protected Context mContext;
-    String email,name,phone,merchants,userid,token;
+    String email,name,phone,merchants,userid,token,nama;
     private static final String TAG = BuyerIssueList.class.getSimpleName();
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -46,6 +49,7 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
     BuyerIssueListPojo issuelist;
     final Context context = this;
     Long bolpax,id;
+    MenuItem createstore,switchtomerchant,buyername;
 
 
 
@@ -139,11 +143,42 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        createstore = menu.findItem(R.id.create_store);
+        switchtomerchant = menu.findItem(R.id.switchto_merchant);
+        buyername = menu.findItem(R.id.profile);
+        RestClient.getBolpax().getProfile(userid.toString(), token.toString(), new Callback<ProfileBolpax>() {
+            @Override
+            public void success(ProfileBolpax profileBolpax, Response response) {
+                nama = profileBolpax.getFullname();
+                buyername.setTitle(nama.toString());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+            @Override
+            public void success(MerchantBolpax merchantBolpax, Response response) {
+                if (merchantBolpax != null){
+                    createstore.setVisible(false);
+                } else {
+                    switchtomerchant.setVisible(false);
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId())
         {
             case R.id.profile:
@@ -157,9 +192,38 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
                 startActivity(i2);
 
                 return true;
+            case R.id.switchto_merchant:
+                Intent i3 = new Intent(BuyerIssueList.this, MerchantHomeActivity.class);
+                startActivity(i3);
+
+                return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token,phone,new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if(success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(BuyerIssueList.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
+
+
 
                 return true;
 
