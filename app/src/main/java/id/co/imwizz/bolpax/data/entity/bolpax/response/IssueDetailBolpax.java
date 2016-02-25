@@ -24,6 +24,17 @@ public class IssueDetailBolpax {
     @SerializedName("subject")
     @Expose
     private String subject;
+    @SerializedName("reporter")
+    @Expose
+    private String reporter;
+
+    public String getReporter() {
+        return reporter;
+    }
+
+    public void setReporter(String reporter) {
+        this.reporter = reporter;
+    }
 
     public String getSubject() {
         return subject;

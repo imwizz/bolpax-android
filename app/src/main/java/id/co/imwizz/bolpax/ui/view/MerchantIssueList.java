@@ -65,6 +65,7 @@ public class MerchantIssueList extends AppCompatActivity {
         merchantid = bolpax.toString();
         userid = BolpaxStatic.getUserid().toString();
         token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
         RestClient.getBolpax().getMerchantIssuelist(merchantid, new Callback<List<MerchantIssueListPojo>>() {
             @Override

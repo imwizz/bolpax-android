@@ -77,6 +77,7 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
         bolpax = BolpaxStatic.getUserid();
         userid = bolpax.toString();
         token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
         RestClient.getBolpax().getBuyerIssuelist(userid.toString(), new Callback<List<BuyerIssueListPojo>>() {
                     @Override
@@ -199,17 +200,17 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token,phone,new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
                     @Override
                     public void success(Logout s, Response response) {
 
                         String success = s.getStatus();
-                        if(success.contains("SUCCESS")) {
+                        if (success.contains("SUCCESS")) {
                             Intent intent = new Intent(getApplicationContext(), Login.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
-                        }else{
+                        } else {
                             Toast.makeText(BuyerIssueList.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
                         }
 
@@ -218,12 +219,10 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.e(TAG, error.getMessage());
+//                        Log.e(TAG, error.getMessage());
 
                     }
                 });
-
-
 
                 return true;
 

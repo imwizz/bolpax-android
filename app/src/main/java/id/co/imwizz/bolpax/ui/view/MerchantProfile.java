@@ -49,6 +49,7 @@ public class MerchantProfile extends AppCompatActivity {
         bolpax = BolpaxStatic.getUserid();
         userid = bolpax.toString();
         token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
         RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
             @Override
