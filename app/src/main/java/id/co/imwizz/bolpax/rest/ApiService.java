@@ -14,6 +14,7 @@ import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Store;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.User;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIDBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.LoginBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
@@ -88,7 +89,7 @@ public interface ApiService {
 
     @Headers( "Content-Type: application/json" )
     @POST("/issue/create")
-    public void postBuyerReport(@Body Report report, Callback<String> callback);
+    public void postBuyerReport(@Body Report report, Callback<IssueIDBolpax> callback);
 
     @Headers( "Content-Type: application/json" )
     @POST("/trx/insertTrail")
