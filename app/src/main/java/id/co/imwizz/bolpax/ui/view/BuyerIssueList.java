@@ -25,6 +25,7 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -73,6 +74,7 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
         bolpax = BolpaxStatic.getUserid();
         userid = bolpax.toString();
         token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
         RestClient.getBolpax().getBuyerIssuelist(userid.toString(), new Callback<List<BuyerIssueListPojo>>() {
                     @Override
@@ -159,7 +161,29 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if (success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(BuyerIssueList.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
 
                 return true;
 

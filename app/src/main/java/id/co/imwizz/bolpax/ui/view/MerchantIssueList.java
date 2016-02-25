@@ -26,6 +26,7 @@ import id.co.imwizz.bolpax.adapter.MerchantIssueListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.TransactionLIst;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueListPojo;
+import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -61,6 +62,7 @@ public class MerchantIssueList extends AppCompatActivity {
         bolpax = BolpaxStatic.getMerchantid();
         userid = bolpax.toString();
         token = BolpaxStatic.getToken();
+        phone = BolpaxStatic.getPhonenumber();
 
         RestClient.getBolpax().getMerchantIssuelist(userid, new Callback<List<MerchantIssueListPojo>>() {
             @Override
@@ -169,7 +171,29 @@ public class MerchantIssueList extends AppCompatActivity {
                 return true;
 
             case R.id.quit:
-                finish();
+                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                    @Override
+                    public void success(Logout s, Response response) {
+
+                        String success = s.getStatus();
+                        if (success.contains("SUCCESS")) {
+                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra("EXIT", true);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(MerchantIssueList.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+//                        Log.e(TAG, error.getMessage());
+
+                    }
+                });
 
                 return true;
 

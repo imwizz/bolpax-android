@@ -16,6 +16,17 @@ public class IssueHistoryBolpax {
     @SerializedName("message")
     @Expose
     private String message;
+    @SerializedName("issueStatus")
+    @Expose
+    private String issueStatus;
+
+    public String getIssueStatus() {
+        return issueStatus;
+    }
+
+    public void setIssueStatus(String issueStatus) {
+        this.issueStatus = issueStatus;
+    }
 
     public String getFromAdmin() {
         return fromAdmin;
