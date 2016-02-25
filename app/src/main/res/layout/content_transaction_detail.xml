@@ -83,7 +83,8 @@
                     android:text="Item Shipment"
                     android:textSize="10sp"
                     android:textColor="#FFFFFF"
-                    android:background="@color/colorPrimaryDark"/>
+                    android:background="@color/colorPrimaryDark"
+                    android:visibility="gone"/>
             </LinearLayout>
 
         </LinearLayout>

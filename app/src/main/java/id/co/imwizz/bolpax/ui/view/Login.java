@@ -46,6 +46,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         register.setOnClickListener(this);
+        setToolbar();
 
     }
     public void setToolbar(){
