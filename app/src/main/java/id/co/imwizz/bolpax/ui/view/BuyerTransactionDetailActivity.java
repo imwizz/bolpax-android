@@ -105,7 +105,7 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                 }else {
                     laststatusText.setText(laststatus);
                     laststatusText.setTextColor(Color.YELLOW);
-                    laststatusText.setTextColor(Color.parseColor("#FFD426"));
+                    laststatusText.setTextColor(Color.parseColor("#d36a04"));
                 }
 
                 if (trxHistory.size() == 3){

@@ -53,7 +53,7 @@ public class TransactionListAdapter extends ArrayAdapter<BuyerTransactionListPoj
             }else {
                 statusText.setText(transaction.getTrxLastStatus());
 //                statusText.setTextColor(Color.YELLOW);
-                statusText.setTextColor(Color.parseColor("#FFD426"));
+                statusText.setTextColor(Color.parseColor("#d36a04"));
             }
         }
 

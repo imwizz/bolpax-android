@@ -105,7 +105,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                     refundIssue.setVisibility(View.VISIBLE);
                     issueLastStatusText.setText(laststatus);
 //                    issueLastStatusText.setTextColor(Color.YELLOW);
-                    issueLastStatusText.setTextColor(Color.parseColor("#FFD426"));
+                    issueLastStatusText.setTextColor(Color.parseColor("#d36a04"));
                 }else if (laststatus.contains("Closed")){
                     replayIssue.setVisibility(View.GONE);
                     refundIssue.setVisibility(View.GONE);
@@ -116,7 +116,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                     replayIssue.setVisibility(View.VISIBLE);
                     issueLastStatusText.setText(laststatus);
 //                    issueLastStatusText.setTextColor(Color.YELLOW);
-                    issueLastStatusText.setTextColor(Color.parseColor("#FFD426"));
+                    issueLastStatusText.setTextColor(Color.parseColor("#d36a04"));
                 }
                 refundIssue.setOnClickListener(new View.OnClickListener() {
                     @Override
