@@ -18,9 +18,11 @@
             android:textSize="18dp"
             android:textColor="@color/aluminum"/>
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/black"
             android:id="@+id/subject_report"
             android:layout_weight="1" />
 

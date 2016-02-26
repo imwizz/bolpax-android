@@ -31,7 +31,7 @@ import retrofit.client.Response;
 public class BuyerReportIssueActivity2 extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.subject_report) EditText subjectReport;
+    @Bind(R.id.subject_report) TextView subjectReport;
     @Bind(R.id.desc_report) EditText descReport;
     @Bind(R.id.subbut)Button subBut;
     String createSubjectReport,createDescReport,token,subject,phone;
