@@ -1,6 +1,7 @@
 package id.co.imwizz.bolpax.ui.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -77,6 +78,7 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
                 subjectText.setText(subject);
                 amountText.setText("Rp " + amount + " for " + product);
                 issueLastStatusText.setText(laststatus);
+                issueLastStatusText.setTextColor(Color.parseColor("#d36a04"));
 
                 replyissueButton.setOnClickListener(new View.OnClickListener() {
                     @Override

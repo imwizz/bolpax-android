@@ -48,10 +48,12 @@ public class MerchantTransactionListAdapter extends ArrayAdapter<MerchantTransac
         if (status != null) {
             if (status.contains("Payment Completed")) {
                 statusText.setText(transaction.getTrxLastStatus());
-                statusText.setTextColor(Color.GREEN);
+//                statusText.setTextColor(Color.GREEN);
+                statusText.setTextColor(Color.parseColor("#49E845"));
             }else {
                 statusText.setText(transaction.getTrxLastStatus());
-                statusText.setTextColor(Color.YELLOW);
+//                statusText.setTextColor(Color.YELLOW);
+                statusText.setTextColor(Color.parseColor("#d36a04"));
             }
         }
 

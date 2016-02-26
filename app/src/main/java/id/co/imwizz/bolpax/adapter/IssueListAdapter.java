@@ -47,7 +47,7 @@ public class IssueListAdapter extends ArrayAdapter<BuyerIssueListPojo> {
         dateText.setText(category.getIssueDate());
         statusText.setText(category.getIssueLastStatus());
 //        statusText.setTextColor(Color.YELLOW);
-        statusText.setTextColor(Color.parseColor("#FFD426"));
+        statusText.setTextColor(Color.parseColor("#d36a04"));
 
 
         nominalText.setText(category.getSuspect());
