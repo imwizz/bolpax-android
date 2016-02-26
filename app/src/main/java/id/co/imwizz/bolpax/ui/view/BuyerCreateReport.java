@@ -31,7 +31,7 @@ public class BuyerCreateReport extends AppCompatActivity implements View.OnClick
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
     @Bind(R.id.subject_report)
-    EditText subjectReport;
+    TextView subjectReport;
     @Bind(R.id.desc_report) EditText descReport;
     @Bind(R.id.subbut)Button subBut;
     String createSubjectReport,createDescReport,subject,trxid;
