@@ -16,8 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +23,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionHistoryAdapter;
-import id.co.imwizz.bolpax.data.entity.TransactionDetail;
-import id.co.imwizz.bolpax.data.entity.TrxHistory;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Id;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
 import id.co.imwizz.bolpax.rest.RestClient;
@@ -104,10 +99,13 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                 amountText.setText("Rp "+amount +" for "+ product);
                 if (laststatus.contains("Transaction complete")) {
                     laststatusText.setText(laststatus);
-                    laststatusText.setTextColor(Color.GREEN);
+//                    laststatusText.setTextColor(Color.GREEN);
+                    laststatusText.setTextColor(Color.parseColor("#49E845"));
+
                 }else {
                     laststatusText.setText(laststatus);
                     laststatusText.setTextColor(Color.YELLOW);
+                    laststatusText.setTextColor(Color.parseColor("#FFD426"));
                 }
 
                 if (trxHistory.size() == 3){
