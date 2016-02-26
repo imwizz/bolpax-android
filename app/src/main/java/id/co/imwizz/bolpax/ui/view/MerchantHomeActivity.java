@@ -27,7 +27,7 @@ import retrofit.client.Response;
  * Created by User on 08/01/2016.
  */
 public class MerchantHomeActivity extends AppCompatActivity implements View.OnClickListener{
-    String email,name,phone,token,nama;
+    String email,name,phone,token,nama,merchantName;
     private static final String TAG = MerchantHomeActivity.class.getSimpleName();
     Integer balance;
 //    Long userid;
@@ -47,6 +47,8 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         userid = BolpaxStatic.getUserid();
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
+        merchantName = BolpaxStatic.getMerchantname();
+        merchantId = BolpaxStatic.getMerchantid();
 
 //        bolpax = BolpaxStatic.getUserid();
 //        userid = bolpax.toString();
@@ -105,21 +107,10 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
         buyername = menu.findItem(R.id.profile);
+        buyername.setTitle(merchantName.toString());
+        createstore.setVisible(false);
+        switchtomerchant.setTitle("Switch To Buyer");
 
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
-            @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                nama = merchantBolpax.getMerchantName();
-                buyername.setTitle(nama.toString());
-                createstore.setVisible(false);
-                switchtomerchant.setTitle("Switch To Buyer");
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
         return true;
     }
 
