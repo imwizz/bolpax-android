@@ -1,6 +1,7 @@
 package id.co.imwizz.bolpax.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.IssueHistory;
-import id.co.imwizz.bolpax.data.entity.TrxHistory;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryBolpax;
 
 /**
@@ -34,9 +33,18 @@ public class IssueHistoryAdapter extends ArrayAdapter<IssueHistoryBolpax> {
 
         TextView issuehistoryDate = (TextView) customView.findViewById(R.id.date);
         TextView issuehistoryMessage = (TextView) customView.findViewById(R.id.issuemessage);
+        String fromAdmin = trxHistory.getFromAdmin();
+        if (fromAdmin.contains("Y")){
+            issuehistoryMessage.setTextColor(Color.parseColor("#2196F3"));
+            issuehistoryMessage.setText(trxHistory.getMessage());
+        }
+        else{
+            issuehistoryMessage.setTextColor(Color.parseColor("#000000"));
+            issuehistoryMessage.setText(trxHistory.getMessage());
+        }
 
         issuehistoryDate.setText(trxHistory.getTime());
-        issuehistoryMessage.setText(trxHistory.getMessage());
+
 
         return customView;
 
