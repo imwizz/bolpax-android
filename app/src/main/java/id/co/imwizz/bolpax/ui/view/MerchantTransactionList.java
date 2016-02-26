@@ -40,7 +40,7 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
     protected Context mContext;
     private static final String TAG = BuyerTransactionList.class.getSimpleName();
     MenuItem createstore,switchtomerchant,buyername;
-    String email,name,phone,token,merchantId,nama;
+    String email,name,phone,token,merchantId,nama,merchantName;
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
@@ -77,6 +77,7 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
         userid = BolpaxStatic.getUserid();
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
+        merchantName = BolpaxStatic.getMerchantname();
 
         RestClient.getBolpax().getMerchantTransactionlist(merchantId.toString(), new Callback<List<MerchantTransactionListPojo>>() {
             @Override
@@ -108,14 +109,6 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
 
             }
         });
-
-//                String json = DummyAPI.getJson(BuyerTransactionList.this, R.raw.trx_list);
-//        Gson gson = new Gson();
-//        TransactionLIst[] transactionList = gson.fromJson(json, TransactionLIst[].class);
-//
-//        ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionList.this, transactionList);
-//        transaction.setAdapter(transactionListAdapter);
-
     }
 
     @OnItemClick(R.id.listviewTransaction)
@@ -139,21 +132,10 @@ public class MerchantTransactionList extends AppCompatActivity implements View.O
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
         buyername = menu.findItem(R.id.profile);
-
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
-            @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                nama = merchantBolpax.getMerchantName();
-                buyername.setTitle(nama.toString());
-                createstore.setVisible(false);
-                switchtomerchant.setTitle("Switch To Buyer");
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
+        buyername = menu.findItem(R.id.profile);
+        buyername.setTitle(merchantName.toString());
+        createstore.setVisible(false);
+        switchtomerchant.setTitle("Switch To Buyer");
         return true;
     }
 

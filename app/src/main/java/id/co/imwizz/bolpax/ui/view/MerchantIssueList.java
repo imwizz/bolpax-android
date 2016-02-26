@@ -39,7 +39,7 @@ import retrofit.client.Response;
 public class MerchantIssueList extends AppCompatActivity {
 
     protected Context mContext;
-    String email,name,phone,merchants,userid,token,nama,merchantid;
+    String email,name,phone,merchants,userid,token,nama,merchantid,merchantName;
     Integer balance;
     LinearLayout merchant;
     TransactionLIst transactionlist;
@@ -66,6 +66,7 @@ public class MerchantIssueList extends AppCompatActivity {
         userid = BolpaxStatic.getUserid().toString();
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
+        merchantName = BolpaxStatic.getMerchantname();
 
         RestClient.getBolpax().getMerchantIssuelist(merchantid, new Callback<List<MerchantIssueListPojo>>() {
             @Override
@@ -96,23 +97,6 @@ public class MerchantIssueList extends AppCompatActivity {
 
             }
         });
-
-//        String json = DummyAPI.getJson(MerchantIssueList.this, R.raw.issue_list);
-//        Gson gson = new Gson();
-////        JSONArray jsonArr = new JSONArray();
-//
-//        IssueList[] issueList = gson.fromJson(json, IssueList[].class);
-
-//        String Test = merchant.getMerchant();
-//        String[] catValues5 = new String[merchant.size() + 1];
-//        for (int i = 0; i < merchant.size(); i++) {
-//
-//        }
-//        ListAdapter issueListAdapter = new IssueListAdapter(MerchantIssueList.this, issueList);
-//        issue.setAdapter(issueListAdapter);
-//        MerchantListAdapter merchantlistAdapter = new MerchantListAdapter(MerchantList_Activity.this, merchant);
-//        listView.setAdapter(merchantlistAdapter);
-
         issue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -149,21 +133,10 @@ public class MerchantIssueList extends AppCompatActivity {
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
         buyername = menu.findItem(R.id.profile);
-
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
-            @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                nama = merchantBolpax.getMerchantName();
-                buyername.setTitle(nama.toString());
-                createstore.setVisible(false);
-                switchtomerchant.setTitle("Switch To Buyer");
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
+        buyername = menu.findItem(R.id.profile);
+        buyername.setTitle(merchantName.toString());
+        createstore.setVisible(false);
+        switchtomerchant.setTitle("Switch To Buyer");
         return true;
     }
 

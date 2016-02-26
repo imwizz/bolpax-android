@@ -38,7 +38,7 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
     MenuItem createstore,switchtomerchant,buyername;
     String email,name,phone,merchantname,token,productName,amountString,nama;
     Integer balance;
-    Long  userid,merchantid,trxid;
+    Long  userid,merchantid,trxid,merchantId;
     double amount;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.merchantNameText) TextView merchantNameText;
@@ -78,6 +78,8 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
         userid = BolpaxStatic.getUserid();
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
+        nama = BolpaxStatic.getFullname();
+        merchantId = BolpaxStatic.getMerchantid();
 
 
 
@@ -91,34 +93,12 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
         buyername = menu.findItem(R.id.profile);
-        RestClient.getBolpax().getProfile(userid.toString(), token.toString(), new Callback<ProfileBolpax>() {
-            @Override
-            public void success(ProfileBolpax profileBolpax, Response response) {
-                nama = profileBolpax.getFullname();
-                buyername.setTitle(nama.toString());
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
-            @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                if (merchantBolpax != null){
-                    createstore.setVisible(false);
-                } else {
-                    switchtomerchant.setVisible(false);
-
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
+        buyername.setTitle(nama.toString());
+        if ( merchantId !=null){
+            createstore.setVisible(false);
+        } else {
+            switchtomerchant.setVisible(false);
+        }
         return true;
     }
 

@@ -100,6 +100,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         public void success(LoginBolpax loginBolpax, Response response) {
                             BolpaxStatic.setUserid(loginBolpax.getUserId());
                             BolpaxStatic.setToken(loginBolpax.getToken());
+                            BolpaxStatic.setMerchantid(loginBolpax.getMerchantId());
+                            BolpaxStatic.setMerchantname(loginBolpax.getMerchantName());
+                            BolpaxStatic.setFullname(loginBolpax.getFullname());
+                            BolpaxStatic.setPhonenumber(loginBolpax.getPhone());
                             String success = loginBolpax.getStatus();
                             if(success.contains("VALID")) {
                                 Intent i = new Intent(Login.this, BuyerHomeActivity.class);
