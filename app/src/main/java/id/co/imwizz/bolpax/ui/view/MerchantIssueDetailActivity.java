@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -41,6 +42,8 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
     @Bind(R.id.replyissue) Button replyissueButton;
     @Bind(R.id.subject) TextView subjectText;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.progressBar)
+    ProgressBar progressBar;
     Long bolpax,issueid;
     String userid,token,issueId,subject;
 
@@ -59,6 +62,8 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
         RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailBolpax>() {
             @Override
             public void success(IssueDetailBolpax issueDetailBolpax, Response response) {
+
+                replyissueButton.setVisibility(View.VISIBLE);
                 String suspect = issueDetailBolpax.getSuspect();
                 String amount = issueDetailBolpax.getAmount();
                 String product = issueDetailBolpax.getProduct();
@@ -79,16 +84,21 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
                 amountText.setText("Rp " + amount + " for " + product);
                 issueLastStatusText.setText(laststatus);
                 issueLastStatusText.setTextColor(Color.parseColor("#d36a04"));
+                if (issueHistory.size() > 1){
+                    replyissueButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(MerchantIssueDetailActivity.this, MerchantReportIssueActivity2.class);
+                            i.putExtra("Subject", subject);
+                            i.putExtra("issueid", issueid);
+                            startActivity(i);
+                        }
+                    });
+                } else if (laststatus.contains("Closed")){
+                    replyissueButton.setVisibility(View.GONE);
+                }
 
-                replyissueButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MerchantIssueDetailActivity.this, MerchantReportIssueActivity2.class);
-                        i.putExtra("Subject", subject);
-                        i.putExtra("issueid", issueid);
-                        startActivity(i);
-                    }
-                });
+
             }
 
             @Override
