@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
     Long bolpax,issueid;
     String userid,token,issueId,subject,phone,suspect,amount,product,laststatus;
     BuyerIssueListPojo issuelist;
+    @Bind(R.id.progressBar)ProgressBar progressBar;
 
 
     @Override
@@ -121,12 +123,13 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                 refundIssue.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        progressBar.setVisibility(View.VISIBLE);
                         Refund refund = new Refund();
                         refund.setIssueId(issueid);
                         RestClient.getBolpax().postRefund(refund, new Callback<RefoundResponse>() {
                             @Override
                             public void success(RefoundResponse s, Response response) {
-
+                                progressBar.setVisibility(View.GONE);
                                 refreshHistory();
 
                             }
@@ -143,12 +146,14 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                 replayIssue.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
+                        progressBar.setVisibility(View.VISIBLE);
                         //issuelist = (BuyerIssueListPojo) parent.getItemAtPosition(position);
                         Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerReportIssueActivity2.class);
                         i.putExtra("Subject", subject);
 //                        i.putExtra("Subject", (issueHistory.get(i).getIssueStatus()));
                         i.putExtra("issueid", issueid);
                         startActivity(i);
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
             }

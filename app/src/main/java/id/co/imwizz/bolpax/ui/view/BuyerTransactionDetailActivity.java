@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,8 +46,8 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
     @Bind(R.id.amount) TextView amountText;
     @Bind(R.id.laststatus) TextView laststatusText;
     @Bind(R.id.list_detail) ListView trxDetailText;
-    @Bind(R.id.reply)
-    Button reply;
+    @Bind(R.id.reply)Button reply;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
     String trxId;
     long trxid;
 
@@ -114,6 +115,7 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                     reply.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
+                            progressBar.setVisibility(View.VISIBLE);
                             Toast.makeText(getBaseContext(), "ditekan", Toast.LENGTH_LONG).show();
                             AddHistoryTrxBolpax addHistoryTrxBolpax = new AddHistoryTrxBolpax();
                             addHistoryTrxBolpax.setTrxId(trxId);
@@ -131,6 +133,7 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                             RestClient.getBolpax().postAddHistoryTransaction(addHistoryTrxBolpax, new Callback<String>() {
                                 @Override
                                 public void success(String s, Response response) {
+                                    progressBar.setVisibility(View.GONE);
                                     refreshHistory();
                                 }
 

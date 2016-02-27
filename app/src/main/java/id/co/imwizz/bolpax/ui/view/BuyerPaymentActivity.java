@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +20,6 @@ import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Payment;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.PaymentResponse;
 import id.co.imwizz.bolpax.rest.RestClient;
@@ -42,11 +41,13 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
     double amount;
     @Bind(R.id.toolbar_title) TextView toolbarTitle;
     @Bind(R.id.merchantNameText) TextView merchantNameText;
+    @Bind(R.id.notif) TextView notif;
     @Bind(R.id.amountText)
     EditText amountText;
     @Bind(R.id.productNameText) EditText productNameText;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.payBut) Button pay;
+    @Bind(R.id.progressBar2)ProgressBar progressBar;
 
 
     @Override
@@ -168,6 +169,8 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
         switch (id) {
 
             case R.id.payBut:
+                progressBar.setVisibility(View.VISIBLE);
+                notif.setVisibility(View.VISIBLE);
                 amountString = amountText.getText().toString();
                 productName= productNameText.getText().toString();
                 amount = Double.parseDouble(amountString);
@@ -184,10 +187,12 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
                         trxid = s.getTrxId();
                         String test = s.getAmount();
                         String test2=s.getFromAccount();
-//                        Toast.makeText(getBaseContext(), "cek di database", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "Payment Successful", Toast.LENGTH_LONG).show();
                         Intent i2 = new Intent(BuyerPaymentActivity.this,BuyerTransactionDetailActivity.class);
                         i2.putExtra("trxid", trxid);
                         startActivity(i2);
+                        progressBar.setVisibility(View.GONE);
+                        notif.setVisibility(View.GONE);
                     }
 
                     @Override

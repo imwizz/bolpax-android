@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -35,6 +36,8 @@ public class BuyerCreateReport extends AppCompatActivity implements View.OnClick
     @Bind(R.id.desc_report) EditText descReport;
     @Bind(R.id.subbut)Button subBut;
     String createSubjectReport,createDescReport,subject,trxid;
+    @Bind(R.id.progressBar)ProgressBar progressBar;
+    @Bind(R.id.notif) TextView notif;
     Long trxId;
     private static final String TAG = BuyerCreateReport.class.getSimpleName();
 
@@ -92,6 +95,8 @@ public class BuyerCreateReport extends AppCompatActivity implements View.OnClick
 
         switch (id) {
             case R.id.subbut :
+                progressBar.setVisibility(View.VISIBLE);
+                notif.setVisibility(View.VISIBLE);
                 createSubjectReport = subjectReport.getText().toString();
                 createDescReport = descReport.getText().toString();
                 Report report = new Report();
@@ -102,6 +107,8 @@ public class BuyerCreateReport extends AppCompatActivity implements View.OnClick
                 RestClient.getBolpax().postBuyerReport(report, new Callback<IssueIDBolpax>() {
                     @Override
                     public void success(IssueIDBolpax issueIDBolpax, Response response) {
+                        progressBar.setVisibility(View.GONE);
+                        notif.setVisibility(View.GONE);
                         Intent i = new Intent(BuyerCreateReport.this, BuyerIssueDetailActivity.class);
                         i.putExtra("issueId", issueIDBolpax.getIssueId());
                         startActivity(i);

@@ -97,6 +97,12 @@
                     android:visibility="gone"
                     android:background="@color/colorPrimaryDark"
                     android:id="@+id/refundissue" />
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progressBar" />
             </LinearLayout>
 
         </LinearLayout>

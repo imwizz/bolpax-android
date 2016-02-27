@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
     String createSubjectReport,createDescReport,token,subject,phone;
     private static final String TAG = BuyerReportIssueActivity2.class.getSimpleName();
     Long  userid,issueId,bolpax;
+    @Bind(R.id.progressBar)ProgressBar progressBar;
+    @Bind(R.id.notif) TextView notif;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +137,8 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
 
         switch (id) {
             case R.id.subbut :
+                progressBar.setVisibility(View.VISIBLE);
+                notif.setVisibility(View.VISIBLE);
                 bolpax = BolpaxStatic.getUserid();
                 userid = BolpaxStatic.getUserid();
                 token = BolpaxStatic.getToken();
@@ -153,6 +158,8 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
                 RestClient.getBolpax().postAddHistoryIssue(addHistoryIssueBolpax, new Callback<String>() {
                     @Override
                     public void success(String s, Response response) {
+                        progressBar.setVisibility(View.GONE);
+                        notif.setVisibility(View.GONE);
 
                         Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerIssueDetailActivity.class);
                         i.putExtra("issueId", issueId);
