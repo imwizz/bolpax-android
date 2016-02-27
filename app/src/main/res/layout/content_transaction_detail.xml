@@ -85,6 +85,13 @@
                     android:textColor="#FFFFFF"
                     android:background="@color/colorPrimaryDark"
                     android:visibility="gone"/>
+                <ProgressBar
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progressBar"
+                    android:visibility="gone"
+                    android:layout_gravity="center_horizontal" />
             </LinearLayout>
 
         </LinearLayout>
