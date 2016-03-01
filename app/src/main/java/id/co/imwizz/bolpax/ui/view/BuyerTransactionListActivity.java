@@ -25,8 +25,6 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionListPojo;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -36,16 +34,16 @@ import retrofit.client.Response;
 /**
  * Created by User on 08/01/2016.
  */
-public class BuyerTransactionList extends AppCompatActivity implements View.OnClickListener {
+public class BuyerTransactionListActivity extends AppCompatActivity implements View.OnClickListener {
 
     protected Context mContext;
     final Context context = this;
-    private static final String TAG = BuyerTransactionList.class.getSimpleName();
+    private static final String TAG = BuyerTransactionListActivity.class.getSimpleName();
     String email,name,phone,userid,token,nama;
     MenuItem createstore,switchtomerchant,buyername;
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
+    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
     @Bind(R.id.listviewTransaction) ListView transaction;
     BuyerTransactionListPojo transactionlist;
     List<BuyerTransactionListPojo> buyerTransactionListPojos;
@@ -67,7 +65,7 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(BuyerTransactionList.this, BuyerHomeActivity.class);
+                Intent i = new Intent(BuyerTransactionListActivity.this, BuyerHomeActivity.class);
                 startActivity(i);
             }
         });
@@ -86,7 +84,7 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
                         String test="";
 
                         if(result==null){
-                            Toast.makeText(BuyerTransactionList.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BuyerTransactionListActivity.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
                         }else {
 
                             buyerTransactionListPojos = new ArrayList<BuyerTransactionListPojo>(result);
@@ -101,7 +99,7 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
                                 String product = buyerTransactionListPojos.get(i).getProduct();
 
                             }
-                            ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionList.this, buyerTransactionListPojos);
+                            ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionListActivity.this, buyerTransactionListPojos);
                             transaction.setAdapter(transactionListAdapter);
                         }
 
@@ -114,11 +112,11 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
                     }
                 });
 
-//                String json = DummyAPI.getJson(BuyerTransactionList.this, R.raw.trx_list);
+//                String json = DummyAPI.getJson(BuyerTransactionListActivity.this, R.raw.trx_list);
 //        Gson gson = new Gson();
 //        TransactionLIst[] transactionList = gson.fromJson(json, TransactionLIst[].class);
 //
-//        ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionList.this, transactionList);
+//        ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionListActivity.this, transactionList);
 //        transaction.setAdapter(transactionListAdapter);
 
     }
@@ -129,7 +127,7 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
     void onItemClick(AdapterView<?> parent, View view,
                      int position, long id) {
         transactionlist = (BuyerTransactionListPojo) parent.getItemAtPosition(position);
-        Intent myIntent = new Intent(BuyerTransactionList.this, BuyerTransactionDetailActivity.class);
+        Intent myIntent = new Intent(BuyerTransactionListActivity.this, BuyerTransactionDetailActivity.class);
         myIntent.putExtra("amount", (transactionlist.getAmount()));
         myIntent.putExtra("merchant", (transactionlist.getMerchant()));
         myIntent.putExtra("date", (transactionlist.getTrxDate()));
@@ -160,18 +158,18 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerTransactionList.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerTransactionListActivity.this, ProfileActivity.class);
                 startActivity(i);
 
                 return true;
 
             case R.id.create_store:
-                Intent i2 = new Intent(BuyerTransactionList.this, CreateStoreActivity.class);
+                Intent i2 = new Intent(BuyerTransactionListActivity.this, CreateStoreActivity.class);
                 startActivity(i2);
 
                 return true;
             case R.id.switchto_merchant:
-                Intent i3 = new Intent(BuyerTransactionList.this, MerchantHomeActivity.class);
+                Intent i3 = new Intent(BuyerTransactionListActivity.this, MerchantHomeActivity.class);
                 startActivity(i3);
 
                 return true;
@@ -183,12 +181,12 @@ public class BuyerTransactionList extends AppCompatActivity implements View.OnCl
 
                         String success = s.getStatus();
                         if(success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
                         }else{
-                            Toast.makeText(BuyerTransactionList.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BuyerTransactionListActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
                         }
 
 

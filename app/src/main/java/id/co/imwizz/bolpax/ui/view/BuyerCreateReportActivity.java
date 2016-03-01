@@ -26,48 +26,33 @@ import retrofit.client.Response;
 /**
  * Created by bimosektiw on 2/23/16.
  */
-public class BuyerCreateReport extends AppCompatActivity implements View.OnClickListener {
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @Bind(R.id.subject_report)
-    TextView subjectReport;
-    @Bind(R.id.desc_report) EditText descReport;
-    @Bind(R.id.subbut)Button subBut;
-    String createSubjectReport,createDescReport,subject,trxid;
-    @Bind(R.id.progressBar)ProgressBar progressBar;
-    @Bind(R.id.notif) TextView notif;
-    Long trxId;
-    private static final String TAG = BuyerCreateReport.class.getSimpleName();
+public class BuyerCreateReportActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = BuyerCreateReportActivity.class.getSimpleName();
+
+    private String createSubjectReport,createDescReport,subject,trxid;
+    private Long trxId;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.text_subject) TextView textSubject;
+    @Bind(R.id.edit_description) EditText editDescription;
+    @Bind(R.id.button_submit) Button buttonSubmit;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
+    @Bind(R.id.text_notification) TextView textNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_reportissue2);
         ButterKnife.bind(this);
-        subBut.setOnClickListener(this);
+        buttonSubmit.setOnClickListener(this);
         setToolbar();
         Intent i = getIntent();
         subject = i.getStringExtra("subject").toString();
         trxid = i.getStringExtra("trxid").toString();
         trxId = Long.valueOf(trxid);
-        subjectReport.setText(subject);
-    }
-    private void setToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
-        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(BuyerCreateReport.this, BuyerHomeActivity.class);
-                startActivity(i);
-            }
-        });
-
+        textSubject.setText(subject);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,11 +79,11 @@ public class BuyerCreateReport extends AppCompatActivity implements View.OnClick
         int id = v.getId();
 
         switch (id) {
-            case R.id.subbut :
+            case R.id.button_submit:
                 progressBar.setVisibility(View.VISIBLE);
-                notif.setVisibility(View.VISIBLE);
-                createSubjectReport = subjectReport.getText().toString();
-                createDescReport = descReport.getText().toString();
+                textNotification.setVisibility(View.VISIBLE);
+                createSubjectReport = textSubject.getText().toString();
+                createDescReport = editDescription.getText().toString();
                 Report report = new Report();
                 report.setSubject(createSubjectReport);
                 report.setDesc(createDescReport);
@@ -108,8 +93,8 @@ public class BuyerCreateReport extends AppCompatActivity implements View.OnClick
                     @Override
                     public void success(IssueIDBolpax issueIDBolpax, Response response) {
                         progressBar.setVisibility(View.GONE);
-                        notif.setVisibility(View.GONE);
-                        Intent i = new Intent(BuyerCreateReport.this, BuyerIssueDetailActivity.class);
+                        textNotification.setVisibility(View.GONE);
+                        Intent i = new Intent(BuyerCreateReportActivity.this, BuyerIssueDetailActivity.class);
                         i.putExtra("issueId", issueIDBolpax.getIssueId());
                         startActivity(i);
                     }
@@ -119,13 +104,24 @@ public class BuyerCreateReport extends AppCompatActivity implements View.OnClick
                         Log.e(TAG, error.getMessage());
                     }
                 });
-
-//                Toast.makeText(BuyerReportIssueActivity2.this, "Report Submitted", Toast.LENGTH_SHORT).show();
-//                Intent i = new Intent(BuyerReportIssueActivity2.this,BuyerIssueDetailActivity.class);
-//                startActivity(i);
                 break;
 
         }
+
+    }
+    private void setToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("");
+        textToolbarTitle.setText("BOLPAX");
+        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(BuyerCreateReportActivity.this, BuyerHomeActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 }

@@ -11,7 +11,7 @@
         android:weightSum="3"
         android:orientation="vertical">
         <LinearLayout
-            android:id="@+id/merchant"
+            android:id="@+id/linear_merchant"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
             android:background="#2196F3"
-            android:id="@+id/transaction">
+            android:id="@+id/linear_transaction">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
             android:background="#3F51B5"
-            android:id="@+id/issue">
+            android:id="@+id/linear_issue">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

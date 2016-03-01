@@ -23,17 +23,19 @@ import retrofit.client.Response;
  * Created by User on 08/01/2016.
  */
 public class ProfileActivity extends AppCompatActivity {
-    private static final String TAG = ProfileActivity.class.getSimpleName();
-    protected Context mContext;
-    String email,name,phone, userid,token,balance;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.tvname) TextView tvName;
-    @Bind(R.id.tvmail) TextView tvEmail;
-    @Bind(R.id.tvcall) TextView tvCall;
-    @Bind(R.id.tvbalance) TextView tvBalance;
-    Long bolpax;
 
+    private static final String TAG = ProfileActivity.class.getSimpleName();
+
+    protected Context mContext;
+    private String email,name,phone, userid,token,balance;
+    private Long bolpax;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.text_name) TextView textName;
+    @Bind(R.id.text_email) TextView textEmail;
+    @Bind(R.id.text_phone) TextView textPhone;
+    @Bind(R.id.text_balance) TextView textBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
         toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
 
         bolpax = BolpaxStatic.getUserid();
         userid = bolpax.toString();
@@ -68,10 +70,10 @@ public class ProfileActivity extends AppCompatActivity {
                         phone = profileBolpax.getPhone();
                         balance = profileBolpax.getBalance();
 
-                        tvName.setText(name);
-                        tvEmail.setText(email);
-                        tvCall.setText(phone);
-                        tvBalance.setText(balance);
+                        textName.setText(name);
+                        textEmail.setText(email);
+                        textPhone.setText(phone);
+                        textBalance.setText(balance);
 
                     }
 

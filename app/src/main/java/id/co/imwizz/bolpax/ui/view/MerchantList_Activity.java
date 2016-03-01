@@ -26,7 +26,6 @@ import id.co.imwizz.bolpax.adapter.MerchantListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.MerchantList;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -46,7 +45,7 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
     MerchantBolpax merchants;
     Long bolpax,merchantid;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
+    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
     @Bind(R.id.listView) ListView listView;
 
 
@@ -146,7 +145,7 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
 
                         String success = s.getStatus();
                         if(success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);

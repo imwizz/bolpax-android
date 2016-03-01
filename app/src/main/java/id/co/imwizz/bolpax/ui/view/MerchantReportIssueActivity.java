@@ -34,13 +34,14 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
 
     private ListView mListView,listView;
     private String trxid,selectedFromList;
-    @Bind(R.id.back) TextView back;
-    @Bind(R.id.button2) Button button2;
+    private MenuItem createstore,switchtomerchant,buyername;
+    private String phone,token,nama;
+    private Long userid;
+
+    @Bind(R.id.text_back) TextView textBack;
+    @Bind(R.id.button_next) Button buttonNext;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    MenuItem createstore,switchtomerchant,buyername;
-    String email,name,phone,token,nama;
-    Long bolpax,merchantId,userid;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +66,8 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
             }
         });
 
-        back.setText("<");
-        button2.setOnClickListener(this);
+        textBack.setText("<");
+        buttonNext.setOnClickListener(this);
 
     }
 
@@ -82,7 +83,7 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
             }
         });
         toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
 
     }
     @Override
@@ -115,7 +116,7 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantReportIssueActivity.this, MerchantProfile.class);
+                Intent i = new Intent(MerchantReportIssueActivity.this, MerchantProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -132,7 +133,7 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
@@ -184,8 +185,8 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.button2:
-                Intent myIntent = new Intent(MerchantReportIssueActivity.this, MerchantCreateReport.class);
+            case R.id.button_next:
+                Intent myIntent = new Intent(MerchantReportIssueActivity.this, MerchantCreateReportActivity.class);
                 myIntent.putExtra("subject",selectedFromList);
                 myIntent.putExtra("trxid",trxid);
                 startActivity(myIntent);

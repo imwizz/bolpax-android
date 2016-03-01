@@ -26,18 +26,18 @@ import retrofit.client.Response;
 /**
  * Created by User on 08/01/2016.
  */
-public class MerchantProfile extends AppCompatActivity {
-    private static final String TAG = MerchantProfile.class.getSimpleName();
+public class MerchantProfileActivity extends AppCompatActivity {
+    private static final String TAG = MerchantProfileActivity.class.getSimpleName();
     protected Context mContext;
     String email,name,phone,call,userid,token,balance,nama;
     MenuItem createstore,switchtomerchant,buyername;
     Long bolpax;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.tvname) TextView Name;
-    @Bind(R.id.tvmail) TextView Email;
-    @Bind(R.id.tvcall) TextView Call;
-    @Bind(R.id.tvbalance) TextView Balance;
+    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
+    @Bind(R.id.text_name) TextView Name;
+    @Bind(R.id.text_email) TextView Email;
+    @Bind(R.id.text_phone) TextView Call;
+    @Bind(R.id.text_balance) TextView Balance;
 
 
     @Override
@@ -82,7 +82,7 @@ public class MerchantProfile extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MerchantProfile.this,BuyerHomeActivity.class);
+                Intent i = new Intent(MerchantProfileActivity.this,BuyerHomeActivity.class);
                 startActivity(i);
             }
         });
@@ -120,12 +120,12 @@ public class MerchantProfile extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantProfile.this, MerchantProfile.class);
+                Intent i = new Intent(MerchantProfileActivity.this, MerchantProfileActivity.class);
                 startActivity(i);
 
                 return true;
             case R.id.switchto_merchant:
-                Intent i3 = new Intent(MerchantProfile.this, BuyerHomeActivity.class);
+                Intent i3 = new Intent(MerchantProfileActivity.this, BuyerHomeActivity.class);
                 startActivity(i3);
 
                 return true;
@@ -137,12 +137,12 @@ public class MerchantProfile extends AppCompatActivity {
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(MerchantProfile.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MerchantProfileActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
                         }
 
 

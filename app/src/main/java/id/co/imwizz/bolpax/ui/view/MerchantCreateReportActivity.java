@@ -25,46 +25,31 @@ import retrofit.client.Response;
 /**
  * Created by bimosektiw on 2/24/16.
  */
-public class MerchantCreateReport extends AppCompatActivity implements View.OnClickListener {
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @Bind(R.id.subject_report)
-    TextView subjectReport;
-    @Bind(R.id.desc_report) EditText descReport;
-    @Bind(R.id.subbut)Button subBut;
-    String createSubjectReport,createDescReport,subject,trxid;
-    Long trxId;
-    private static final String TAG = BuyerReportIssueActivity2.class.getSimpleName();
+public class MerchantCreateReportActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = BuyerReportIssue2Activity.class.getSimpleName();
+
+    private String createSubjectReport,createDescReport,subject,trxid;
+    private Long trxId;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.text_subject) TextView textSubject;
+    @Bind(R.id.edit_description) EditText editDescription;
+    @Bind(R.id.button_submit) Button buttonSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_reportissue2);
         ButterKnife.bind(this);
-        subBut.setOnClickListener(this);
+        buttonSubmit.setOnClickListener(this);
         setToolbar();
         Intent i = getIntent();
         subject = i.getStringExtra("subject").toString();
         trxid = i.getStringExtra("trxid").toString();
         trxId = Long.valueOf(trxid);
-        subjectReport.setText(subject);
-    }
-    private void setToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
-        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MerchantCreateReport.this, MerchantHomeActivity.class);
-                startActivity(i);
-            }
-        });
-
+        textSubject.setText(subject);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -91,9 +76,9 @@ public class MerchantCreateReport extends AppCompatActivity implements View.OnCl
         int id = v.getId();
 
         switch (id) {
-            case R.id.subbut :
-                createSubjectReport = subjectReport.getText().toString();
-                createDescReport = descReport.getText().toString();
+            case R.id.button_submit:
+                createSubjectReport = textSubject.getText().toString();
+                createDescReport = editDescription.getText().toString();
                 Report report = new Report();
                 report.setSubject(createSubjectReport);
                 report.setDesc(createDescReport);
@@ -102,7 +87,7 @@ public class MerchantCreateReport extends AppCompatActivity implements View.OnCl
                 RestClient.getBolpax().postBuyerReport(report, new Callback<IssueIDBolpax>() {
                     @Override
                     public void success(IssueIDBolpax issueIDBolpax, Response response) {
-                        Intent i = new Intent(MerchantCreateReport.this, MerchantIssueDetailActivity.class);
+                        Intent i = new Intent(MerchantCreateReportActivity.this, MerchantIssueDetailActivity.class);
                         i.putExtra("issueId", issueIDBolpax.getIssueId());
                         startActivity(i);
                     }
@@ -114,12 +99,27 @@ public class MerchantCreateReport extends AppCompatActivity implements View.OnCl
                     }
                 });
 
-//                Toast.makeText(BuyerReportIssueActivity2.this, "Report Submitted", Toast.LENGTH_SHORT).show();
-//                Intent i = new Intent(BuyerReportIssueActivity2.this,BuyerIssueDetailActivity.class);
+//                Toast.makeText(BuyerReportIssue2Activity.this, "Report Submitted", Toast.LENGTH_SHORT).show();
+//                Intent i = new Intent(BuyerReportIssue2Activity.this,BuyerIssueDetailActivity.class);
 //                startActivity(i);
                 break;
 
         }
+
+    }
+    private void setToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("");
+        textToolbarTitle.setText("BOLPAX");
+        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MerchantCreateReportActivity.this, MerchantHomeActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 }

@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
     Button _signupButton;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.toolbar_title)
+    @Bind(R.id.text_toolbar_title)
     TextView toolbarTitle;
 
     @Override
@@ -96,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void success(String string, Response response) {
-                Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "LoginActivity failed", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -127,7 +127,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "LoginActivity failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }

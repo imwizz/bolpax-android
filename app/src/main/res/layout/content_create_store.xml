@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/relativeLayout"
+        android:id="@+id/relative_header"
         android:background="@color/colorPrimaryDark">
 
         <TextView
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Create Store"
-            android:id="@+id/textView"
+            android:id="@+id/text_header"
             android:textColor="#ffffff"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
@@ -28,7 +28,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relativeLayout"
+        android:layout_below="@+id/relative_header"
         android:layout_centerHorizontal="true"
         >
 
@@ -36,7 +36,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:id="@+id/imageView8"
+            android:id="@+id/image_merchant"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="55dp"
@@ -45,7 +45,7 @@
         <EditText
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:id="@+id/store_name"
+            android:id="@+id/edit_store_name"
             android:layout_centerVertical="true"
             android:hint="Store Name"
             android:textColor="#000000"
@@ -56,8 +56,8 @@
             android:layout_height="wrap_content"
             android:text="Submit"
             android:textColor="#000000"
-            android:id="@+id/submit_store"
-            android:layout_below="@+id/store_name"
+            android:id="@+id/button_submit_store"
+            android:layout_below="@+id/edit_store_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="72dp"
             android:background="@color/colorPrimary"/>

@@ -23,21 +23,18 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = Login.class.getSimpleName();
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.btnlogin)
-    Button login;
-    @Bind(R.id.btnregister)
-    Button register;
-    @Bind(R.id.notif)
-    TextView notif;
-    @Bind(R.id.progressBar)
-    ProgressBar progressBar;
+    private static final String TAG = LoginActivity.class.getSimpleName();
+
     private String phone, pass, status;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.button_login) Button buttonLogin;
+    @Bind(R.id.button_register) Button buttonRegister;
+    @Bind(R.id.text_notification) TextView textNotification;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
 
 
     @Override
@@ -45,27 +42,32 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        register.setOnClickListener(this);
+        buttonRegister.setOnClickListener(this);
         setToolbar();
 
     }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.button_register:
+                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(i);
+                break;
+
+        }
+    }
+
     public void setToolbar(){
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(MerchantProfile.this,BuyerHomeActivity.class);
-//                startActivity(i);
-//            }
-//        });
         toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
     }
 
     public void signIn(View V) {
-        final Dialog dialog = new Dialog(Login.this, R.style.cust_dialog);
+        final Dialog dialog = new Dialog(LoginActivity.this, R.style.cust_dialog);
 
         dialog.setContentView(R.layout.login);
         dialog.setTitle("Log In With Bolpax");
@@ -84,13 +86,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 // TODO Auto-generated method stub
                 dialog.dismiss();
                 progressBar.setVisibility(View.VISIBLE);
-                notif.setVisibility(View.VISIBLE);
+                textNotification.setVisibility(View.VISIBLE);
                 String userName = editTextUserName.getText().toString();
                 String password = editTextPassword.getText().toString();
                 BolpaxStatic.setPhonenumber(userName);
 
                 if (userName.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(Login.this, "Masukkan nomor telepon dan password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Masukkan nomor telepon dan password", Toast.LENGTH_LONG).show();
                 } else {
                     phone = userName;
                     pass = password;
@@ -106,15 +108,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             BolpaxStatic.setPhonenumber(loginBolpax.getPhone());
                             String success = loginBolpax.getStatus();
                             if(success.contains("VALID")) {
-                                Intent i = new Intent(Login.this, BuyerHomeActivity.class);
+                                Intent i = new Intent(LoginActivity.this, BuyerHomeActivity.class);
                                 progressBar.setVisibility(View.GONE);
-                                notif.setVisibility(View.GONE);
+                                textNotification.setVisibility(View.GONE);
                                 startActivity(i);
 
                             }else{
-                                notif.setText("Please Check Your Phone Number or Password");
+                                textNotification.setText("Please Check Your Phone Number or Password");
                                 progressBar.setVisibility(View.GONE);
-                                notif.setVisibility(View.VISIBLE);
+                                textNotification.setVisibility(View.VISIBLE);
                             }
 
                         }
@@ -131,18 +133,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         });
         dialog.show();
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.btnregister:
-                Intent i = new Intent(Login.this, RegisterActivity.class);
-                startActivity(i);
-                break;
-
-        }
     }
 
 }

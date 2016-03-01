@@ -33,21 +33,21 @@ import retrofit.client.Response;
 public class BuyerPaymentActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = BuyerPaymentActivity.class.getSimpleName();
+    
     protected Context mContext;
-    MenuItem createstore,switchtomerchant,buyername;
-    String email,name,phone,merchantname,token,productName,amountString,nama;
-    Integer balance;
-    Long  userid,merchantid,trxid,merchantId;
-    double amount;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.merchantNameText) TextView merchantNameText;
-    @Bind(R.id.notif) TextView notif;
-    @Bind(R.id.amountText)
-    EditText amountText;
-    @Bind(R.id.productNameText) EditText productNameText;
+    private MenuItem createstore,switchtomerchant,buyername;
+    private String phone,merchantname,token,productName,amountString,nama;
+    private Long userid,merchantid,trxid,merchantId;
+    private double amount;
+    
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.text_merchant_name) TextView textMerchantName;
+    @Bind(R.id.text_notification) TextView textNotification;
+    @Bind(R.id.edit_amount) EditText editAmount;
+    @Bind(R.id.edit_product_name) EditText editProductName;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.payBut) Button pay;
-    @Bind(R.id.progressBar2)ProgressBar progressBar;
+    @Bind(R.id.button_pay) Button buttonPay;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
 
 
     @Override
@@ -56,13 +56,13 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_buyer_payment);
         ButterKnife.bind(this);
         toolbar.setOnClickListener(this);
-        pay.setOnClickListener(this);
+        buttonPay.setOnClickListener(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
         toolbar.setTitle("");
 
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +75,7 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
         merchantid = i.getLongExtra("merchantId", 1L);
         merchantname = i.getStringExtra("merchantName").toString();
 
-        merchantNameText.setText(merchantname);
+        textMerchantName.setText(merchantname);
         userid = BolpaxStatic.getUserid();
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
@@ -131,7 +131,7 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
 
                         String success = s.getStatus();
                         if(success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
@@ -168,11 +168,11 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
         int id = v.getId();
         switch (id) {
 
-            case R.id.payBut:
+            case R.id.button_pay:
                 progressBar.setVisibility(View.VISIBLE);
-                notif.setVisibility(View.VISIBLE);
-                amountString = amountText.getText().toString();
-                productName= productNameText.getText().toString();
+                textNotification.setVisibility(View.VISIBLE);
+                amountString = editAmount.getText().toString();
+                productName= editProductName.getText().toString();
                 amount = Double.parseDouble(amountString);
                 Payment payment = new Payment();
                 payment.setUserId(userid);
@@ -192,7 +192,7 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
                         i2.putExtra("trxid", trxid);
                         startActivity(i2);
                         progressBar.setVisibility(View.GONE);
-                        notif.setVisibility(View.GONE);
+                        textNotification.setVisibility(View.GONE);
                     }
 
                     @Override

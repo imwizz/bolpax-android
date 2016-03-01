@@ -41,13 +41,13 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
     private static final String TAG = BuyerTransactionDetailActivity.class.getSimpleName();
     List<TransactionHistoryBolpax> trxHistory;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.merchant) TextView merchantText;
-    @Bind(R.id.amount) TextView amountText;
-    @Bind(R.id.laststatus) TextView laststatusText;
-    @Bind(R.id.list_detail) ListView trxDetailText;
+    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
+    @Bind(R.id.linear_merchant) TextView merchantText;
+    @Bind(R.id.text_amount) TextView amountText;
+    @Bind(R.id.text_last_status) TextView laststatusText;
+    @Bind(R.id.list_history) ListView trxDetailText;
     @Bind(R.id.reply)Button reply;
-    @Bind(R.id.progressBar) ProgressBar progressBar;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
     String trxId;
     long trxid;
 

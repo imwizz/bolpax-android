@@ -50,21 +50,21 @@
                 android:layout_weight="3"
                 android:layout_gravity="center_vertical">
                 <TextView
-                    android:id="@+id/merchant"
+                    android:id="@+id/linear_merchant"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Merchant"
                     android:textSize="20dp"
                     android:textColor="#000000"/>
                 <TextView
-                    android:id="@+id/amount"
+                    android:id="@+id/text_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Amount and product"
                     android:singleLine="true"
                     android:textColor="#000000"/>
                 <TextView
-                    android:id="@+id/laststatus"
+                    android:id="@+id/text_last_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Transaction last status"
@@ -74,6 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:orientation="horizontal"
                 android:layout_gravity="center_vertical|right"
                 android:gravity="center_vertical|right">
                 <Button
@@ -90,7 +91,7 @@
                     style="?android:attr/progressBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/progressBar"
+                    android:id="@+id/progress_bar"
                     android:visibility="gone"/>
             </LinearLayout>
 
@@ -116,7 +117,7 @@
                 android:background="#c0c0c0"/>
 
             <ListView
-                android:id="@+id/list_detail"
+                android:id="@+id/list_history"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:listSelector="@android:color/transparent"

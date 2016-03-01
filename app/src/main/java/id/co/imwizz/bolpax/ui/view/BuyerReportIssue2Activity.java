@@ -29,47 +29,35 @@ import retrofit.client.Response;
 /**
  * Created by bimosektiw on 1/18/16.
  */
-public class BuyerReportIssueActivity2 extends AppCompatActivity implements View.OnClickListener {
+public class BuyerReportIssue2Activity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = BuyerReportIssue2Activity.class.getSimpleName();
+
+    private String createSubjectReport,createDescReport,token,subject,phone;
+    private Long  userid,issueId,bolpax;
+
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.subject_report) TextView subjectReport;
-    @Bind(R.id.desc_report) EditText descReport;
-    @Bind(R.id.subbut)Button subBut;
-    String createSubjectReport,createDescReport,token,subject,phone;
-    private static final String TAG = BuyerReportIssueActivity2.class.getSimpleName();
-    Long  userid,issueId,bolpax;
-    @Bind(R.id.progressBar)ProgressBar progressBar;
-    @Bind(R.id.notif) TextView notif;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.text_subject) TextView textSubject;
+    @Bind(R.id.edit_description) EditText editDescription;
+    @Bind(R.id.button_submit) Button buttonSubmit;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
+    @Bind(R.id.text_notification) TextView textNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_reportissue2);
         ButterKnife.bind(this);
-        subBut.setOnClickListener(this);
+        buttonSubmit.setOnClickListener(this);
         setToolbar();
         Intent i = getIntent();
         subject = i.getStringExtra("Subject");
         issueId = i.getLongExtra("issueid",0);
-        subjectReport.setText(subject);
+        textSubject.setText(subject);
         userid = BolpaxStatic.getUserid();
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
-    }
-    private void setToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
-        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerHomeActivity.class);
-                startActivity(i);
-            }
-        });
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,13 +71,13 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerReportIssueActivity2.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerReportIssue2Activity.this, ProfileActivity.class);
                 startActivity(i);
 
                 return true;
 
             case R.id.create_store:
-                Intent i2 = new Intent(BuyerReportIssueActivity2.this, CreateStoreActivity.class);
+                Intent i2 = new Intent(BuyerReportIssue2Activity.this, CreateStoreActivity.class);
                 startActivity(i2);
 
                 return true;
@@ -101,12 +89,12 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(BuyerReportIssueActivity2.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BuyerReportIssue2Activity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -136,14 +124,14 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
         int id = v.getId();
 
         switch (id) {
-            case R.id.subbut :
+            case R.id.button_submit:
                 progressBar.setVisibility(View.VISIBLE);
-                notif.setVisibility(View.VISIBLE);
+                textNotification.setVisibility(View.VISIBLE);
                 bolpax = BolpaxStatic.getUserid();
                 userid = BolpaxStatic.getUserid();
                 token = BolpaxStatic.getToken();
-                createSubjectReport = subjectReport.getText().toString();
-                createDescReport = descReport.getText().toString();
+                createSubjectReport = textSubject.getText().toString();
+                createDescReport = editDescription.getText().toString();
                 Report report = new Report();
                 report.setSubject(createDescReport);
                 report.setDesc(createDescReport);
@@ -159,12 +147,12 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
                     @Override
                     public void success(String s, Response response) {
                         progressBar.setVisibility(View.GONE);
-                        notif.setVisibility(View.GONE);
+                        textNotification.setVisibility(View.GONE);
 
-                        Intent i = new Intent(BuyerReportIssueActivity2.this, BuyerIssueDetailActivity.class);
+                        Intent i = new Intent(BuyerReportIssue2Activity.this, BuyerIssueDetailActivity.class);
                         i.putExtra("issueId", issueId);
                         startActivity(i);
-                        Toast.makeText(BuyerReportIssueActivity2.this, "Report Submitted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BuyerReportIssue2Activity.this, "Report Submitted", Toast.LENGTH_SHORT).show();
 
 
                     }
@@ -176,12 +164,27 @@ public class BuyerReportIssueActivity2 extends AppCompatActivity implements View
                     }
                 });
 
-//                Toast.makeText(BuyerReportIssueActivity2.this, "Report Submitted", Toast.LENGTH_SHORT).show();
-//                Intent i = new Intent(BuyerReportIssueActivity2.this,BuyerIssueDetailActivity.class);
+//                Toast.makeText(BuyerReportIssue2Activity.this, "Report Submitted", Toast.LENGTH_SHORT).show();
+//                Intent i = new Intent(BuyerReportIssue2Activity.this,BuyerIssueDetailActivity.class);
 //                startActivity(i);
                 break;
 
         }
+
+    }
+    private void setToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("");
+        textToolbarTitle.setText("BOLPAX");
+        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(BuyerReportIssue2Activity.this, BuyerHomeActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 }

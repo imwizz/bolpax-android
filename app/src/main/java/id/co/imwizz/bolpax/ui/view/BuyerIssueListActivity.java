@@ -25,8 +25,6 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -36,20 +34,21 @@ import retrofit.client.Response;
 /**
  * Created by User on 08/01/2016.
  */
-public class BuyerIssueList extends AppCompatActivity implements View.OnClickListener {
+public class BuyerIssueListActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = BuyerIssueListActivity.class.getSimpleName();
+    final Context context = this;
 
     protected Context mContext;
-    String email,name,phone,merchants,userid,token,nama;
-    private static final String TAG = BuyerIssueList.class.getSimpleName();
-    Integer balance;
+    private String phone,userid,token,nama;
+    private BuyerIssueListPojo issuelist;
+    private List<BuyerIssueListPojo> buyerIssueListPojos;
+    private Long bolpax,id,merchantId;
+    private MenuItem createstore,switchtomerchant,buyername;
+
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.listviewIssue) ListView issue;
-    List<BuyerIssueListPojo> buyerIssueListPojos;
-    BuyerIssueListPojo issuelist;
-    final Context context = this;
-    Long bolpax,id,merchantId;
-    MenuItem createstore,switchtomerchant,buyername;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.list_issue) ListView listIssue;
 
 
 
@@ -65,11 +64,11 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
 
         toolbar.setTitle("");
 
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(BuyerIssueList.this, BuyerHomeActivity.class);
+                Intent i = new Intent(BuyerIssueListActivity.this, BuyerHomeActivity.class);
                 startActivity(i);
             }
         });
@@ -86,7 +85,7 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
                     public void success(List<BuyerIssueListPojo> result, Response response) {
 
                         if(result==null){
-                            Toast.makeText(BuyerIssueList.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BuyerIssueListActivity.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
                         }else{
                         buyerIssueListPojos = new ArrayList<BuyerIssueListPojo>(result);
                         for (int i = 0; i < buyerIssueListPojos.size(); i++) {
@@ -96,14 +95,14 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
                             Double amount = buyerIssueListPojos.get(i).getAmount();
                             String suspect = buyerIssueListPojos.get(i).getSuspect();
 
-                            ListAdapter issueListAdapter = new IssueListAdapter(BuyerIssueList.this, buyerIssueListPojos);
-                            issue.setAdapter(issueListAdapter);
+                            ListAdapter issueListAdapter = new IssueListAdapter(BuyerIssueListActivity.this, buyerIssueListPojos);
+                            listIssue.setAdapter(issueListAdapter);
 
-                            issue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            listIssue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 public void onItemClick(AdapterView<?> parent, View view,
                                                         int position, long id) {
                                     issuelist = (BuyerIssueListPojo) parent.getItemAtPosition(position);
-                                    Intent myIntent = new Intent(BuyerIssueList.this, BuyerIssueDetailActivity.class);
+                                    Intent myIntent = new Intent(BuyerIssueListActivity.this, BuyerIssueDetailActivity.class);
                                     myIntent.putExtra("issueId", (issuelist.getIssueId()));
                                     startActivity(myIntent);
 
@@ -124,22 +123,10 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
                 });
 
 
-//                String json = DummyAPI.getJson(BuyerIssueList.this, R.raw.issue_list);
-//        Gson gson = new Gson();
-//        IssueList[] issueList = gson.fromJson(json, IssueList[].class);
-//
-//        ListAdapter issueListAdapter = new IssueListAdapter(BuyerIssueList.this, issueList);
-//        issue.setAdapter(issueListAdapter);
-
-
-
-
-
-
     }
-    @OnItemClick(R.id.listviewIssue)
+    @OnItemClick(R.id.list_issue)
     void onItemClick(int position) {
-        Intent i2 = new Intent(BuyerIssueList.this,BuyerIssueDetailActivity.class);
+        Intent i2 = new Intent(BuyerIssueListActivity.this,BuyerIssueDetailActivity.class);
         startActivity(i2);
     }
     @Override
@@ -163,18 +150,18 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerIssueList.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerIssueListActivity.this, ProfileActivity.class);
                 startActivity(i);
 
                 return true;
 
             case R.id.create_store:
-                Intent i2 = new Intent(BuyerIssueList.this, CreateStoreActivity.class);
+                Intent i2 = new Intent(BuyerIssueListActivity.this, CreateStoreActivity.class);
                 startActivity(i2);
 
                 return true;
             case R.id.switchto_merchant:
-                Intent i3 = new Intent(BuyerIssueList.this, MerchantHomeActivity.class);
+                Intent i3 = new Intent(BuyerIssueListActivity.this, MerchantHomeActivity.class);
                 startActivity(i3);
 
                 return true;
@@ -186,12 +173,12 @@ public class BuyerIssueList extends AppCompatActivity implements View.OnClickLis
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(BuyerIssueList.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BuyerIssueListActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
                         }
 
 

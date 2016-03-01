@@ -33,19 +33,19 @@ import retrofit.client.Response;
  */
 public class MerchantIssueDetailActivity extends AppCompatActivity {
 
-    List<IssueHistoryBolpax> issueHistory;
-    @Bind(R.id.suspect) TextView suspectText;
-    @Bind(R.id.amount) TextView amountText;
-    @Bind(R.id.laststatus) TextView issueLastStatusText;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.list_detail) ListView issueDetailText;
-    @Bind(R.id.replyissue) Button replyissueButton;
-    @Bind(R.id.subject) TextView subjectText;
+    private Long issueid;
+    private String issueId,subject;
+    private List<IssueHistoryBolpax> issueHistory;
+
+    @Bind(R.id.text_suspect) TextView textSuspect;
+    @Bind(R.id.text_amount) TextView textAmount;
+    @Bind(R.id.text_last_status) TextView textLastStatus;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.list_history) ListView listHistory;
+    @Bind(R.id.button_reply_issue) Button buttonReplyIssue;
+    @Bind(R.id.text_header) TextView textHeader;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.progressBar)
-    ProgressBar progressBar;
-    Long bolpax,issueid;
-    String userid,token,issueId,subject;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
             @Override
             public void success(IssueDetailBolpax issueDetailBolpax, Response response) {
 
-                replyissueButton.setVisibility(View.VISIBLE);
+                buttonReplyIssue.setVisibility(View.VISIBLE);
                 String suspect = issueDetailBolpax.getSuspect();
                 String amount = issueDetailBolpax.getAmount();
                 String product = issueDetailBolpax.getProduct();
@@ -71,31 +71,31 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
                 subject = issueDetailBolpax.getSubject();
 
                 issueHistory = issueDetailBolpax.getIssueHistory();
-                issueDetailText.setSelector(new ColorDrawable(0));
+                listHistory.setSelector(new ColorDrawable(0));
                 String[] issue = new String[issueHistory.size() + 1];
                 for (int i = 0; i < issueHistory.size(); i++) {
                     issue[i] = issueHistory.get(i).getTime();
                     issue[i] = issueHistory.get(i).getMessage();
                 }
                 ListAdapter listAdapter = new IssueHistoryAdapter(MerchantIssueDetailActivity.this, issueHistory);
-                issueDetailText.setAdapter(listAdapter);
-                suspectText.setText(suspect);
-                subjectText.setText(subject);
-                amountText.setText("Rp " + amount + " for " + product);
-                issueLastStatusText.setText(laststatus);
-                issueLastStatusText.setTextColor(Color.parseColor("#d36a04"));
+                listHistory.setAdapter(listAdapter);
+                textSuspect.setText(suspect);
+                textHeader.setText(subject);
+                textAmount.setText("Rp " + amount + " for " + product);
+                textLastStatus.setText(laststatus);
+                textLastStatus.setTextColor(Color.parseColor("#d36a04"));
                 if (issueHistory.size() > 1){
-                    replyissueButton.setOnClickListener(new View.OnClickListener() {
+                    buttonReplyIssue.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent i = new Intent(MerchantIssueDetailActivity.this, MerchantReportIssueActivity2.class);
+                            Intent i = new Intent(MerchantIssueDetailActivity.this, MerchantReportIssue2Activity.class);
                             i.putExtra("Subject", subject);
                             i.putExtra("issueid", issueid);
                             startActivity(i);
                         }
                     });
                 } else if (laststatus.contains("Closed")){
-                    replyissueButton.setVisibility(View.GONE);
+                    buttonReplyIssue.setVisibility(View.GONE);
                 }
 
 
@@ -106,22 +106,6 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
 
             }
         });
-
-    }
-
-    private void setToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MerchantIssueDetailActivity.this, MerchantHomeActivity.class);
-                startActivity(i);
-            }
-        });
-        toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
 
     }
     @Override
@@ -150,6 +134,22 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MerchantIssueDetailActivity.this, MerchantHomeActivity.class);
+                startActivity(i);
+            }
+        });
+        toolbar.setTitle("");
+        textToolbarTitle.setText("BOLPAX");
+
     }
 }
 

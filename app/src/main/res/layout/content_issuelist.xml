@@ -32,7 +32,7 @@
             <ListView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/listviewIssue"
+                android:id="@+id/list_issue"
                 android:layout_alignParentTop="true"
                 android:divider="#000000"
                 android:dividerHeight="1dip"

@@ -33,9 +33,9 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
 //    Long userid;
     MenuItem createstore,switchtomerchant,buyername;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.transaction) LinearLayout transaction;
-    @Bind(R.id.issue) LinearLayout issue;
+    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
+    @Bind(R.id.linear_transaction) LinearLayout transaction;
+    @Bind(R.id.linear_issue) LinearLayout issue;
     Long bolpax,merchantId,userid;
 
     @Override
@@ -85,12 +85,12 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         int id = view.getId();
 
         switch (id) {
-            case R.id.transaction:
-                Intent i = new Intent(MerchantHomeActivity.this, MerchantTransactionList.class);
+            case R.id.linear_transaction:
+                Intent i = new Intent(MerchantHomeActivity.this, MerchantTransactionListActivity.class);
                 startActivity(i);
                 break;
-            case R.id.issue:
-                Intent myIntent = new Intent(MerchantHomeActivity.this, MerchantIssueList.class);
+            case R.id.linear_issue:
+                Intent myIntent = new Intent(MerchantHomeActivity.this, MerchantIssueListActivity.class);
                 startActivity(myIntent);
                 break;
             case R.id.toolbar:
@@ -119,7 +119,7 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantHomeActivity.this, MerchantProfile.class);
+                Intent i = new Intent(MerchantHomeActivity.this, MerchantProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -136,7 +136,7 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);

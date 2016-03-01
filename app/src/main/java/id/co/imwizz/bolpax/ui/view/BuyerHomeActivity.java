@@ -17,8 +17,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -30,17 +28,18 @@ import retrofit.client.Response;
  */
 public class BuyerHomeActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = MerchantReportIssue2Activity.class.getSimpleName();
+
     protected Context mContext;
-    String email,name,phone,token,nama;
-    Integer balance;
-    Long userid,merchantid;
-    MenuItem createstore,switchtomerchant,buyername;
-    @Bind(R.id.merchant) LinearLayout merchant;
-    @Bind(R.id.transaction) LinearLayout transaction;
-    @Bind(R.id.issue) LinearLayout issue;
+    private String email,name,phone,token,nama;
+    private Long userid,merchantid;
+    private MenuItem createstore,switchtomerchant,buyername;
+
+    @Bind(R.id.linear_merchant) LinearLayout linearMerchant;
+    @Bind(R.id.linear_transaction) LinearLayout linearTransaction;
+    @Bind(R.id.linear_issue) LinearLayout linearIssue;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    private static final String TAG = MerchantReportIssueActivity2.class.getSimpleName();
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
 
 
     @Override
@@ -48,16 +47,16 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_home);
         ButterKnife.bind(this);
-        merchant.setOnClickListener(this);
-        transaction.setOnClickListener(this);
-        issue.setOnClickListener(this);
+        linearMerchant.setOnClickListener(this);
+        linearTransaction.setOnClickListener(this);
+        linearIssue.setOnClickListener(this);
 //        toolbar.setOnClickListener(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
 
         toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +115,7 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
 
                         String success = s.getStatus();
                         if(success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
@@ -152,16 +151,16 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.merchant:
+            case R.id.linear_merchant:
                 Intent i = new Intent(BuyerHomeActivity.this,MerchantList_Activity.class);
                 startActivity(i);
                 break;
-            case R.id.transaction:
-                Intent i2 = new Intent(BuyerHomeActivity.this,BuyerTransactionList.class);
+            case R.id.linear_transaction:
+                Intent i2 = new Intent(BuyerHomeActivity.this,BuyerTransactionListActivity.class);
                 startActivity(i2);
                 break;
-            case R.id.issue:
-                Intent i3 = new Intent(BuyerHomeActivity.this,BuyerIssueList.class);
+            case R.id.linear_issue:
+                Intent i3 = new Intent(BuyerHomeActivity.this,BuyerIssueListActivity.class);
                 startActivity(i3);
                 break;
         }

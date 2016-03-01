@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,9 +23,7 @@ import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.MerchantIssueListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.TransactionLIst;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueListPojo;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -36,22 +33,21 @@ import retrofit.client.Response;
 /**
  * Created by User on 08/01/2016.
  */
-public class MerchantIssueList extends AppCompatActivity {
+public class MerchantIssueListActivity extends AppCompatActivity {
+
+    private static final String TAG = MerchantIssueListActivity.class.getSimpleName();
+    final Context context = this;
 
     protected Context mContext;
-    String email,name,phone,merchants,userid,token,nama,merchantid,merchantName;
-    Integer balance;
-    LinearLayout merchant;
-    TransactionLIst transactionlist;
-    MenuItem createstore,switchtomerchant,buyername;
-    @Bind(R.id.listviewIssue) ListView issue;
+    private String phone,userid,token,merchantid,merchantName;
+    private MenuItem createstore,switchtomerchant,buyername;
+    private List<MerchantIssueListPojo> merchantIssueListPojos;
+    private Long bolpax;
+    private MerchantIssueListPojo issuelist;
+
+    @Bind(R.id.list_issue) ListView listIssue;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    List<MerchantIssueListPojo> merchantIssueListPojos;
-    Long bolpax;
-    MerchantIssueListPojo issuelist;
-    private static final String TAG = MerchantIssueList.class.getSimpleName();
-    final Context context = this;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
 
 
     @Override
@@ -72,7 +68,7 @@ public class MerchantIssueList extends AppCompatActivity {
             @Override
             public void success(List<MerchantIssueListPojo> result, Response response) {
                 if(result==null){
-                    Toast.makeText(MerchantIssueList.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MerchantIssueListActivity.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
                 }else{
                 merchantIssueListPojos = new ArrayList<MerchantIssueListPojo>(result);
                 for (int i = 0; i < merchantIssueListPojos.size(); i++) {
@@ -82,8 +78,8 @@ public class MerchantIssueList extends AppCompatActivity {
                     Double amount = merchantIssueListPojos.get(i).getAmount();
                     String suspect = merchantIssueListPojos.get(i).getSuspect();
 
-                    ListAdapter issueListAdapter = new MerchantIssueListAdapter(MerchantIssueList.this, merchantIssueListPojos);
-                    issue.setAdapter(issueListAdapter);
+                    ListAdapter issueListAdapter = new MerchantIssueListAdapter(MerchantIssueListActivity.this, merchantIssueListPojos);
+                    listIssue.setAdapter(issueListAdapter);
                 }
 
 
@@ -97,11 +93,11 @@ public class MerchantIssueList extends AppCompatActivity {
 
             }
         });
-        issue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listIssue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 issuelist = (MerchantIssueListPojo) parent.getItemAtPosition(position);
-                Intent myIntent = new Intent(MerchantIssueList.this, MerchantIssueDetailActivity.class);
+                Intent myIntent = new Intent(MerchantIssueListActivity.this, MerchantIssueDetailActivity.class);
                 myIntent.putExtra("issueId", (issuelist.getIssueId()));
                 startActivity(myIntent);
 
@@ -110,22 +106,6 @@ public class MerchantIssueList extends AppCompatActivity {
 
 
     }
-
-    private void setToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MerchantIssueList.this, MerchantHomeActivity.class);
-                startActivity(i);
-            }
-        });
-        toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -145,12 +125,12 @@ public class MerchantIssueList extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantIssueList.this, MerchantProfile.class);
+                Intent i = new Intent(MerchantIssueListActivity.this, MerchantProfileActivity.class);
                 startActivity(i);
 
                 return true;
             case R.id.switchto_merchant:
-                Intent i3 = new Intent(MerchantIssueList.this, BuyerHomeActivity.class);
+                Intent i3 = new Intent(MerchantIssueListActivity.this, BuyerHomeActivity.class);
                 startActivity(i3);
 
                 return true;
@@ -162,12 +142,12 @@ public class MerchantIssueList extends AppCompatActivity {
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(MerchantIssueList.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MerchantIssueListActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -191,4 +171,20 @@ public class MerchantIssueList extends AppCompatActivity {
         }
 
     }
+
+    private void setToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MerchantIssueListActivity.this, MerchantHomeActivity.class);
+                startActivity(i);
+            }
+        });
+        toolbar.setTitle("");
+        textToolbarTitle.setText("BOLPAX");
+    }
+
 }

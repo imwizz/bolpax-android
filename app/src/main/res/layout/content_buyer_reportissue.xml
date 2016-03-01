@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark">
         <TextView
-            android:id="@+id/back"
+            android:id="@+id/text_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
@@ -26,7 +26,7 @@
             android:gravity="center"/>
     </RelativeLayout>
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/list_report_issue"
         android:cacheColorHint="#00000000"
         android:scrollbars="none"
         android:fadingEdge="vertical"
@@ -52,13 +52,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
         android:text="next"
-        android:id="@+id/button2" />
+        android:id="@+id/button_next" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar"
         android:visibility="gone"
         android:layout_gravity="center_horizontal" />
 
@@ -68,7 +68,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Please Wait"
         android:visibility="gone"
-        android:id="@+id/notif"
+        android:id="@+id/text_notification"
         android:layout_gravity="center_horizontal" />
 
 
