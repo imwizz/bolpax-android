@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,7 +31,7 @@ public class MerchantCreateReport extends AppCompatActivity implements View.OnCl
     @Bind(R.id.toolbar_title)
     TextView toolbarTitle;
     @Bind(R.id.subject_report)
-    EditText subjectReport;
+    TextView subjectReport;
     @Bind(R.id.desc_report) EditText descReport;
     @Bind(R.id.subbut)Button subBut;
     String createSubjectReport,createDescReport,subject,trxid;
@@ -96,7 +95,7 @@ public class MerchantCreateReport extends AppCompatActivity implements View.OnCl
                 createSubjectReport = subjectReport.getText().toString();
                 createDescReport = descReport.getText().toString();
                 Report report = new Report();
-                report.setSubject(createDescReport);
+                report.setSubject(createSubjectReport);
                 report.setDesc(createDescReport);
                 report.setRole("merchant");
                 report.setTrxId(trxId);

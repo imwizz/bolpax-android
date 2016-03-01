@@ -48,36 +48,16 @@ public class TransactionListAdapter extends ArrayAdapter<BuyerTransactionListPoj
         if (status != null) {
             if (status.contains("Transaction complete")) {
                 statusText.setText(transaction.getTrxLastStatus());
-                statusText.setTextColor(Color.GREEN);
+//                statusText.setTextColor(Color.GREEN);
+                statusText.setTextColor(Color.parseColor("#49E845"));
             }else {
                 statusText.setText(transaction.getTrxLastStatus());
-                statusText.setTextColor(Color.YELLOW);
+//                statusText.setTextColor(Color.YELLOW);
+                statusText.setTextColor(Color.parseColor("#d36a04"));
             }
         }
 
         nominalText.setText("Rp."+transaction.getAmount()+" to "+transaction.getMerchant()+"");
-//        categoryText.setTypeface(tf);
-//        if(category.getIcon() != null) {
-//            Uri uri = Uri.parse(category.getIcon());
-//            Context context = categoryImage.getContext();
-//            Picasso.with(context).load(uri).into(categoryImage);
-//        } else {
-//            categoryImage.setImageResource(R.drawable.ic_launcher);
-//        }
-//        customView.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View arg0) {
-//
-//                // Send single item click data to SingleItemView Class
-//                Intent intent = new Intent(mContext, BuyerPaymentActivity.class);
-////                // Pass all data rank
-//                intent.putExtra("dbdest",(merchant2.get));
-//                mContext.startActivity(intent);
-//
-//            }
-//        });
-
         return customView;
     }
 }

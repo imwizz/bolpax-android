@@ -46,31 +46,12 @@ public class IssueListAdapter extends ArrayAdapter<BuyerIssueListPojo> {
 
         dateText.setText(category.getIssueDate());
         statusText.setText(category.getIssueLastStatus());
-        statusText.setTextColor(Color.YELLOW);
+//        statusText.setTextColor(Color.YELLOW);
+        statusText.setTextColor(Color.parseColor("#d36a04"));
 
 
         nominalText.setText(category.getSuspect());
-//        categoryText.setTypeface(tf);
-//        if(category.getIcon() != null) {
-//            Uri uri = Uri.parse(category.getIcon());
-//            Context context = categoryImage.getContext();
-//            Picasso.with(context).load(uri).into(categoryImage);
-//        } else {
-//            categoryImage.setImageResource(R.drawable.ic_launcher);
-//        }
-//        customView.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View arg0) {
-//
-//                // Send single item click data to SingleItemView Class
-//                Intent intent = new Intent(mContext, BuyerPaymentActivity.class);
-////                // Pass all data rank
-//                intent.putExtra("dbdest",(merchant2.get));
-//                mContext.startActivity(intent);
-//
-//            }
-//        });
+
 
         return customView;
     }

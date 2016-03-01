@@ -18,9 +18,11 @@
             android:textSize="18dp"
             android:textColor="@color/aluminum"/>
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/black"
             android:id="@+id/subject_report"
             android:layout_weight="1" />
 
@@ -57,5 +59,21 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Please Wait"
+        android:visibility="gone"
+        android:id="@+id/notif"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +11,7 @@ import android.widget.Button;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.app.ListActivity;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -28,6 +26,8 @@ public class BuyerReportIssueActivity extends AppCompatActivity implements View.
     private TextView back;
     private String selectedFromList,trxid;
     @Bind(R.id.button2) Button next;
+    @Bind(R.id.progressBar)ProgressBar progressBar;
+    @Bind(R.id.notif) TextView notif;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,10 +94,14 @@ public class BuyerReportIssueActivity extends AppCompatActivity implements View.
         int id = v.getId();
         switch (id) {
             case R.id.button2:
+                progressBar.setVisibility(View.VISIBLE);
+                notif.setVisibility(View.VISIBLE);
                 Intent myIntent = new Intent(BuyerReportIssueActivity.this, BuyerCreateReport.class);
-                myIntent.putExtra("subject",selectedFromList);
-                myIntent.putExtra("trxid",trxid);
+                myIntent.putExtra("subject", selectedFromList);
+                myIntent.putExtra("trxid", trxid);
                 startActivity(myIntent);
+                progressBar.setVisibility(View.GONE);
+                notif.setVisibility(View.GONE);
                 break;
 
 

@@ -46,7 +46,8 @@ public class MerchantIssueListAdapter extends ArrayAdapter<MerchantIssueListPojo
 
         dateText.setText(category.getIssueDate());
         statusText.setText(category.getIssueLastStatus());
-        statusText.setTextColor(Color.YELLOW);
+//        statusText.setTextColor(Color.YELLOW);
+        statusText.setTextColor(Color.parseColor("#d36a04"));
 
 
         nominalText.setText(category.getSuspect());

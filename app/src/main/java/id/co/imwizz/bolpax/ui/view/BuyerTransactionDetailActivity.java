@@ -13,10 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +24,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionHistoryAdapter;
-import id.co.imwizz.bolpax.data.entity.TransactionDetail;
-import id.co.imwizz.bolpax.data.entity.TrxHistory;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Id;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
 import id.co.imwizz.bolpax.rest.RestClient;
@@ -50,8 +46,8 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
     @Bind(R.id.amount) TextView amountText;
     @Bind(R.id.laststatus) TextView laststatusText;
     @Bind(R.id.list_detail) ListView trxDetailText;
-    @Bind(R.id.reply)
-    Button reply;
+    @Bind(R.id.reply)Button reply;
+    @Bind(R.id.progressBar) ProgressBar progressBar;
     String trxId;
     long trxid;
 
@@ -104,10 +100,13 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                 amountText.setText("Rp "+amount +" for "+ product);
                 if (laststatus.contains("Transaction complete")) {
                     laststatusText.setText(laststatus);
-                    laststatusText.setTextColor(Color.GREEN);
+//                    laststatusText.setTextColor(Color.GREEN);
+                    laststatusText.setTextColor(Color.parseColor("#49E845"));
+
                 }else {
                     laststatusText.setText(laststatus);
                     laststatusText.setTextColor(Color.YELLOW);
+                    laststatusText.setTextColor(Color.parseColor("#d36a04"));
                 }
 
                 if (trxHistory.size() == 3){
@@ -116,6 +115,7 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                     reply.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
+                            progressBar.setVisibility(View.VISIBLE);
                             Toast.makeText(getBaseContext(), "ditekan", Toast.LENGTH_LONG).show();
                             AddHistoryTrxBolpax addHistoryTrxBolpax = new AddHistoryTrxBolpax();
                             addHistoryTrxBolpax.setTrxId(trxId);
@@ -133,6 +133,7 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                             RestClient.getBolpax().postAddHistoryTransaction(addHistoryTrxBolpax, new Callback<String>() {
                                 @Override
                                 public void success(String s, Response response) {
+                                    progressBar.setVisibility(View.GONE);
                                     refreshHistory();
                                 }
 

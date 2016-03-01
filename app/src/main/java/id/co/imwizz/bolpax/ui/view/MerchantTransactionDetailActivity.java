@@ -1,6 +1,7 @@
 package id.co.imwizz.bolpax.ui.view;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +47,8 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
     @Bind(R.id.list_detail) ListView trxDetailText;
     @Bind(R.id.reply) Button reply;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.progressBar)
+    ProgressBar progressBar;
     Long  userid,merchantid,bolpax;
     String token,trxId;
     long trxid;
@@ -82,7 +86,17 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
                 trxDetailText.setAdapter(listAdapter);
                 merchantText.setText(merchant);
                 amountText.setText("Rp "+amount +" for "+ product);
-                laststatusText.setText(laststatus);
+//                laststatusText.setText(laststatus);
+                if (laststatus.contains("Transaction complete")) {
+                    laststatusText.setText(laststatus);
+//                    laststatusText.setTextColor(Color.GREEN);
+                    laststatusText.setTextColor(Color.parseColor("#49E845"));
+
+                }else {
+                    laststatusText.setText(laststatus);
+//                    laststatusText.setTextColor(Color.YELLOW);
+                    laststatusText.setTextColor(Color.parseColor("#d36a04"));
+                }
 
                 if (trxHistory.size() == 1) {
                     reply.setVisibility(View.VISIBLE);
@@ -90,7 +104,8 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
                     reply.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(getBaseContext(), "ditekan", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.VISIBLE);
+                            reply.setVisibility(View.GONE);
                             AddHistoryTrxBolpax addHistoryTrxBolpax = new AddHistoryTrxBolpax();
                             addHistoryTrxBolpax.setTrxId(trxId);
                             Id id = new Id();
@@ -101,6 +116,7 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
                             RestClient.getBolpax().postAddHistoryTransaction(addHistoryTrxBolpax, new Callback<String>() {
                                 @Override
                                 public void success(String s, Response response) {
+                                    progressBar.setVisibility(View.GONE);
                                     refreshHistory();
                                 }
 

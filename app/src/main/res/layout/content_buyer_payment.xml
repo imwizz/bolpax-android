@@ -76,9 +76,30 @@
             android:id="@+id/payBut"
             android:textColor="#ffffff"
             android:background="@color/colorPrimary"
+            android:layout_marginTop="34dp"
             android:layout_below="@+id/productNameText"
+            android:layout_centerHorizontal="true" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar2"
+            android:layout_below="@+id/payBut"
+            android:visibility="gone"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp" />
+            android:layout_marginTop="28dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Please Wait"
+            android:visibility="gone"
+            android:id="@+id/notif"
+            android:layout_below="@+id/progressBar2"
+            android:layout_alignLeft="@+id/progressBar2"
+            android:layout_alignStart="@+id/progressBar2" />
 
 
     </RelativeLayout>
