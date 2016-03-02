@@ -24,8 +24,8 @@ import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueHistoryAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryRsp;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RefoundResponse;
 import id.co.imwizz.bolpax.rest.Refund;
@@ -43,7 +43,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
 
     private Long bolpax,issueid;
     private String token,issueId,subject,phone,suspect,amount,product,laststatus;
-    private List<IssueHistoryBolpax> issueHistory;
+    private List<IssueHistoryRsp> issueHistory;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
@@ -133,17 +133,17 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
     }
 
     private void refreshHistory() {
-        RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailBolpax>() {
+        RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailRsp>() {
             @Override
-            public void success(IssueDetailBolpax issueDetailBolpax, Response response) {
-                suspect = issueDetailBolpax.getSuspect();
-                amount = issueDetailBolpax.getAmount();
-                product = issueDetailBolpax.getProduct();
-                laststatus = issueDetailBolpax.getIssueLastStatus();
-                subject = issueDetailBolpax.getSubject();
+            public void success(IssueDetailRsp issueDetailRsp, Response response) {
+                suspect = issueDetailRsp.getSuspect();
+                amount = issueDetailRsp.getAmount();
+                product = issueDetailRsp.getProduct();
+                laststatus = issueDetailRsp.getIssueLastStatus();
+                subject = issueDetailRsp.getSubject();
 
 
-                issueHistory = issueDetailBolpax.getIssueHistory();
+                issueHistory = issueDetailRsp.getIssueHistory();
                 listHistory.setSelector(new ColorDrawable(0));
                 String[] issue = new String[issueHistory.size() + 1];
                 for (int i = 0; i < issueHistory.size(); i++) {

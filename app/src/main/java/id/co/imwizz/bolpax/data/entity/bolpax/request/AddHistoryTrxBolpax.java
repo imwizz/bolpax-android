@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
-
 /**
  * Created by bimosektiw on 2/19/16.
  */

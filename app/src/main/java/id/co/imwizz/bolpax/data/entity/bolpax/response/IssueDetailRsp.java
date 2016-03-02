@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by bimosektiw on 2/15/16.
  */
-public class IssueDetailBolpax {
+public class IssueDetailRsp {
     @SerializedName("suspect")
     @Expose
     private String suspect;
@@ -44,7 +44,7 @@ public class IssueDetailBolpax {
         this.subject = subject;
     }
 
-    private List<IssueHistoryBolpax> issueHistory;
+    private List<IssueHistoryRsp> issueHistory;
 
     public String getSuspect() {
         return suspect;
@@ -78,11 +78,11 @@ public class IssueDetailBolpax {
         this.issueLastStatus = issueLastStatus;
     }
 
-    public List<IssueHistoryBolpax> getIssueHistory() {
+    public List<IssueHistoryRsp> getIssueHistory() {
         return issueHistory;
     }
 
-    public void setIssueHistory(List<IssueHistoryBolpax> issueHistory) {
+    public void setIssueHistory(List<IssueHistoryRsp> issueHistory) {
         this.issueHistory = issueHistory;
     }
 }

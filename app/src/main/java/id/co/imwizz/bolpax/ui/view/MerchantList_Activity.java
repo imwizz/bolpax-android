@@ -24,8 +24,7 @@ import butterknife.OnItemClick;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.MerchantListAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.MerchantList;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -41,8 +40,7 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
     MenuItem createstore,switchtomerchant,buyername;
     String email,name,phone,userid,token,nama;
     Integer balance;
-    List<MerchantList> merchant2;
-    MerchantBolpax merchants;
+    MerchantRsp merchants;
     Long bolpax,merchantid;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
@@ -75,10 +73,10 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
         phone = BolpaxStatic.getPhonenumber();
         nama = BolpaxStatic.getFullname();
         merchantid = BolpaxStatic.getMerchantid();
-        RestClient.getBolpax().getMerchantList(userid.toString(), new Callback<List<MerchantBolpax>>() {
+        RestClient.getBolpax().getMerchantList(userid.toString(), new Callback<List<MerchantRsp>>() {
             @Override
-            public void success(List<MerchantBolpax> merchantBolpaxes, Response response) {
-                List<MerchantBolpax> merchantBolpaxlist = new ArrayList<MerchantBolpax>(merchantBolpaxes);
+            public void success(List<MerchantRsp> merchantRsps, Response response) {
+                List<MerchantRsp> merchantBolpaxlist = new ArrayList<MerchantRsp>(merchantRsps);
                 ListAdapter merchantlistAdapter = new MerchantListAdapter(MerchantList_Activity.this, merchantBolpaxlist);
                 listView.setAdapter(merchantlistAdapter);
             }
@@ -94,7 +92,7 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
     @OnItemClick(R.id.listView)
     void onItemClick(AdapterView<?> parent, View view,
                      int position, long id) {
-        merchants = (MerchantBolpax) parent.getItemAtPosition(position);
+        merchants = (MerchantRsp) parent.getItemAtPosition(position);
         Intent myIntent = new Intent(MerchantList_Activity.this, BuyerPaymentActivity.class);
         myIntent.putExtra("merchantId", (merchants.getMerchantId()));
         myIntent.putExtra("merchantName", (merchants.getMerchantName()));

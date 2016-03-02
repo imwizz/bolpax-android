@@ -11,19 +11,17 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.MerchantList;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
 
 
 /**
  * Created by MDeveloper on 1/18/2016.
  */
-public class MerchantListAdapter extends ArrayAdapter<MerchantBolpax> {
-//    MerchantBolpax[] merchant;merchantz
+public class MerchantListAdapter extends ArrayAdapter<MerchantRsp> {
 
-    private List<MerchantBolpax> merchant;
+    private List<MerchantRsp> merchant;
 
-    public MerchantListAdapter(Context context, List<MerchantBolpax> merchant) {
+    public MerchantListAdapter(Context context, List<MerchantRsp> merchant) {
         super(context, R.layout.merchant_list, merchant);
         this.merchant = merchant;
     }
@@ -33,7 +31,7 @@ public class MerchantListAdapter extends ArrayAdapter<MerchantBolpax> {
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
         View customView = categoryInflater.inflate(R.layout.merchant_list, parent, false);
 
-        MerchantBolpax merchant = getItem(position);
+        MerchantRsp merchant = getItem(position);
 //        TextView businessDay = (TextView) customView.findViewById(R.id.businessOpen);
         TextView businessOpen = (TextView) customView.findViewById(R.id.businessOpen);
 //        TextView businessClose = (TextView) customView.findViewById(R.id.businessClose);

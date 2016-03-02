@@ -12,7 +12,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/color_primary_dark">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/circle_man"
+                    android:src="@drawable/ic_circle_man"
                     android:layout_margin="5dp"/>
             </LinearLayout>
             <LinearLayout
@@ -86,7 +86,7 @@
                     android:textSize="10sp"
                     android:textColor="#FFFFFF"
                     android:visibility="gone"
-                    android:background="@color/colorPrimaryDark"/>
+                    android:background="@color/color_primary_dark"/>
 
                 <Button
                     android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                     android:textColor="#FFFFFF"
                     android:text="Refund"
                     android:visibility="gone"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="@color/color_primary_dark"
                     android:id="@+id/button_refund_issue" />
                 <ProgressBar
                     style="?android:attr/progressBarStyleLarge"

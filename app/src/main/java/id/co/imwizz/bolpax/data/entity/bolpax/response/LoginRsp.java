@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by bimosektiw on 2/11/16.
  */
-public class LoginBolpax {
+public class LoginRsp {
 
     @SerializedName("userId")
     @Expose

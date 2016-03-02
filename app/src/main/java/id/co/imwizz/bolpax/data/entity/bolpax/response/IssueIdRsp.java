@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by bimosektiw on 2/24/16.
  */
-public class IssueIDBolpax {
+public class IssueIdRsp {
     @SerializedName("issueId")
     @Expose
     private Long issueId;

@@ -21,8 +21,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueHistoryAdapter;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -35,7 +35,7 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
 
     private Long issueid;
     private String issueId,subject;
-    private List<IssueHistoryBolpax> issueHistory;
+    private List<IssueHistoryRsp> issueHistory;
 
     @Bind(R.id.text_suspect) TextView textSuspect;
     @Bind(R.id.text_amount) TextView textAmount;
@@ -59,18 +59,18 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
 
 
 
-        RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailBolpax>() {
+        RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailRsp>() {
             @Override
-            public void success(IssueDetailBolpax issueDetailBolpax, Response response) {
+            public void success(IssueDetailRsp issueDetailRsp, Response response) {
 
                 buttonReplyIssue.setVisibility(View.VISIBLE);
-                String suspect = issueDetailBolpax.getSuspect();
-                String amount = issueDetailBolpax.getAmount();
-                String product = issueDetailBolpax.getProduct();
-                String laststatus = issueDetailBolpax.getIssueLastStatus();
-                subject = issueDetailBolpax.getSubject();
+                String suspect = issueDetailRsp.getSuspect();
+                String amount = issueDetailRsp.getAmount();
+                String product = issueDetailRsp.getProduct();
+                String laststatus = issueDetailRsp.getIssueLastStatus();
+                subject = issueDetailRsp.getSubject();
 
-                issueHistory = issueDetailBolpax.getIssueHistory();
+                issueHistory = issueDetailRsp.getIssueHistory();
                 listHistory.setSelector(new ColorDrawable(0));
                 String[] issue = new String[issueHistory.size() + 1];
                 for (int i = 0; i < issueHistory.size(); i++) {

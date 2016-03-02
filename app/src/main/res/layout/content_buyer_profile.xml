@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/relative_header"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/color_primary_dark">
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,14 +39,14 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="42dp"
-        android:src="@drawable/account"/>
+        android:src="@drawable/ic_account2"/>
 
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/image_name"
             android:layout_marginTop="33dp"
-            android:src="@drawable/account"
+            android:src="@drawable/ic_account2"
             android:layout_marginLeft="26dp"
             android:layout_marginStart="26dp"
             android:layout_below="@+id/image_profile"
@@ -69,7 +69,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/image_balance"
-            android:src="@drawable/wallet"
+            android:src="@drawable/ic_wallet"
             android:layout_centerVertical="true"
             android:layout_alignLeft="@+id/image_name"
             android:layout_alignStart="@+id/image_name" />
@@ -91,7 +91,7 @@
             android:layout_height="50dp"
             android:id="@+id/image_email"
             android:layout_marginTop="28dp"
-            android:src="@drawable/mail"
+            android:src="@drawable/ic_mail2"
             android:layout_below="@+id/image_balance"
             android:layout_alignLeft="@+id/image_balance"
             android:layout_alignStart="@+id/image_balance" />
@@ -113,7 +113,7 @@
             android:layout_height="50dp"
             android:id="@+id/image_phone"
             android:layout_marginTop="24dp"
-            android:src="@drawable/call"
+            android:src="@drawable/ic_call2"
             android:layout_below="@+id/image_email"
             android:layout_alignLeft="@+id/image_email"
             android:layout_alignStart="@+id/image_email" />

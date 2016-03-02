@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -51,14 +51,14 @@ public class MerchantProfileActivity extends AppCompatActivity {
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
 
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantRsp>() {
             @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
+            public void success(MerchantRsp merchantRsp, Response response) {
 //                User user = new User();
-                name = merchantBolpax.getMerchantName();
-                email = merchantBolpax.getUser().getEmail();
-                call = merchantBolpax.getUser().getPhone();
-                balance = merchantBolpax.getUser().getBalance();
+                name = merchantRsp.getMerchantName();
+                email = merchantRsp.getUser().getEmail();
+                call = merchantRsp.getUser().getPhone();
+                balance = merchantRsp.getUser().getBalance();
                 Name.setText(name.toString());
                 Email.setText(email.toString());
                 Call.setText(call.toString());
@@ -98,10 +98,10 @@ public class MerchantProfileActivity extends AppCompatActivity {
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
         buyername = menu.findItem(R.id.profile);
 
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantRsp>() {
             @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                nama = merchantBolpax.getMerchantName();
+            public void success(MerchantRsp merchantRsp, Response response) {
+                nama = merchantRsp.getMerchantName();
                 buyername.setTitle(nama.toString());
                 createstore.setVisible(false);
                 switchtomerchant.setTitle("Switch To Buyer");

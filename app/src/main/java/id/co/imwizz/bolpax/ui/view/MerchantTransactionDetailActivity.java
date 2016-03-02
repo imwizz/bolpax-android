@@ -25,8 +25,8 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionHistoryAdapter;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxBolpax;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Id;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -38,7 +38,7 @@ import retrofit.client.Response;
 public class MerchantTransactionDetailActivity extends AppCompatActivity {
 
     private static final String TAG = BuyerTransactionDetailActivity.class.getSimpleName();
-    List<TransactionHistoryBolpax> trxHistory;
+    List<TransactionHistoryRsp> trxHistory;
     @Bind(R.id.linear_merchant) TextView merchantText;
     @Bind(R.id.text_amount) TextView amountText;
     @Bind(R.id.text_last_status) TextView laststatusText;
@@ -66,15 +66,15 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
     }
 
     private void refreshHistory(){
-        RestClient.getBolpax().getTransactionDetail(trxId, "merchant",new Callback<TransactionDetailBolpax>() {
+        RestClient.getBolpax().getTransactionDetail(trxId, "merchant",new Callback<TransactionDetailRsp>() {
             @Override
-            public void success(TransactionDetailBolpax transactionDetailBolpax, Response response) {
-                String merchant = transactionDetailBolpax.getMerchant();
-                String amount = transactionDetailBolpax.getAmount();
-                String product = transactionDetailBolpax.getProduct();
-                String laststatus = transactionDetailBolpax.getTrxLastStatus();
+            public void success(TransactionDetailRsp transactionDetailRsp, Response response) {
+                String merchant = transactionDetailRsp.getMerchant();
+                String amount = transactionDetailRsp.getAmount();
+                String product = transactionDetailRsp.getProduct();
+                String laststatus = transactionDetailRsp.getTrxLastStatus();
 
-                trxHistory = transactionDetailBolpax.getTrxHistory();
+                trxHistory = transactionDetailRsp.getTrxHistory();
                 trxDetailText.setSelector(new ColorDrawable(0));
                 String[] trx = new String[trxHistory.size() + 1];
                 for (int i = 0; i < trxHistory.size(); i++) {
