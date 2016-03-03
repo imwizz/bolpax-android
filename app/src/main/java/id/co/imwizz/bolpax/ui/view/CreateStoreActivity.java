@@ -18,7 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.Store;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.StoreRqs;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -142,7 +142,7 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
         userid = BolpaxStatic.getUserid();
         token = BolpaxStatic.getToken();
         createStore = editStoreName.getText().toString();
-        Store store = new Store();
+        StoreRqs store = new StoreRqs();
         store.setName(createStore);
         store.setUserId(userid);
         RestClient.getBolpax().postStore(store, new Callback<String>() {

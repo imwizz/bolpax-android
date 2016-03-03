@@ -16,7 +16,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.ReportRqs;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIdRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -83,7 +83,7 @@ public class BuyerCreateReportActivity extends AppCompatActivity implements View
                 textNotification.setVisibility(View.VISIBLE);
                 createSubjectReport = textSubject.getText().toString();
                 createDescReport = editDescription.getText().toString();
-                Report report = new Report();
+                ReportRqs report = new ReportRqs();
                 report.setSubject(createSubjectReport);
                 report.setDesc(createDescReport);
                 report.setRole("buyer");

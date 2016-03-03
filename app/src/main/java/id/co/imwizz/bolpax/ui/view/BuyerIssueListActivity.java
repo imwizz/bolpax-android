@@ -22,9 +22,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.adapter.IssueListAdapter;
+import id.co.imwizz.bolpax.adapter.IssueAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueRqs;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -41,8 +41,8 @@ public class BuyerIssueListActivity extends AppCompatActivity implements View.On
 
     protected Context mContext;
     private String phone,userid,token,nama;
-    private BuyerIssueListPojo issuelist;
-    private List<BuyerIssueListPojo> buyerIssueListPojos;
+    private BuyerIssueRqs issuelist;
+    private List<BuyerIssueRqs> buyerIssueRqses;
     private Long bolpax,id,merchantId;
     private MenuItem createstore,switchtomerchant,buyername;
 
@@ -79,28 +79,28 @@ public class BuyerIssueListActivity extends AppCompatActivity implements View.On
         nama = BolpaxStatic.getFullname();
         merchantId = BolpaxStatic.getMerchantid();
 
-        RestClient.getBolpax().getBuyerIssuelist(userid.toString(), new Callback<List<BuyerIssueListPojo>>() {
+        RestClient.getBolpax().getBuyerIssuelist(userid.toString(), new Callback<List<BuyerIssueRqs>>() {
                     @Override
-                    public void success(List<BuyerIssueListPojo> result, Response response) {
+                    public void success(List<BuyerIssueRqs> result, Response response) {
 
                         if(result==null){
                             Toast.makeText(BuyerIssueListActivity.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
                         }else{
-                        buyerIssueListPojos = new ArrayList<BuyerIssueListPojo>(result);
-                        for (int i = 0; i < buyerIssueListPojos.size(); i++) {
-                            id = buyerIssueListPojos.get(i).getIssueId();
-                            String date = buyerIssueListPojos.get(i).getIssueDate();
-                            String status = buyerIssueListPojos.get(i).getIssueLastStatus();
-                            Double amount = buyerIssueListPojos.get(i).getAmount();
-                            String suspect = buyerIssueListPojos.get(i).getSuspect();
+                        buyerIssueRqses = new ArrayList<BuyerIssueRqs>(result);
+                        for (int i = 0; i < buyerIssueRqses.size(); i++) {
+                            id = buyerIssueRqses.get(i).getIssueId();
+                            String date = buyerIssueRqses.get(i).getIssueDate();
+                            String status = buyerIssueRqses.get(i).getIssueLastStatus();
+                            Double amount = buyerIssueRqses.get(i).getAmount();
+                            String suspect = buyerIssueRqses.get(i).getSuspect();
 
-                            ListAdapter issueListAdapter = new IssueListAdapter(BuyerIssueListActivity.this, buyerIssueListPojos);
+                            ListAdapter issueListAdapter = new IssueAdapter(BuyerIssueListActivity.this, buyerIssueRqses);
                             listIssue.setAdapter(issueListAdapter);
 
                             listIssue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 public void onItemClick(AdapterView<?> parent, View view,
                                                         int position, long id) {
-                                    issuelist = (BuyerIssueListPojo) parent.getItemAtPosition(position);
+                                    issuelist = (BuyerIssueRqs) parent.getItemAtPosition(position);
                                     Intent myIntent = new Intent(BuyerIssueListActivity.this, BuyerIssueDetailActivity.class);
                                     myIntent.putExtra("issueId", (issuelist.getIssueId()));
                                     startActivity(myIntent);

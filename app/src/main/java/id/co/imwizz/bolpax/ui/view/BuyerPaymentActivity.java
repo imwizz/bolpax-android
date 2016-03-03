@@ -19,7 +19,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.Payment;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.PaymentRqs;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.PaymentResponse;
 import id.co.imwizz.bolpax.rest.RestClient;
@@ -173,7 +173,7 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
                 amountString = editAmount.getText().toString();
                 productName= editProductName.getText().toString();
                 amount = Double.parseDouble(amountString);
-                Payment payment = new Payment();
+                PaymentRqs payment = new PaymentRqs();
                 payment.setUserId(userid);
                 payment.setMerchantId(merchantid);
                 payment.setAmount(amount);

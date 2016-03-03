@@ -31,19 +31,19 @@ public class IssueHistoryAdapter extends ArrayAdapter<IssueHistoryRsp> {
 
         IssueHistoryRsp trxHistory = getItem(position);
 
-        TextView issuehistoryDate = (TextView) customView.findViewById(R.id.text_date);
-        TextView issuehistoryMessage = (TextView) customView.findViewById(R.id.text_issue_message);
+        TextView textDate = (TextView) customView.findViewById(R.id.text_date);
+        TextView textIssueMessage = (TextView) customView.findViewById(R.id.text_issue_message);
         String fromAdmin = trxHistory.getFromAdmin();
         if (fromAdmin.contains("Y")){
-            issuehistoryMessage.setTextColor(Color.parseColor("#2196F3"));
-            issuehistoryMessage.setText(trxHistory.getMessage());
+            textIssueMessage.setTextColor(Color.parseColor("#2196F3"));
+            textIssueMessage.setText(trxHistory.getMessage());
         }
         else{
-            issuehistoryMessage.setTextColor(Color.parseColor("#000000"));
-            issuehistoryMessage.setText(trxHistory.getMessage());
+            textIssueMessage.setTextColor(Color.parseColor("#000000"));
+            textIssueMessage.setText(trxHistory.getMessage());
         }
 
-        issuehistoryDate.setText(trxHistory.getTime());
+        textDate.setText(trxHistory.getTime());
 
 
         return customView;

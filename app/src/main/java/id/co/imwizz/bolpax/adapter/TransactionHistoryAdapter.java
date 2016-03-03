@@ -30,11 +30,11 @@ public class TransactionHistoryAdapter extends ArrayAdapter<TransactionHistoryRs
 
         TransactionHistoryRsp trxHistory = getItem(position);
 
-        TextView trxhistoryDate = (TextView) customView.findViewById(R.id.date);
-        TextView trxhistoryStatus = (TextView) customView.findViewById(R.id.trxstatus);
+        TextView textDate = (TextView) customView.findViewById(R.id.text_date);
+        TextView textStatus = (TextView) customView.findViewById(R.id.text_status);
 
-        trxhistoryDate.setText(trxHistory.getTime());
-        trxhistoryStatus.setText(trxHistory.getStatus());
+        textDate.setText(trxHistory.getTime());
+        textStatus.setText(trxHistory.getStatus());
 
         return customView;
 

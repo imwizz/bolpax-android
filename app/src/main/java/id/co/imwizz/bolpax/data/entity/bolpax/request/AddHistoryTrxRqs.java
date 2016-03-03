@@ -8,13 +8,13 @@ import java.util.List;
 /**
  * Created by bimosektiw on 2/19/16.
  */
-public class AddHistoryTrxBolpax {
+public class AddHistoryTrxRqs {
     @SerializedName("trxId")
     @Expose
     private String trxId;
     @SerializedName("trxStatusMapping")
     @Expose
-    private List<Id> trxStatusMapping;
+    private List<IdRqs> trxStatusMapping;
 
     public String getTrxId() {
         return trxId;
@@ -24,11 +24,11 @@ public class AddHistoryTrxBolpax {
         this.trxId = trxId;
     }
 
-    public List<Id> getTrxStatusMapping() {
+    public List<IdRqs> getTrxStatusMapping() {
         return trxStatusMapping;
     }
 
-    public void setTrxStatusMapping(List<Id> trxStatusMapping) {
+    public void setTrxStatusMapping(List<IdRqs> trxStatusMapping) {
         this.trxStatusMapping = trxStatusMapping;
     }
 }

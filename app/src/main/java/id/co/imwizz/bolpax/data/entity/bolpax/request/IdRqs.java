@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by bimosektiw on 2/19/16.
  */
-public class Id {
+public class IdRqs {
     @SerializedName("id")
     @Expose
     private Long id;

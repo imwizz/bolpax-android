@@ -23,10 +23,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionHistoryAdapter;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.Id;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.IdRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -37,8 +37,13 @@ import retrofit.client.Response;
  */
 public class MerchantTransactionDetailActivity extends AppCompatActivity {
 
-    private static final String TAG = BuyerTransactionDetailActivity.class.getSimpleName();
-    List<TransactionHistoryBolpax> trxHistory;
+    private static final String TAG = MerchantTransactionDetailActivity.class.getSimpleName();
+
+    List<TransactionHistoryRsp> trxHistory;
+    Long  userid,merchantid,bolpax;
+    String token,trxId;
+    long trxid;
+
     @Bind(R.id.text_merchant) TextView textMerchant;
     @Bind(R.id.text_amount) TextView textMmount;
     @Bind(R.id.text_last_status) TextView textLaststatus;
@@ -46,11 +51,8 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
     @Bind(R.id.list_history) ListView listHistory;
     @Bind(R.id.button_reply) Button buttonReply;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.progress_bar)
-    ProgressBar progressBar;
-    Long  userid,merchantid,bolpax;
-    String token,trxId;
-    long trxid;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
+
 
 
     @Override
@@ -66,15 +68,15 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
     }
 
     private void refreshHistory(){
-        RestClient.getBolpax().getTransactionDetail(trxId, "merchant",new Callback<TransactionDetailBolpax>() {
+        RestClient.getBolpax().getTransactionDetail(trxId, "merchant",new Callback<TransactionDetailRsp>() {
             @Override
-            public void success(TransactionDetailBolpax transactionDetailBolpax, Response response) {
-                String merchant = transactionDetailBolpax.getMerchant();
-                String amount = transactionDetailBolpax.getAmount();
-                String product = transactionDetailBolpax.getProduct();
-                String laststatus = transactionDetailBolpax.getTrxLastStatus();
+            public void success(TransactionDetailRsp transactionDetailRsp, Response response) {
+                String merchant = transactionDetailRsp.getMerchant();
+                String amount = transactionDetailRsp.getAmount();
+                String product = transactionDetailRsp.getProduct();
+                String laststatus = transactionDetailRsp.getTrxLastStatus();
 
-                trxHistory = transactionDetailBolpax.getTrxHistory();
+                trxHistory = transactionDetailRsp.getTrxHistory();
                 listHistory.setSelector(new ColorDrawable(0));
                 String[] trx = new String[trxHistory.size() + 1];
                 for (int i = 0; i < trxHistory.size(); i++) {
@@ -102,14 +104,14 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             progressBar.setVisibility(View.VISIBLE);
                             buttonReply.setVisibility(View.GONE);
-                            AddHistoryTrxBolpax addHistoryTrxBolpax = new AddHistoryTrxBolpax();
-                            addHistoryTrxBolpax.setTrxId(trxId);
-                            Id id = new Id();
+                            AddHistoryTrxRqs addHistoryTrxRqs = new AddHistoryTrxRqs();
+                            addHistoryTrxRqs.setTrxId(trxId);
+                            IdRqs id = new IdRqs();
                             id.setId(Long.valueOf(3));
-                            List<Id> ids = new ArrayList<>();
+                            List<IdRqs> ids = new ArrayList<>();
                             ids.add(id);
-                            addHistoryTrxBolpax.setTrxStatusMapping(ids);
-                            RestClient.getBolpax().postAddHistoryTransaction(addHistoryTrxBolpax, new Callback<String>() {
+                            addHistoryTrxRqs.setTrxStatusMapping(ids);
+                            RestClient.getBolpax().postAddHistoryTransaction(addHistoryTrxRqs, new Callback<String>() {
                                 @Override
                                 public void success(String s, Response response) {
                                     progressBar.setVisibility(View.GONE);

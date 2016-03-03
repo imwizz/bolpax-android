@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by bimosektiw on 2/9/16.
  */
-public class User {
+public class UserRqs {
     @SerializedName("fullname")
     @Expose
     private String fullname;

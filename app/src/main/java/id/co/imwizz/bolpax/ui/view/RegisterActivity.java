@@ -15,7 +15,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.User;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.UserRqs;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
         String phone = textPhone.getText().toString();
         String password = textPassword.getText().toString();
 
-        User user = new User();
+        UserRqs user = new UserRqs();
         user.setFullname(fullname);
         user.setEmail(email);
         user.setPassword(password);

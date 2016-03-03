@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by MDeveloper on 2/16/2016.
  */
-public class MerchantIssueListPojo {
+public class MerchantIssueRqs {
     @SerializedName("issueId")
     @Expose
     private long issueId;

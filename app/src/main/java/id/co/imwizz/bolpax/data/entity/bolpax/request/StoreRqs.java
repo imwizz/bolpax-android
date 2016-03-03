@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by MDeveloper on 2/11/2016.
  */
-public class Store {
+public class StoreRqs {
 
     @SerializedName("name")
     @Expose

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by MDeveloper on 2/12/2016.
  */
-public class BuyerTransactionListPojo {
+public class MerchantTransactionRqs {
     @SerializedName("trxId")
     @Expose
     private long trxId;
@@ -25,6 +25,17 @@ public class BuyerTransactionListPojo {
     @SerializedName("product")
     @Expose
     private String product;
+    @SerializedName("buyer")
+    @Expose
+    private String buyer;
+
+    public String getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(String buyer) {
+        this.buyer = buyer;
+    }
 
     public long getTrxId() {
         return trxId;

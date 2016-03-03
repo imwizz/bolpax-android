@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by bimosektiw on 2/19/16.
  */
-public class AddHistoryIssueBolpax {
+public class AddHistoryIssueRqs {
     @SerializedName("fromAdmin")
     @Expose
     private String fromAdmin;

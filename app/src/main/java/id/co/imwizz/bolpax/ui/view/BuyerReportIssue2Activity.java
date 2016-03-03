@@ -18,8 +18,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryIssueBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryIssueRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.ReportRqs;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -131,18 +131,18 @@ public class BuyerReportIssue2Activity extends AppCompatActivity implements View
                 token = BolpaxStatic.getToken();
                 createSubjectReport = textSubject.getText().toString();
                 createDescReport = editDescription.getText().toString();
-                Report report = new Report();
+                ReportRqs report = new ReportRqs();
                 report.setSubject(createDescReport);
                 report.setDesc(createDescReport);
                 report.setRole("buyer");
                 report.setTrxId(1);
 
-                AddHistoryIssueBolpax addHistoryIssueBolpax = new AddHistoryIssueBolpax();
-                addHistoryIssueBolpax.setFromAdmin("N");
-                addHistoryIssueBolpax.setMessage(createDescReport);
-                addHistoryIssueBolpax.setIssueId(issueId);
-                addHistoryIssueBolpax.setIssueStatusId(Long.valueOf(3));
-                RestClient.getBolpax().postAddHistoryIssue(addHistoryIssueBolpax, new Callback<String>() {
+                AddHistoryIssueRqs addHistoryIssueRqs = new AddHistoryIssueRqs();
+                addHistoryIssueRqs.setFromAdmin("N");
+                addHistoryIssueRqs.setMessage(createDescReport);
+                addHistoryIssueRqs.setIssueId(issueId);
+                addHistoryIssueRqs.setIssueStatusId(Long.valueOf(3));
+                RestClient.getBolpax().postAddHistoryIssue(addHistoryIssueRqs, new Callback<String>() {
                     @Override
                     public void success(String s, Response response) {
                         progressBar.setVisibility(View.GONE);

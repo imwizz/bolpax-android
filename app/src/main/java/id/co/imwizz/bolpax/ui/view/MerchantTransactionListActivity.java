@@ -22,9 +22,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.adapter.MerchantTransactionListAdapter;
+import id.co.imwizz.bolpax.adapter.MerchantTransactionAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionListPojo;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionRqs;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -44,8 +44,8 @@ public class MerchantTransactionListActivity extends AppCompatActivity implement
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
     @Bind(R.id.list_transaction) ListView listTransaction;
-    MerchantTransactionListPojo transactionlist;
-    List<MerchantTransactionListPojo> merchantTransactionListPojos;
+    MerchantTransactionRqs transactionlist;
+    List<MerchantTransactionRqs> merchantTransactionRqses;
     final Context context = this;
     Long bolpax,userid;
 
@@ -77,25 +77,25 @@ public class MerchantTransactionListActivity extends AppCompatActivity implement
         phone = BolpaxStatic.getPhonenumber();
         merchantName = BolpaxStatic.getMerchantname();
 
-        RestClient.getBolpax().getMerchantTransactionlist(merchantId.toString(), new Callback<List<MerchantTransactionListPojo>>() {
+        RestClient.getBolpax().getMerchantTransactionlist(merchantId.toString(), new Callback<List<MerchantTransactionRqs>>() {
             @Override
-            public void success(List<MerchantTransactionListPojo> result, Response response) {
+            public void success(List<MerchantTransactionRqs> result, Response response) {
 
                 if(result==null){
                     Toast.makeText(MerchantTransactionListActivity.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
                 }else {
-                    merchantTransactionListPojos = new ArrayList<MerchantTransactionListPojo>(result);
-                    for (int i = 0; i < merchantTransactionListPojos.size(); i++) {
-                        long id = merchantTransactionListPojos.get(i).getTrxId();
-                        String date = merchantTransactionListPojos.get(i).getTrxDate();
-                        String status = merchantTransactionListPojos.get(i).getTrxLastStatus();
-                        Double amount = merchantTransactionListPojos.get(i).getAmount();
-                        String merchant = merchantTransactionListPojos.get(i).getMerchant();
-                        String buyer = merchantTransactionListPojos.get(i).getBuyer();
-                        String product = merchantTransactionListPojos.get(i).getProduct();
+                    merchantTransactionRqses = new ArrayList<MerchantTransactionRqs>(result);
+                    for (int i = 0; i < merchantTransactionRqses.size(); i++) {
+                        long id = merchantTransactionRqses.get(i).getTrxId();
+                        String date = merchantTransactionRqses.get(i).getTrxDate();
+                        String status = merchantTransactionRqses.get(i).getTrxLastStatus();
+                        Double amount = merchantTransactionRqses.get(i).getAmount();
+                        String merchant = merchantTransactionRqses.get(i).getMerchant();
+                        String buyer = merchantTransactionRqses.get(i).getBuyer();
+                        String product = merchantTransactionRqses.get(i).getProduct();
 
                     }
-                    ListAdapter transactionListAdapter = new MerchantTransactionListAdapter(MerchantTransactionListActivity.this, merchantTransactionListPojos);
+                    ListAdapter transactionListAdapter = new MerchantTransactionAdapter(MerchantTransactionListActivity.this, merchantTransactionRqses);
                     listTransaction.setAdapter(transactionListAdapter);
                 }
 
@@ -112,7 +112,7 @@ public class MerchantTransactionListActivity extends AppCompatActivity implement
     @OnItemClick(R.id.list_transaction)
     void onItemClick(AdapterView<?> parent, View view,
                      int position, long id) {
-        transactionlist = (MerchantTransactionListPojo) parent.getItemAtPosition(position);
+        transactionlist = (MerchantTransactionRqs) parent.getItemAtPosition(position);
         Intent myIntent = new Intent(MerchantTransactionListActivity.this, MerchantTransactionDetailActivity.class);
         myIntent.putExtra("amount", (transactionlist.getAmount()));
         myIntent.putExtra("trxid", (transactionlist.getTrxId()));

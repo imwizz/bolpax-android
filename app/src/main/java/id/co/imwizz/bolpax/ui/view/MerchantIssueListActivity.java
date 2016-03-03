@@ -21,9 +21,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.adapter.MerchantIssueListAdapter;
+import id.co.imwizz.bolpax.adapter.MerchantIssueAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueListPojo;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueRqs;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -41,9 +41,9 @@ public class MerchantIssueListActivity extends AppCompatActivity {
     protected Context mContext;
     private String phone,userid,token,merchantid,merchantName;
     private MenuItem createstore,switchtomerchant,buyername;
-    private List<MerchantIssueListPojo> merchantIssueListPojos;
+    private List<MerchantIssueRqs> merchantIssueRqses;
     private Long bolpax;
-    private MerchantIssueListPojo issuelist;
+    private MerchantIssueRqs issuelist;
 
     @Bind(R.id.list_issue) ListView listIssue;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -64,21 +64,21 @@ public class MerchantIssueListActivity extends AppCompatActivity {
         phone = BolpaxStatic.getPhonenumber();
         merchantName = BolpaxStatic.getMerchantname();
 
-        RestClient.getBolpax().getMerchantIssuelist(merchantid, new Callback<List<MerchantIssueListPojo>>() {
+        RestClient.getBolpax().getMerchantIssuelist(merchantid, new Callback<List<MerchantIssueRqs>>() {
             @Override
-            public void success(List<MerchantIssueListPojo> result, Response response) {
+            public void success(List<MerchantIssueRqs> result, Response response) {
                 if(result==null){
                     Toast.makeText(MerchantIssueListActivity.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
                 }else{
-                merchantIssueListPojos = new ArrayList<MerchantIssueListPojo>(result);
-                for (int i = 0; i < merchantIssueListPojos.size(); i++) {
-                    long id = merchantIssueListPojos.get(i).getIssueId();
-                    String date = merchantIssueListPojos.get(i).getIssueDate();
-                    String status = merchantIssueListPojos.get(i).getIssueLastStatus();
-                    Double amount = merchantIssueListPojos.get(i).getAmount();
-                    String suspect = merchantIssueListPojos.get(i).getSuspect();
+                merchantIssueRqses = new ArrayList<MerchantIssueRqs>(result);
+                for (int i = 0; i < merchantIssueRqses.size(); i++) {
+                    long id = merchantIssueRqses.get(i).getIssueId();
+                    String date = merchantIssueRqses.get(i).getIssueDate();
+                    String status = merchantIssueRqses.get(i).getIssueLastStatus();
+                    Double amount = merchantIssueRqses.get(i).getAmount();
+                    String suspect = merchantIssueRqses.get(i).getSuspect();
 
-                    ListAdapter issueListAdapter = new MerchantIssueListAdapter(MerchantIssueListActivity.this, merchantIssueListPojos);
+                    ListAdapter issueListAdapter = new MerchantIssueAdapter(MerchantIssueListActivity.this, merchantIssueRqses);
                     listIssue.setAdapter(issueListAdapter);
                 }
 
@@ -96,7 +96,7 @@ public class MerchantIssueListActivity extends AppCompatActivity {
         listIssue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                issuelist = (MerchantIssueListPojo) parent.getItemAtPosition(position);
+                issuelist = (MerchantIssueRqs) parent.getItemAtPosition(position);
                 Intent myIntent = new Intent(MerchantIssueListActivity.this, MerchantIssueDetailActivity.class);
                 myIntent.putExtra("issueId", (issuelist.getIssueId()));
                 startActivity(myIntent);
