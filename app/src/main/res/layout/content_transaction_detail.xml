@@ -12,7 +12,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/color_primary_dark">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/circle_man"
+                    android:src="@drawable/ic_circle_man"
                     android:layout_margin="5dp"/>
             </LinearLayout>
             <LinearLayout
@@ -84,7 +84,7 @@
                     android:text="Item Shipment"
                     android:textSize="10sp"
                     android:textColor="#FFFFFF"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="@color/color_primary_dark"
                     android:visibility="gone"/>
 
                 <ProgressBar

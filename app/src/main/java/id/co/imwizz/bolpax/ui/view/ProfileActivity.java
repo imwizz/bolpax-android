@@ -13,7 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -61,13 +61,13 @@ public class ProfileActivity extends AppCompatActivity {
         phone = BolpaxStatic.getPhonenumber();
 
 
-        RestClient.getBolpax().getProfile(userid.toString(), token.toString(), new Callback<ProfileBolpax>() {
+        RestClient.getBolpax().getProfile(userid.toString(), token.toString(), new Callback<ProfileRsp>() {
                     @Override
-                    public void success(ProfileBolpax profileBolpax, Response response) {
-                        name = profileBolpax.getFullname();
-                        email = profileBolpax.getEmail();
-                        phone = profileBolpax.getPhone();
-                        balance = profileBolpax.getBalance();
+                    public void success(ProfileRsp profileRsp, Response response) {
+                        name = profileRsp.getFullname();
+                        email = profileRsp.getEmail();
+                        phone = profileRsp.getPhone();
+                        balance = profileRsp.getBalance();
 
                         textName.setText(name);
                         textEmail.setText(email);

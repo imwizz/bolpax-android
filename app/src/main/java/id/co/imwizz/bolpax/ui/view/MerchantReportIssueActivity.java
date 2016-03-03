@@ -21,7 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -95,10 +95,10 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
         buyername = menu.findItem(R.id.profile);
 
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantRsp>() {
             @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                nama = merchantBolpax.getMerchantName();
+            public void success(MerchantRsp merchantRsp, Response response) {
+                nama = merchantRsp.getMerchantName();
                 buyername.setTitle(nama.toString());
                 createstore.setVisible(false);
                 switchtomerchant.setTitle("Switch To Buyer");

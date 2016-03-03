@@ -3,12 +3,10 @@ package id.co.imwizz.bolpax.data.entity.bolpax.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import id.co.imwizz.bolpax.data.entity.bolpax.request.User;
-
 /**
  * Created by bimosektiw on 2/12/16.
  */
-public class MerchantBolpax {
+public class MerchantRsp {
     @SerializedName("merchantId")
     @Expose
     private Long merchantId;
@@ -17,13 +15,13 @@ public class MerchantBolpax {
     private String merchantName;
     @SerializedName("user")
     @Expose
-    private ProfileBolpax user;
+    private ProfileRsp user;
 
-    public ProfileBolpax getUser() {
+    public ProfileRsp getUser() {
         return user;
     }
 
-    public void setUser(ProfileBolpax user) {
+    public void setUser(ProfileRsp user) {
         this.user = user;
     }
 

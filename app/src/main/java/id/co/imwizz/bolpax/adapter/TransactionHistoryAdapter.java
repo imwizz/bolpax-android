@@ -10,16 +10,16 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryRsp;
 
 /**
  * Created by bimosektiw on 1/12/16.
  */
-public class TransactionHistoryAdapter extends ArrayAdapter<TransactionHistoryBolpax>{
+public class TransactionHistoryAdapter extends ArrayAdapter<TransactionHistoryRsp>{
 
-    private List<TransactionHistoryBolpax> trxHistories;
+    private List<TransactionHistoryRsp> trxHistories;
 
-    public TransactionHistoryAdapter (Context context, List<TransactionHistoryBolpax> trxHistories){
+    public TransactionHistoryAdapter (Context context, List<TransactionHistoryRsp> trxHistories){
         super(context, R.layout.transaction_detail_list, trxHistories);
         this.trxHistories = trxHistories;
     }
@@ -28,10 +28,10 @@ public class TransactionHistoryAdapter extends ArrayAdapter<TransactionHistoryBo
         LayoutInflater trxHistoryInflater = LayoutInflater.from(getContext());
         View customView = trxHistoryInflater.inflate(R.layout.transaction_detail_list, parent, false);
 
-        TransactionHistoryBolpax trxHistory = getItem(position);
+        TransactionHistoryRsp trxHistory = getItem(position);
 
-        TextView trxhistoryDate = (TextView) customView.findViewById(R.id.text_date);
-        TextView trxhistoryStatus = (TextView) customView.findViewById(R.id.text_status);
+        TextView trxhistoryDate = (TextView) customView.findViewById(R.id.date);
+        TextView trxhistoryStatus = (TextView) customView.findViewById(R.id.trxstatus);
 
         trxhistoryDate.setText(trxHistory.getTime());
         trxhistoryStatus.setText(trxHistory.getStatus());

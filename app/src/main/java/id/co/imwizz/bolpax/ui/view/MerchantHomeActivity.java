@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -27,13 +27,15 @@ import retrofit.client.Response;
  * Created by User on 08/01/2016.
  */
 public class MerchantHomeActivity extends AppCompatActivity implements View.OnClickListener{
+    String email,name,phone,token,nama,merchantName;
     private static final String TAG = MerchantHomeActivity.class.getSimpleName();
-    String phone,token,nama,merchantName;
+    Integer balance;
+//    Long userid;
     MenuItem createstore,switchtomerchant,buyername;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
-    @Bind(R.id.linear_transaction) LinearLayout linearTransaction;
-    @Bind(R.id.linear_issue) LinearLayout linearIssue;
+    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
+    @Bind(R.id.linear_transaction) LinearLayout transaction;
+    @Bind(R.id.linear_issue) LinearLayout issue;
     Long bolpax,merchantId,userid;
 
     @Override
@@ -48,11 +50,15 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         merchantName = BolpaxStatic.getMerchantname();
         merchantId = BolpaxStatic.getMerchantid();
 
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+//        bolpax = BolpaxStatic.getUserid();
+//        userid = bolpax.toString();
+//        token = BolpaxStatic.getToken();
+
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantRsp>() {
             @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                BolpaxStatic.setMerchantid(merchantBolpax.getMerchantId());
-                BolpaxStatic.setMerchantname(merchantBolpax.getMerchantName());
+            public void success(MerchantRsp merchantRsp, Response response) {
+                BolpaxStatic.setMerchantid(merchantRsp.getMerchantId());
+                BolpaxStatic.setMerchantname(merchantRsp.getMerchantName());
             }
 
             @Override
@@ -61,8 +67,8 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        linearTransaction.setOnClickListener(this);
-        linearIssue.setOnClickListener(this);
+        transaction.setOnClickListener(this);
+        issue.setOnClickListener(this);
     }
 
     private void setToolbar(){
@@ -71,7 +77,7 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
         toolbar.setNavigationOnClickListener(this);
         toolbar.setTitle("");
-        textToolbarTitle.setText("BOLPAX");
+        toolbarTitle.setText("BOLPAX");
     }
 
     @Override
@@ -143,7 +149,7 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.e(TAG, error.getMessage());
+//                        Log.e(TAG, error.getMessage());
 
                     }
                 });

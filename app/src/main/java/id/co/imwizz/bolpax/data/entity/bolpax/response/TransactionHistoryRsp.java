@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by bimosektiw on 2/15/16.
  */
-public class TransactionHistoryBolpax {
+public class TransactionHistoryRsp {
     @SerializedName("time")
     @Expose
     private String time;

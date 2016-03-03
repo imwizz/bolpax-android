@@ -13,12 +13,12 @@ import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionListPoj
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Store;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.User;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIDBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.LoginBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIdRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LoginRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailRsp;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -32,7 +32,7 @@ import retrofit.http.Query;
 public interface ApiService {
     @Headers( "Content-Type: application/json" )
     @GET("/profile/dologin")
-    public void getLogin(@Query("phone") String phone, @Query("pass") String pass, Callback<LoginBolpax> callback);
+    public void getLogin(@Query("phone") String phone, @Query("pass") String pass, Callback<LoginRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/trx/listbybuyer")
@@ -60,23 +60,23 @@ public interface ApiService {
 
     @Headers( "Content-Type: application/json" )
     @GET("/profile/user")
-    public void getProfile(@Query("userid") String userid, @Query("token") String token, Callback<ProfileBolpax> callback);
+    public void getProfile(@Query("userid") String userid, @Query("token") String token, Callback<ProfileRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/profile/merchant")
-    public void getMerchantProfile(@Query("userid") String userid, @Query("token") String token, Callback<MerchantBolpax> callback);
+    public void getMerchantProfile(@Query("userid") String userid, @Query("token") String token, Callback<MerchantRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/merchant/list")
-    public void getMerchantList(@Query("userid") String userid, Callback <List<MerchantBolpax>> callback);
+    public void getMerchantList(@Query("userid") String userid, Callback <List<MerchantRsp>> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/trx/detail")
-    public void getTransactionDetail(@Query("trxid") String trxid, @Query("role") String role, Callback <TransactionDetailBolpax> callback);
+    public void getTransactionDetail(@Query("trxid") String trxid, @Query("role") String role, Callback <TransactionDetailRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/issue/detail")
-    public void getIssueDetail(@Query("issueid") String issueid, Callback <IssueDetailBolpax> callback);
+    public void getIssueDetail(@Query("issueid") String issueid, Callback <IssueDetailRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @POST("/trx/payment")
@@ -89,7 +89,7 @@ public interface ApiService {
 
     @Headers( "Content-Type: application/json" )
     @POST("/issue/create")
-    public void postBuyerReport(@Body Report report, Callback<IssueIDBolpax> callback);
+    public void postBuyerReport(@Body Report report, Callback<IssueIdRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @POST("/trx/insertTrail")

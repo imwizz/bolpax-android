@@ -17,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.LoginBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LoginRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -92,16 +92,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     phone = userName;
                     pass = password;
 
-                    RestClient.getBolpax().getLogin(phone.toString(), pass.toString(), new Callback<LoginBolpax>() {
+                    RestClient.getBolpax().getLogin(phone.toString(), pass.toString(), new Callback<LoginRsp>() {
                         @Override
-                        public void success(LoginBolpax loginBolpax, Response response) {
-                            BolpaxStatic.setUserid(loginBolpax.getUserId());
-                            BolpaxStatic.setToken(loginBolpax.getToken());
-                            BolpaxStatic.setMerchantid(loginBolpax.getMerchantId());
-                            BolpaxStatic.setMerchantname(loginBolpax.getMerchantName());
-                            BolpaxStatic.setFullname(loginBolpax.getFullname());
-                            BolpaxStatic.setPhonenumber(loginBolpax.getPhone());
-                            String success = loginBolpax.getStatus();
+                        public void success(LoginRsp loginRsp, Response response) {
+                            BolpaxStatic.setUserid(loginRsp.getUserId());
+                            BolpaxStatic.setToken(loginRsp.getToken());
+                            BolpaxStatic.setMerchantid(loginRsp.getMerchantId());
+                            BolpaxStatic.setMerchantname(loginRsp.getMerchantName());
+                            BolpaxStatic.setFullname(loginRsp.getFullname());
+                            BolpaxStatic.setPhonenumber(loginRsp.getPhone());
+                            String success = loginRsp.getStatus();
                             if(success.contains("VALID")) {
                                 Intent i = new Intent(LoginActivity.this, BuyerHomeActivity.class);
                                 progressBar.setVisibility(View.GONE);

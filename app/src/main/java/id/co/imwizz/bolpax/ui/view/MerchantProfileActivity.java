@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
 import id.co.imwizz.bolpax.rest.Logout;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
@@ -51,13 +51,14 @@ public class MerchantProfileActivity extends AppCompatActivity {
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
 
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantRsp>() {
             @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                name = merchantBolpax.getMerchantName();
-                email = merchantBolpax.getUser().getEmail();
-                call = merchantBolpax.getUser().getPhone();
-                balance = merchantBolpax.getUser().getBalance();
+            public void success(MerchantRsp merchantRsp, Response response) {
+//                User user = new User();
+                name = merchantRsp.getMerchantName();
+                email = merchantRsp.getUser().getEmail();
+                call = merchantRsp.getUser().getPhone();
+                balance = merchantRsp.getUser().getBalance();
                 Name.setText(name.toString());
                 Email.setText(email.toString());
                 Call.setText(call.toString());
@@ -91,15 +92,16 @@ public class MerchantProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
         buyername = menu.findItem(R.id.profile);
 
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantRsp>() {
             @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                nama = merchantBolpax.getMerchantName();
+            public void success(MerchantRsp merchantRsp, Response response) {
+                nama = merchantRsp.getMerchantName();
                 buyername.setTitle(nama.toString());
                 createstore.setVisible(false);
                 switchtomerchant.setTitle("Switch To Buyer");
@@ -148,7 +150,7 @@ public class MerchantProfileActivity extends AppCompatActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.e(TAG, error.getMessage());
+//                        Log.e(TAG, error.getMessage());
 
                     }
                 });

@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/relative_header"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/color_primary_dark">
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="42dp"
-            android:src="@drawable/store"/>
+            android:src="@drawable/ic_store2"/>
 
         <EditText
             android:layout_width="300dp"
@@ -75,7 +75,7 @@
             android:text="Pay"
             android:id="@+id/button_pay"
             android:textColor="#ffffff"
-            android:background="@color/colorPrimary"
+            android:background="@color/color_primary"
             android:layout_marginTop="34dp"
             android:layout_below="@+id/edit_product_name"
             android:layout_centerHorizontal="true" />

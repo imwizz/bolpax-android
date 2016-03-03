@@ -17,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIDBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIdRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -88,13 +88,13 @@ public class BuyerCreateReportActivity extends AppCompatActivity implements View
                 report.setDesc(createDescReport);
                 report.setRole("buyer");
                 report.setTrxId(trxId);
-                RestClient.getBolpax().postBuyerReport(report, new Callback<IssueIDBolpax>() {
+                RestClient.getBolpax().postBuyerReport(report, new Callback<IssueIdRsp>() {
                     @Override
-                    public void success(IssueIDBolpax issueIDBolpax, Response response) {
+                    public void success(IssueIdRsp issueIdRsp, Response response) {
                         progressBar.setVisibility(View.GONE);
                         textNotification.setVisibility(View.GONE);
                         Intent i = new Intent(BuyerCreateReportActivity.this, BuyerIssueDetailActivity.class);
-                        i.putExtra("issueId", issueIDBolpax.getIssueId());
+                        i.putExtra("issueId", issueIdRsp.getIssueId());
                         startActivity(i);
                     }
 

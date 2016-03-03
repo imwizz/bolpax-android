@@ -5,12 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
-
 /**
  * Created by bimosektiw on 2/15/16.
  */
-public class TransactionDetailBolpax {
+public class TransactionDetailRsp {
     @SerializedName("amount")
     @Expose
     private String amount;
@@ -23,7 +21,7 @@ public class TransactionDetailBolpax {
     @SerializedName("trxLastStatus")
     @Expose
     private String trxLastStatus;
-    private List<TransactionHistoryBolpax> trxHistory;
+    private List<TransactionHistoryRsp> trxHistory;
 
     public String getAmount() {
         return amount;
@@ -57,11 +55,11 @@ public class TransactionDetailBolpax {
         this.trxLastStatus = trxLastStatus;
     }
 
-    public List<TransactionHistoryBolpax> getTrxHistory() {
+    public List<TransactionHistoryRsp> getTrxHistory() {
         return trxHistory;
     }
 
-    public void setTrxHistory(List<TransactionHistoryBolpax> trxHistory) {
+    public void setTrxHistory(List<TransactionHistoryRsp> trxHistory) {
         this.trxHistory = trxHistory;
     }
 }
