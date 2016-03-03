@@ -54,7 +54,6 @@ public class MerchantProfileActivity extends AppCompatActivity {
         RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
             @Override
             public void success(MerchantBolpax merchantBolpax, Response response) {
-//                User user = new User();
                 name = merchantBolpax.getMerchantName();
                 email = merchantBolpax.getUser().getEmail();
                 call = merchantBolpax.getUser().getPhone();
@@ -92,7 +91,6 @@ public class MerchantProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
@@ -150,7 +148,7 @@ public class MerchantProfileActivity extends AppCompatActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-//                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, error.getMessage());
 
                     }
                 });

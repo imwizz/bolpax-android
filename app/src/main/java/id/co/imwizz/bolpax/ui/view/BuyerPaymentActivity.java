@@ -89,7 +89,6 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);

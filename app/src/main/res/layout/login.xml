@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <EditText
-        android:id="@+id/editTextUserNameToLogin"
+        android:id="@+id/edit_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="phone"
@@ -16,7 +16,7 @@
     </EditText>
 
     <EditText
-        android:id="@+id/editTextPasswordToLogin"
+        android:id="@+id/edit_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -24,7 +24,7 @@
         android:hint="Password" />
 
     <Button
-        android:id="@+id/buttonSignIn"
+        android:id="@+id/button_sign_in"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Log In" />

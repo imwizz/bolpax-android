@@ -31,8 +31,8 @@ public class IssueHistoryAdapter extends ArrayAdapter<IssueHistoryBolpax> {
 
         IssueHistoryBolpax trxHistory = getItem(position);
 
-        TextView issuehistoryDate = (TextView) customView.findViewById(R.id.date);
-        TextView issuehistoryMessage = (TextView) customView.findViewById(R.id.issuemessage);
+        TextView issuehistoryDate = (TextView) customView.findViewById(R.id.text_date);
+        TextView issuehistoryMessage = (TextView) customView.findViewById(R.id.text_issue_message);
         String fromAdmin = trxHistory.getFromAdmin();
         if (fromAdmin.contains("Y")){
             issuehistoryMessage.setTextColor(Color.parseColor("#2196F3"));

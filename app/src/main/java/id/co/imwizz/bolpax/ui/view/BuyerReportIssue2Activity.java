@@ -61,7 +61,6 @@ public class BuyerReportIssue2Activity extends AppCompatActivity implements View
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -102,7 +101,7 @@ public class BuyerReportIssue2Activity extends AppCompatActivity implements View
 
                     @Override
                     public void failure(RetrofitError error) {
-//                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, error.getMessage());
 
                     }
                 });
@@ -164,9 +163,6 @@ public class BuyerReportIssue2Activity extends AppCompatActivity implements View
                     }
                 });
 
-//                Toast.makeText(BuyerReportIssue2Activity.this, "Report Submitted", Toast.LENGTH_SHORT).show();
-//                Intent i = new Intent(BuyerReportIssue2Activity.this,BuyerIssueDetailActivity.class);
-//                startActivity(i);
                 break;
 
         }

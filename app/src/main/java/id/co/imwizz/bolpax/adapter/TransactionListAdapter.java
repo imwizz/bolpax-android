@@ -37,9 +37,9 @@ public class TransactionListAdapter extends ArrayAdapter<BuyerTransactionListPoj
 
         BuyerTransactionListPojo transaction = getItem(position);
 
-        TextView dateText = (TextView) customView.findViewById(R.id.tvdate);
-        TextView statusText = (TextView) customView.findViewById(R.id.tvsatus);
-        TextView nominalText = (TextView) customView.findViewById(R.id.tvnominal);
+        TextView dateText = (TextView) customView.findViewById(R.id.text_date);
+        TextView statusText = (TextView) customView.findViewById(R.id.text_satus);
+        TextView nominalText = (TextView) customView.findViewById(R.id.text_nominal);
 //        ImageView categoryImage = (ImageView) customView.findViewById(R.id.categoryImage);
 
         String status = transaction.getTrxLastStatus();

@@ -25,7 +25,6 @@ import retrofit.client.Response;
 public class ProfileActivity extends AppCompatActivity {
 
     private static final String TAG = ProfileActivity.class.getSimpleName();
-
     protected Context mContext;
     private String email,name,phone, userid,token,balance;
     private Long bolpax;

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ import retrofit.client.Response;
  */
 public class MerchantReportIssueActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String TAG = MerchantReportIssueActivity.class.getSimpleName();
     private ListView mListView,listView;
     private String trxid,selectedFromList;
     private MenuItem createstore,switchtomerchant,buyername;
@@ -88,7 +90,6 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
@@ -146,7 +147,7 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
 
                     @Override
                     public void failure(RetrofitError error) {
-//                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, error.getMessage());
 
                     }
                 });

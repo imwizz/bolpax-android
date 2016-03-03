@@ -28,7 +28,6 @@ import retrofit.client.Response;
 public class MerchantCreateReportActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = BuyerReportIssue2Activity.class.getSimpleName();
-
     private String createSubjectReport,createDescReport,subject,trxid;
     private Long trxId;
 
@@ -53,7 +52,6 @@ public class MerchantCreateReportActivity extends AppCompatActivity implements V
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_report, menu);
         return true;
     }
@@ -99,9 +97,6 @@ public class MerchantCreateReportActivity extends AppCompatActivity implements V
                     }
                 });
 
-//                Toast.makeText(BuyerReportIssue2Activity.this, "Report Submitted", Toast.LENGTH_SHORT).show();
-//                Intent i = new Intent(BuyerReportIssue2Activity.this,BuyerIssueDetailActivity.class);
-//                startActivity(i);
                 break;
 
         }

@@ -57,7 +57,6 @@ public class BuyerIssueListActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_issuelist);
         ButterKnife.bind(this);
-//        toolbar.setOnClickListener(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);

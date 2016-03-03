@@ -35,7 +35,7 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
     private Long userid,merchantid;
     private MenuItem createstore,switchtomerchant,buyername;
 
-    @Bind(R.id.linear_merchant) LinearLayout linearMerchant;
+    @Bind(R.id.text_merchant) LinearLayout linearMerchant;
     @Bind(R.id.linear_transaction) LinearLayout linearTransaction;
     @Bind(R.id.linear_issue) LinearLayout linearIssue;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -50,7 +50,6 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
         linearMerchant.setOnClickListener(this);
         linearTransaction.setOnClickListener(this);
         linearIssue.setOnClickListener(this);
-//        toolbar.setOnClickListener(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
@@ -73,7 +72,6 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
@@ -151,8 +149,8 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.linear_merchant:
-                Intent i = new Intent(BuyerHomeActivity.this,MerchantList_Activity.class);
+            case R.id.text_merchant:
+                Intent i = new Intent(BuyerHomeActivity.this,MerchantListActivity.class);
                 startActivity(i);
                 break;
             case R.id.linear_transaction:

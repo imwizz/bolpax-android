@@ -35,8 +35,8 @@ import retrofit.client.Response;
 /**
  * Created by User on 08/01/2016.
  */
-public class MerchantList_Activity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = MerchantList_Activity.class.getSimpleName();
+public class MerchantListActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = MerchantListActivity.class.getSimpleName();
     protected Context mContext;
     MenuItem createstore,switchtomerchant,buyername;
     String email,name,phone,userid,token,nama;
@@ -45,8 +45,8 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
     MerchantBolpax merchants;
     Long bolpax,merchantid;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.listView) ListView listView;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.list_merchant) ListView listMerchant;
 
 
 
@@ -55,16 +55,15 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_list);
         ButterKnife.bind(this);
-//        toolbar.setOnClickListener(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
         toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MerchantList_Activity.this, BuyerHomeActivity.class);
+                Intent i = new Intent(MerchantListActivity.this, BuyerHomeActivity.class);
                 startActivity(i);
             }
         });
@@ -79,8 +78,8 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
             @Override
             public void success(List<MerchantBolpax> merchantBolpaxes, Response response) {
                 List<MerchantBolpax> merchantBolpaxlist = new ArrayList<MerchantBolpax>(merchantBolpaxes);
-                ListAdapter merchantlistAdapter = new MerchantListAdapter(MerchantList_Activity.this, merchantBolpaxlist);
-                listView.setAdapter(merchantlistAdapter);
+                ListAdapter merchantlistAdapter = new MerchantListAdapter(MerchantListActivity.this, merchantBolpaxlist);
+                listMerchant.setAdapter(merchantlistAdapter);
             }
 
             @Override
@@ -91,11 +90,11 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
 
 
     }
-    @OnItemClick(R.id.listView)
+    @OnItemClick(R.id.list_merchant)
     void onItemClick(AdapterView<?> parent, View view,
                      int position, long id) {
         merchants = (MerchantBolpax) parent.getItemAtPosition(position);
-        Intent myIntent = new Intent(MerchantList_Activity.this, BuyerPaymentActivity.class);
+        Intent myIntent = new Intent(MerchantListActivity.this, BuyerPaymentActivity.class);
         myIntent.putExtra("merchantId", (merchants.getMerchantId()));
         myIntent.putExtra("merchantName", (merchants.getMerchantName()));
         startActivity(myIntent);
@@ -103,7 +102,6 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
@@ -122,18 +120,18 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantList_Activity.this, ProfileActivity.class);
+                Intent i = new Intent(MerchantListActivity.this, ProfileActivity.class);
                 startActivity(i);
 
                 return true;
 
             case R.id.create_store:
-                Intent i2 = new Intent(MerchantList_Activity.this, CreateStoreActivity.class);
+                Intent i2 = new Intent(MerchantListActivity.this, CreateStoreActivity.class);
                 startActivity(i2);
 
                 return true;
             case R.id.switchto_merchant:
-                Intent i3 = new Intent(MerchantList_Activity.this, MerchantHomeActivity.class);
+                Intent i3 = new Intent(MerchantListActivity.this, MerchantHomeActivity.class);
                 startActivity(i3);
 
                 return true;
@@ -150,7 +148,7 @@ public class MerchantList_Activity extends AppCompatActivity implements View.OnC
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
                         }else{
-                            Toast.makeText(MerchantList_Activity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MerchantListActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
                         }
 
 

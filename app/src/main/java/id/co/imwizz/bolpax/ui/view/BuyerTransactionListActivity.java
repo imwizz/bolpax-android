@@ -36,15 +36,16 @@ import retrofit.client.Response;
  */
 public class BuyerTransactionListActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    private static final String TAG = BuyerTransactionListActivity.class.getSimpleName();
     protected Context mContext;
     final Context context = this;
-    private static final String TAG = BuyerTransactionListActivity.class.getSimpleName();
     String email,name,phone,userid,token,nama;
     MenuItem createstore,switchtomerchant,buyername;
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.listviewTransaction) ListView transaction;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.list_transaction) ListView listTransaction;
     BuyerTransactionListPojo transactionlist;
     List<BuyerTransactionListPojo> buyerTransactionListPojos;
     Long bolpax,merchantId;
@@ -61,7 +62,7 @@ public class BuyerTransactionListActivity extends AppCompatActivity implements V
 
         toolbar.setTitle("");
 
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +70,6 @@ public class BuyerTransactionListActivity extends AppCompatActivity implements V
                 startActivity(i);
             }
         });
-//        long userId=1;
 
         bolpax = BolpaxStatic.getUserid();
         userid = bolpax.toString();
@@ -81,7 +81,6 @@ public class BuyerTransactionListActivity extends AppCompatActivity implements V
         RestClient.getBolpax().getBuyerTransactionlist(userid.toString(), new Callback<List<BuyerTransactionListPojo>>() {
                     @Override
                     public void success(List<BuyerTransactionListPojo> result, Response response) {
-                        String test="";
 
                         if(result==null){
                             Toast.makeText(BuyerTransactionListActivity.this, "No Transaction Found", Toast.LENGTH_SHORT).show();
@@ -100,7 +99,7 @@ public class BuyerTransactionListActivity extends AppCompatActivity implements V
 
                             }
                             ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionListActivity.this, buyerTransactionListPojos);
-                            transaction.setAdapter(transactionListAdapter);
+                            listTransaction.setAdapter(transactionListAdapter);
                         }
 
                     }
@@ -112,18 +111,11 @@ public class BuyerTransactionListActivity extends AppCompatActivity implements V
                     }
                 });
 
-//                String json = DummyAPI.getJson(BuyerTransactionListActivity.this, R.raw.trx_list);
-//        Gson gson = new Gson();
-//        TransactionLIst[] transactionList = gson.fromJson(json, TransactionLIst[].class);
-//
-//        ListAdapter transactionListAdapter = new TransactionListAdapter(BuyerTransactionListActivity.this, transactionList);
-//        transaction.setAdapter(transactionListAdapter);
-
     }
 
 
 
-    @OnItemClick(R.id.listviewTransaction)
+    @OnItemClick(R.id.list_transaction)
     void onItemClick(AdapterView<?> parent, View view,
                      int position, long id) {
         transactionlist = (BuyerTransactionListPojo) parent.getItemAtPosition(position);

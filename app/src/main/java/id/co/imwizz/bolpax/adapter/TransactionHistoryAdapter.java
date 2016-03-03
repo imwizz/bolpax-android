@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.TrxHistory;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
 
 /**
@@ -31,8 +30,8 @@ public class TransactionHistoryAdapter extends ArrayAdapter<TransactionHistoryBo
 
         TransactionHistoryBolpax trxHistory = getItem(position);
 
-        TextView trxhistoryDate = (TextView) customView.findViewById(R.id.date);
-        TextView trxhistoryStatus = (TextView) customView.findViewById(R.id.trxstatus);
+        TextView trxhistoryDate = (TextView) customView.findViewById(R.id.text_date);
+        TextView trxhistoryStatus = (TextView) customView.findViewById(R.id.text_status);
 
         trxhistoryDate.setText(trxHistory.getTime());
         trxhistoryStatus.setText(trxHistory.getStatus());

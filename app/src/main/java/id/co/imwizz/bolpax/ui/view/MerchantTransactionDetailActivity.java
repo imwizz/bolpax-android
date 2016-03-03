@@ -39,19 +39,19 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
 
     private static final String TAG = BuyerTransactionDetailActivity.class.getSimpleName();
     List<TransactionHistoryBolpax> trxHistory;
-    @Bind(R.id.linear_merchant) TextView merchantText;
-    @Bind(R.id.text_amount) TextView amountText;
-    @Bind(R.id.text_last_status) TextView laststatusText;
-    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.list_history) ListView trxDetailText;
-    @Bind(R.id.reply) Button reply;
+    @Bind(R.id.text_merchant) TextView textMerchant;
+    @Bind(R.id.text_amount) TextView textMmount;
+    @Bind(R.id.text_last_status) TextView textLaststatus;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.list_history) ListView listHistory;
+    @Bind(R.id.button_reply) Button buttonReply;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
     Long  userid,merchantid,bolpax;
     String token,trxId;
     long trxid;
-//    private static final String TAG = MerchantTransactionDetailActivity.class.getSimpleName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,36 +75,33 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
                 String laststatus = transactionDetailBolpax.getTrxLastStatus();
 
                 trxHistory = transactionDetailBolpax.getTrxHistory();
-                trxDetailText.setSelector(new ColorDrawable(0));
+                listHistory.setSelector(new ColorDrawable(0));
                 String[] trx = new String[trxHistory.size() + 1];
                 for (int i = 0; i < trxHistory.size(); i++) {
                     trx[i] = trxHistory.get(i).getTime();
                     trx[i] = trxHistory.get(i).getStatus();
                 }
                 ListAdapter listAdapter = new TransactionHistoryAdapter(MerchantTransactionDetailActivity.this, trxHistory);
-                trxDetailText.setAdapter(listAdapter);
-                merchantText.setText(merchant);
-                amountText.setText("Rp "+amount +" for "+ product);
-//                laststatusText.setText(laststatus);
+                listHistory.setAdapter(listAdapter);
+                textMerchant.setText(merchant);
+                textMmount.setText("Rp " + amount + " for " + product);
                 if (laststatus.contains("Transaction complete")) {
-                    laststatusText.setText(laststatus);
-//                    laststatusText.setTextColor(Color.GREEN);
-                    laststatusText.setTextColor(Color.parseColor("#49E845"));
+                    textLaststatus.setText(laststatus);
+                    textLaststatus.setTextColor(Color.parseColor("#49E845"));
 
                 }else {
-                    laststatusText.setText(laststatus);
-//                    laststatusText.setTextColor(Color.YELLOW);
-                    laststatusText.setTextColor(Color.parseColor("#d36a04"));
+                    textLaststatus.setText(laststatus);
+                    textLaststatus.setTextColor(Color.parseColor("#d36a04"));
                 }
 
                 if (trxHistory.size() == 1) {
-                    reply.setVisibility(View.VISIBLE);
-                    reply.setText("Item Shipment");
-                    reply.setOnClickListener(new View.OnClickListener() {
+                    buttonReply.setVisibility(View.VISIBLE);
+                    buttonReply.setText("Item Shipment");
+                    buttonReply.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             progressBar.setVisibility(View.VISIBLE);
-                            reply.setVisibility(View.GONE);
+                            buttonReply.setVisibility(View.GONE);
                             AddHistoryTrxBolpax addHistoryTrxBolpax = new AddHistoryTrxBolpax();
                             addHistoryTrxBolpax.setTrxId(trxId);
                             Id id = new Id();
@@ -127,7 +124,7 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    reply.setVisibility(View.GONE);
+                    buttonReply.setVisibility(View.GONE);
                 }
             }
 
@@ -150,24 +147,19 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
             }
         });
         toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
 
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_report, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_report) {
             Intent i = new Intent(MerchantTransactionDetailActivity.this, MerchantReportIssueActivity.class);
             i.putExtra("trxid",trxId);

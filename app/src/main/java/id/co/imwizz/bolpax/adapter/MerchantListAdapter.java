@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.MerchantList;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
 
 
@@ -35,10 +34,10 @@ public class MerchantListAdapter extends ArrayAdapter<MerchantBolpax> {
 
         MerchantBolpax merchant = getItem(position);
 //        TextView businessDay = (TextView) customView.findViewById(R.id.businessOpen);
-        TextView businessOpen = (TextView) customView.findViewById(R.id.businessOpen);
+        TextView businessOpen = (TextView) customView.findViewById(R.id.text_merchant);
 //        TextView businessClose = (TextView) customView.findViewById(R.id.businessClose);
 
-        ImageView categoryImage = (ImageView) customView.findViewById(R.id.imageView7);
+        ImageView categoryImage = (ImageView) customView.findViewById(R.id.image_merchant);
         //int test = businessHourses.getDay();
         //int[] test = new int[businessHourses.getDay()];
         businessOpen.setText(merchant.getMerchantName());

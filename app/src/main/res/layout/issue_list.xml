@@ -12,7 +12,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="date"
         android:textColor="#000000"
-        android:id="@+id/tvdate"
+        android:id="@+id/text_date"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -23,9 +23,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="status"
         android:textColor="#000000"
-        android:id="@+id/tvsatus"
+        android:id="@+id/text_satus"
         android:layout_marginTop="26dp"
-        android:layout_below="@+id/tvdate"
+        android:layout_below="@+id/text_date"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -35,8 +35,8 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="nominal"
         android:textColor="#000000"
-        android:id="@+id/tvnominal"
-        android:layout_alignTop="@+id/tvsatus"
+        android:id="@+id/text_nominal"
+        android:layout_alignTop="@+id/text_satus"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>

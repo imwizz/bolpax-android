@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,9 +30,10 @@ import retrofit.client.Response;
  */
 public class CreateStoreActivity extends AppCompatActivity implements View.OnClickListener {
 
-    protected Context mContext;
+    private static final String TAG = BuyerTransactionListActivity.class.getSimpleName();
     private String createStore,token,phone;
     private Long  userid,bolpax;
+    protected Context mContext;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
@@ -66,7 +68,6 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -107,7 +108,7 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
 
                 @Override
                 public void failure(RetrofitError error) {
-//                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, error.getMessage());
 
                 }
             });

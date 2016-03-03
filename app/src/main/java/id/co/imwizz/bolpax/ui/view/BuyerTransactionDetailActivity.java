@@ -41,12 +41,12 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
     private static final String TAG = BuyerTransactionDetailActivity.class.getSimpleName();
     List<TransactionHistoryBolpax> trxHistory;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.linear_merchant) TextView merchantText;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.text_merchant) TextView textMerchant;
     @Bind(R.id.text_amount) TextView amountText;
     @Bind(R.id.text_last_status) TextView laststatusText;
     @Bind(R.id.list_history) ListView trxDetailText;
-    @Bind(R.id.reply)Button reply;
+    @Bind(R.id.button_reply)Button reply;
     @Bind(R.id.progress_bar) ProgressBar progressBar;
     String trxId;
     long trxid;
@@ -65,7 +65,7 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
         toolbar.setTitle("");
 
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,11 +96,10 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                 }
                 ListAdapter listAdapter = new TransactionHistoryAdapter(BuyerTransactionDetailActivity.this, trxHistory);
                 trxDetailText.setAdapter(listAdapter);
-                merchantText.setText(merchant);
+                textMerchant.setText(merchant);
                 amountText.setText("Rp "+amount +" for "+ product);
                 if (laststatus.contains("Transaction complete")) {
                     laststatusText.setText(laststatus);
-//                    laststatusText.setTextColor(Color.GREEN);
                     laststatusText.setTextColor(Color.parseColor("#49E845"));
 
                 }else {
@@ -158,7 +157,6 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_report, menu);
         return true;
     }

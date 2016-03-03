@@ -27,15 +27,13 @@ import retrofit.client.Response;
  * Created by User on 08/01/2016.
  */
 public class MerchantHomeActivity extends AppCompatActivity implements View.OnClickListener{
-    String email,name,phone,token,nama,merchantName;
     private static final String TAG = MerchantHomeActivity.class.getSimpleName();
-    Integer balance;
-//    Long userid;
+    String phone,token,nama,merchantName;
     MenuItem createstore,switchtomerchant,buyername;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.linear_transaction) LinearLayout transaction;
-    @Bind(R.id.linear_issue) LinearLayout issue;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.linear_transaction) LinearLayout linearTransaction;
+    @Bind(R.id.linear_issue) LinearLayout linearIssue;
     Long bolpax,merchantId,userid;
 
     @Override
@@ -50,10 +48,6 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         merchantName = BolpaxStatic.getMerchantname();
         merchantId = BolpaxStatic.getMerchantid();
 
-//        bolpax = BolpaxStatic.getUserid();
-//        userid = bolpax.toString();
-//        token = BolpaxStatic.getToken();
-
         RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
             @Override
             public void success(MerchantBolpax merchantBolpax, Response response) {
@@ -67,8 +61,8 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
-        transaction.setOnClickListener(this);
-        issue.setOnClickListener(this);
+        linearTransaction.setOnClickListener(this);
+        linearIssue.setOnClickListener(this);
     }
 
     private void setToolbar(){
@@ -77,7 +71,7 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
         toolbar.setNavigationOnClickListener(this);
         toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
     }
 
     @Override
@@ -149,7 +143,7 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
 
                     @Override
                     public void failure(RetrofitError error) {
-//                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, error.getMessage());
 
                     }
                 });

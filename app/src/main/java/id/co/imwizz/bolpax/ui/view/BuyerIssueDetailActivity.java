@@ -69,14 +69,12 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
         refreshHistory();
 
         bolpax = BolpaxStatic.getUserid();
-//        userid = bolpax.toString();
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -161,18 +159,15 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                 if(laststatus.contains("Refund")){
                     buttonRefundIssue.setVisibility(View.VISIBLE);
                     textLastStatus.setText(laststatus);
-//                    textLastStatus.setTextColor(Color.YELLOW);
                     textLastStatus.setTextColor(Color.parseColor("#d36a04"));
                 }else if (laststatus.contains("Closed")){
                     buttonReplayIssue.setVisibility(View.GONE);
                     buttonRefundIssue.setVisibility(View.GONE);
                     textLastStatus.setText(laststatus);
-//                    textLastStatus.setTextColor(Color.RED);
                     textLastStatus.setTextColor(Color.parseColor("#FF4351"));
                 }else{
                     buttonReplayIssue.setVisibility(View.VISIBLE);
                     textLastStatus.setText(laststatus);
-//                    textLastStatus.setTextColor(Color.YELLOW);
                     textLastStatus.setTextColor(Color.parseColor("#d36a04"));
                 }
                 buttonRefundIssue.setOnClickListener(new View.OnClickListener() {
@@ -202,10 +197,8 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                     @Override
                     public void onClick(View v) {
                         progressBar.setVisibility(View.VISIBLE);
-                        //issuelist = (BuyerIssueListPojo) parent.getItemAtPosition(position);
                         Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerReportIssue2Activity.class);
                         i.putExtra("Subject", subject);
-//                        i.putExtra("Subject", (issueHistory.get(i).getIssueStatus()));
                         i.putExtra("issueid", issueid);
                         startActivity(i);
                         progressBar.setVisibility(View.GONE);

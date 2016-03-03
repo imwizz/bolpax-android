@@ -36,14 +36,14 @@ import retrofit.client.Response;
  */
 public class MerchantTransactionListActivity extends AppCompatActivity implements View.OnClickListener {
 
-    protected Context mContext;
     private static final String TAG = BuyerTransactionListActivity.class.getSimpleName();
+    protected Context mContext;
     MenuItem createstore,switchtomerchant,buyername;
     String email,name,phone,token,merchantId,nama,merchantName;
     Integer balance;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.listviewTransaction) ListView transaction;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.list_transaction) ListView listTransaction;
     MerchantTransactionListPojo transactionlist;
     List<MerchantTransactionListPojo> merchantTransactionListPojos;
     final Context context = this;
@@ -61,7 +61,7 @@ public class MerchantTransactionListActivity extends AppCompatActivity implement
 
         toolbar.setTitle("");
 
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +69,6 @@ public class MerchantTransactionListActivity extends AppCompatActivity implement
                 startActivity(i);
             }
         });
-//        long userId=1;
 
         bolpax = BolpaxStatic.getMerchantid();
         merchantId = bolpax.toString();
@@ -97,7 +96,7 @@ public class MerchantTransactionListActivity extends AppCompatActivity implement
 
                     }
                     ListAdapter transactionListAdapter = new MerchantTransactionListAdapter(MerchantTransactionListActivity.this, merchantTransactionListPojos);
-                    transaction.setAdapter(transactionListAdapter);
+                    listTransaction.setAdapter(transactionListAdapter);
                 }
 
             }
@@ -110,7 +109,7 @@ public class MerchantTransactionListActivity extends AppCompatActivity implement
         });
     }
 
-    @OnItemClick(R.id.listviewTransaction)
+    @OnItemClick(R.id.list_transaction)
     void onItemClick(AdapterView<?> parent, View view,
                      int position, long id) {
         transactionlist = (MerchantTransactionListPojo) parent.getItemAtPosition(position);
@@ -126,7 +125,6 @@ public class MerchantTransactionListActivity extends AppCompatActivity implement
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
@@ -173,7 +171,7 @@ public class MerchantTransactionListActivity extends AppCompatActivity implement
 
                     @Override
                     public void failure(RetrofitError error) {
-//                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, error.getMessage());
 
                     }
                 });
