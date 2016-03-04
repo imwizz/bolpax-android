@@ -22,14 +22,14 @@ public class IssueAdapter extends ArrayAdapter<BuyerIssueRqs> {
     Context mContext;
 
     public IssueAdapter(Context context, List<BuyerIssueRqs> issueList) {
-        super(context, R.layout.issue_list, issueList);
+        super(context, R.layout.item_issue, issueList);
         this.issueList = issueList;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
-        View customView = categoryInflater.inflate(R.layout.issue_list, parent, false);
+        View customView = categoryInflater.inflate(R.layout.item_issue, parent, false);
 
         BuyerIssueRqs category = getItem(position);
 

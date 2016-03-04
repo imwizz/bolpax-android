@@ -20,13 +20,13 @@ public class TransactionHistoryAdapter extends ArrayAdapter<TransactionHistoryRs
     private List<TransactionHistoryRsp> trxHistories;
 
     public TransactionHistoryAdapter (Context context, List<TransactionHistoryRsp> trxHistories){
-        super(context, R.layout.transaction_detail_list, trxHistories);
+        super(context, R.layout.item_transaction_detail, trxHistories);
         this.trxHistories = trxHistories;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater trxHistoryInflater = LayoutInflater.from(getContext());
-        View customView = trxHistoryInflater.inflate(R.layout.transaction_detail_list, parent, false);
+        View customView = trxHistoryInflater.inflate(R.layout.item_transaction_detail, parent, false);
 
         TransactionHistoryRsp trxHistory = getItem(position);
 

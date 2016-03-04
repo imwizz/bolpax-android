@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void signIn(View V) {
         final Dialog dialog = new Dialog(LoginActivity.this, R.style.cust_dialog);
 
-        dialog.setContentView(R.layout.login);
+        dialog.setContentView(R.layout.dialog_login);
         dialog.setTitle("Log In With Bolpax");
         final EditText editTextUserName = (EditText) dialog.findViewById(R.id.edit_username);
         final EditText editTextPassword = (EditText) dialog.findViewById(R.id.edit_password);

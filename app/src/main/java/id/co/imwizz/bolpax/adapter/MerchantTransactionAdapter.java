@@ -21,14 +21,14 @@ public class MerchantTransactionAdapter extends ArrayAdapter<MerchantTransaction
     Context mContext;
 
     public MerchantTransactionAdapter(Context context, List<MerchantTransactionRqs> transactionList) {
-        super(context, R.layout.transaction_list, transactionList);
+        super(context, R.layout.item_transaction, transactionList);
         this.transactionList = transactionList;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
-        View customView = categoryInflater.inflate(R.layout.transaction_list, parent, false);
+        View customView = categoryInflater.inflate(R.layout.item_transaction, parent, false);
 
         MerchantTransactionRqs transaction = getItem(position);
 

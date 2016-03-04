@@ -21,14 +21,14 @@ public class TransactionAdapter extends ArrayAdapter<BuyerTransactionRqs> {
     Context mContext;
 
     public TransactionAdapter(Context context, List<BuyerTransactionRqs> transactionList) {
-        super(context, R.layout.transaction_list, transactionList);
+        super(context, R.layout.item_transaction, transactionList);
         this.transactionList = transactionList;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
-        View customView = categoryInflater.inflate(R.layout.transaction_list, parent, false);
+        View customView = categoryInflater.inflate(R.layout.item_transaction, parent, false);
 
         BuyerTransactionRqs transaction = getItem(position);
 
