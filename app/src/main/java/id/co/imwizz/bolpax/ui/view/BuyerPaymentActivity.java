@@ -20,8 +20,8 @@ import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.PaymentRqs;
-import id.co.imwizz.bolpax.rest.Logout;
-import id.co.imwizz.bolpax.rest.PaymentResponse;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.PaymentRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -124,9 +124,9 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token,phone,new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token,phone,new Callback<LogoutRsp>() {
                     @Override
-                    public void success(Logout s, Response response) {
+                    public void success(LogoutRsp s, Response response) {
 
                         String success = s.getStatus();
                         if(success.contains("SUCCESS")) {
@@ -180,9 +180,9 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
                 payment.setProduct(productName);
                 payment.setToken(token);
 
-                RestClient.getBolpax().getBuyerPayment(payment, new Callback<PaymentResponse>() {
+                RestClient.getBolpax().getBuyerPayment(payment, new Callback<PaymentRsp>() {
                     @Override
-                    public void success(PaymentResponse s, Response response) {
+                    public void success(PaymentRsp s, Response response) {
                         trxid = s.getTrxId();
                         String test = s.getAmount();
                         String test2=s.getFromAccount();

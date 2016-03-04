@@ -24,7 +24,7 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.MerchantIssueAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueRqs;
-import id.co.imwizz.bolpax.rest.Logout;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -135,9 +135,9 @@ public class MerchantIssueListActivity extends AppCompatActivity {
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token, phone, new Callback<LogoutRsp>() {
                     @Override
-                    public void success(Logout s, Response response) {
+                    public void success(LogoutRsp s, Response response) {
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {

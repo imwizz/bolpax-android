@@ -1,9 +1,9 @@
-package id.co.imwizz.bolpax.rest;
+package id.co.imwizz.bolpax.data.entity.bolpax.response;
 
 /**
- * Created by MDeveloper on 2/19/2016.
+ * Created by MDeveloper on 2/25/2016.
  */
-public class PaymentResponse {
+public class RefundRsp {
     private long trxId;
     private String toAccount;
     private String fromAccount;
@@ -59,3 +59,4 @@ public class PaymentResponse {
         this.status = status;
     }
 }
+

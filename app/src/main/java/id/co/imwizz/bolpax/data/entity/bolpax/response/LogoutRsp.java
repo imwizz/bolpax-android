@@ -1,4 +1,4 @@
-package id.co.imwizz.bolpax.rest;
+package id.co.imwizz.bolpax.data.entity.bolpax.response;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by MDeveloper on 2/24/2016.
  */
-public class Logout {
+public class LogoutRsp {
     @SerializedName("status")
     @Expose
     private String status;
