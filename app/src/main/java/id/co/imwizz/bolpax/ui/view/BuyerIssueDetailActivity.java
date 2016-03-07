@@ -35,7 +35,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 1/14/16.
+ * This activity is used to display buyer issue detail
+ *
+ * @author bimosektiw
  */
 public class BuyerIssueDetailActivity extends AppCompatActivity{
 
@@ -130,6 +132,9 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
 
     }
 
+    /**
+     * Method for refresh buyer history issue
+     */
     private void refreshHistory() {
         RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailRsp>() {
             @Override

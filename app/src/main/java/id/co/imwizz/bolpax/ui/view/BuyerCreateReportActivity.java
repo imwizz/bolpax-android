@@ -24,7 +24,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 2/23/16.
+ * This activity is used to display buyer create report page 2
+ *
+ * @author bimosektiw
  */
 public class BuyerCreateReportActivity extends AppCompatActivity implements View.OnClickListener {
 

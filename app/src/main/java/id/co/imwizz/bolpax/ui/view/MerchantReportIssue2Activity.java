@@ -25,7 +25,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 1/27/16.
+ * This activity is used to display merchant report issue page 2
+ *
+ * @author bimosektiw
  */
 public class MerchantReportIssue2Activity extends AppCompatActivity implements View.OnClickListener {
 

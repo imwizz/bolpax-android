@@ -23,7 +23,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 2/24/16.
+ * This activity is used to display merchant create report page 2
+ *
+ * @author bimosektiw
  */
 public class MerchantCreateReportActivity extends AppCompatActivity implements View.OnClickListener {
 

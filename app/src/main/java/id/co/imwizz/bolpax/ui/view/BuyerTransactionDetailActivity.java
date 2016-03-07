@@ -34,7 +34,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 11/01/2016.
+ * This activity is used to display buyer transaction detail
+ *
+ * @author bimosektiw
  */
 public class BuyerTransactionDetailActivity extends AppCompatActivity {
 
@@ -78,6 +80,33 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_report, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.action_report:
+                Intent i6 = new Intent(BuyerTransactionDetailActivity.this, BuyerReportIssueActivity.class);
+                i6.putExtra("trxid",trxId);
+                startActivity(i6);
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    /**
+     * Method for refresh buyer history transactions
+     */
     private void refreshHistory(){
         RestClient.getBolpax().getTransactionDetail(trxId,"buyer", new Callback<TransactionDetailRsp>() {
             @Override
@@ -153,28 +182,5 @@ public class BuyerTransactionDetailActivity extends AppCompatActivity {
                 Log.e(TAG, error.getMessage());
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_report, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.action_report:
-                Intent i6 = new Intent(BuyerTransactionDetailActivity.this, BuyerReportIssueActivity.class);
-                i6.putExtra("trxid",trxId);
-                startActivity(i6);
-
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
     }
 }

@@ -14,7 +14,9 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryRsp;
 
 /**
- * Created by bimosektiw on 1/14/16.
+ * This adapter is used to display issue list history
+ *
+ * @author bimosektiw
  */
 public class IssueHistoryAdapter extends ArrayAdapter<IssueHistoryRsp> {
 

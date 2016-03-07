@@ -13,7 +13,9 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryRsp;
 
 /**
- * Created by bimosektiw on 1/12/16.
+ * This adapter is used to display transaction list history
+ *
+ * @author bimosektiw
  */
 public class TransactionHistoryAdapter extends ArrayAdapter<TransactionHistoryRsp>{
 

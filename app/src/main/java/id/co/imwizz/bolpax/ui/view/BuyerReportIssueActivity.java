@@ -19,7 +19,9 @@ import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 
 /**
- * Created by bimosektiw on 1/18/16.
+ * This activity is used to display buyer report issue page 1
+ *
+ * @author bimosektiw
  */
 public class BuyerReportIssueActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -92,7 +94,9 @@ public class BuyerReportIssueActivity extends AppCompatActivity implements View.
         textToolbarTitle.setText("BOLPAX");
 
     }
-
+    /**
+     * Method to get list view
+     */
     protected ListView getListView() {
         if (mListView == null) {
             mListView = (ListView) findViewById(android.R.id.list);

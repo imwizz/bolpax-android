@@ -27,7 +27,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 1/18/16.
+ * @author bimosektiw
  */
 public class BuyerReportIssue2Activity extends AppCompatActivity implements View.OnClickListener {
 

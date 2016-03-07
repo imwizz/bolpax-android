@@ -29,7 +29,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 1/27/16.
+ * This activity is used to display merchant report issue page 1
+ *
+ * @author bimosektiw
  */
 public class MerchantReportIssueActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -70,22 +72,6 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
 
         textBack.setText("<");
         buttonNext.setOnClickListener(this);
-
-    }
-
-    private void setToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MerchantReportIssueActivity.this, MerchantHomeActivity.class);
-                startActivity(i);
-            }
-        });
-        toolbar.setTitle("");
-        textToolbarTitle.setText("BOLPAX");
 
     }
     @Override
@@ -163,6 +149,20 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
         }
 
     }
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.button_next:
+                Intent myIntent = new Intent(MerchantReportIssueActivity.this, MerchantCreateReportActivity.class);
+                myIntent.putExtra("subject",selectedFromList);
+                myIntent.putExtra("trxid",trxid);
+                startActivity(myIntent);
+                break;
+
+
+        }
+    }
     protected ListView getListView() {
         if (mListView == null) {
             mListView = (ListView) findViewById(android.R.id.list);
@@ -182,18 +182,20 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
             return adapter;
         }
     }
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.button_next:
-                Intent myIntent = new Intent(MerchantReportIssueActivity.this, MerchantCreateReportActivity.class);
-                myIntent.putExtra("subject",selectedFromList);
-                myIntent.putExtra("trxid",trxid);
-                startActivity(myIntent);
-                break;
 
+    private void setToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MerchantReportIssueActivity.this, MerchantHomeActivity.class);
+                startActivity(i);
+            }
+        });
+        toolbar.setTitle("");
+        textToolbarTitle.setText("BOLPAX");
 
-        }
     }
 }

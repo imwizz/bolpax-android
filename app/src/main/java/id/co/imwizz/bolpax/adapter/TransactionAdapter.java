@@ -13,6 +13,11 @@ import java.util.List;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionRqs;
 
+/**
+ * This adapter is used to display transaction list
+ *
+ * @author bimosektiw
+ */
 
 public class TransactionAdapter extends ArrayAdapter<BuyerTransactionRqs> {
 

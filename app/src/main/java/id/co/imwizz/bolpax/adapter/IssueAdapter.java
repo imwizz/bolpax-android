@@ -13,7 +13,11 @@ import java.util.List;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueRqs;
 
-
+/**
+ * This adapter is used to display issue list
+ *
+ * @author bimosektiw
+ */
 
 public class IssueAdapter extends ArrayAdapter<BuyerIssueRqs> {
 

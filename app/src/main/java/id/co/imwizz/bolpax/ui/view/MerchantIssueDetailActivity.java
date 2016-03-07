@@ -29,7 +29,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 1/26/16.
+ * This activity is used to display merchant issue detail
+ *
+ * @author bimosektiw
  */
 public class MerchantIssueDetailActivity extends AppCompatActivity {
 

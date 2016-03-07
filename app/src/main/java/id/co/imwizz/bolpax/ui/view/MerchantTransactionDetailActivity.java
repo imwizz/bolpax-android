@@ -33,7 +33,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 1/22/16.
+ * This activity is used to display merchant transaction detail
+ *
+ * @author bimosketiw
  */
 public class MerchantTransactionDetailActivity extends AppCompatActivity {
 
@@ -67,6 +69,29 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
         refreshHistory();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_report, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_report) {
+            Intent i = new Intent(MerchantTransactionDetailActivity.this, MerchantReportIssueActivity.class);
+            i.putExtra("trxid",trxId);
+            startActivity(i);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Method for refresh merchant history transactions
+     */
     private void refreshHistory(){
         RestClient.getBolpax().getTransactionDetail(trxId, "merchant",new Callback<TransactionDetailRsp>() {
             @Override
@@ -151,24 +176,5 @@ public class MerchantTransactionDetailActivity extends AppCompatActivity {
         toolbar.setTitle("");
         textToolbarTitle.setText("BOLPAX");
 
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_report, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_report) {
-            Intent i = new Intent(MerchantTransactionDetailActivity.this, MerchantReportIssueActivity.class);
-            i.putExtra("trxid",trxId);
-            startActivity(i);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
