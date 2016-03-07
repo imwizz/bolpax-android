@@ -26,9 +26,9 @@ import id.co.imwizz.bolpax.adapter.IssueHistoryAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailRsp;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryRsp;
-import id.co.imwizz.bolpax.rest.Logout;
-import id.co.imwizz.bolpax.rest.RefoundResponse;
-import id.co.imwizz.bolpax.rest.Refund;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.RefundRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.RefundRqs;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -86,7 +86,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerIssueDetailActivity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -98,9 +98,9 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token, phone, new Callback<LogoutRsp>() {
                     @Override
-                    public void success(Logout s, Response response) {
+                    public void success(LogoutRsp s, Response response) {
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {
@@ -179,11 +179,11 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                     @Override
                     public void onClick(View v) {
                         progressBar.setVisibility(View.VISIBLE);
-                        Refund refund = new Refund();
+                        RefundRqs refund = new RefundRqs();
                         refund.setIssueId(issueid);
-                        RestClient.getBolpax().postRefund(refund, new Callback<RefoundResponse>() {
+                        RestClient.getBolpax().postRefund(refund, new Callback<RefundRsp>() {
                             @Override
-                            public void success(RefoundResponse s, Response response) {
+                            public void success(RefundRsp s, Response response) {
                                 progressBar.setVisibility(View.GONE);
                                 refreshHistory();
 

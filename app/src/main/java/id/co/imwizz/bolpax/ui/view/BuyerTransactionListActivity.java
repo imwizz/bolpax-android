@@ -25,14 +25,16 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.TransactionAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionRqs;
-import id.co.imwizz.bolpax.rest.Logout;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Buyer Transaction.
+ *
+ * @author Duway
  */
 public class BuyerTransactionListActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -150,7 +152,7 @@ public class BuyerTransactionListActivity extends AppCompatActivity implements V
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerTransactionListActivity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerTransactionListActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -167,9 +169,9 @@ public class BuyerTransactionListActivity extends AppCompatActivity implements V
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token,phone,new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token,phone,new Callback<LogoutRsp>() {
                     @Override
-                    public void success(Logout s, Response response) {
+                    public void success(LogoutRsp s, Response response) {
 
                         String success = s.getStatus();
                         if(success.contains("SUCCESS")) {

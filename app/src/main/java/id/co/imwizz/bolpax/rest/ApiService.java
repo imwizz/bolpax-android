@@ -4,18 +4,22 @@ import java.util.List;
 
 import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryIssueRqs;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.RefundRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.PaymentRsp;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.PaymentRqs;
 
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueRqs;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionRqs;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueRqs;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.RefundRsp;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.ReportRqs;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.StoreRqs;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.UserRqs;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailRsp;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIdRsp;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.LoginRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileRsp;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailRsp;
@@ -52,7 +56,7 @@ public interface ApiService {
 
     @Headers( "Content-Type: application/json" )
     @GET("/profile/dologout")
-    public void getLogout(@Query("token") String id,@Query("phone") String phone, Callback<Logout> callback);
+    public void getLogout(@Query("token") String id,@Query("phone") String phone, Callback<LogoutRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @POST("/profile/createUser")
@@ -80,7 +84,7 @@ public interface ApiService {
 
     @Headers( "Content-Type: application/json" )
     @POST("/trx/payments")
-    public void getBuyerPayment(@Body PaymentRqs payment, Callback<PaymentResponse> callback);
+    public void getBuyerPayment(@Body PaymentRqs payment, Callback<PaymentRsp> callback);
 
 
     @Headers( "Content-Type: application/json" )
@@ -101,7 +105,7 @@ public interface ApiService {
 
     @Headers( "Content-Type: application/json" )
     @POST("/trx/refund")
-    public void postRefund(@Body Refund refund, Callback<RefoundResponse> callback);
+    public void postRefund(@Body RefundRqs refund, Callback<RefundRsp> callback);
 
 
 }

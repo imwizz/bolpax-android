@@ -14,20 +14,20 @@ import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
 
 
 /**
- * Created by MDeveloper on 1/18/2016.
+ * @author Duway
  */
 public class MerchantAdapter extends ArrayAdapter<MerchantRsp> {
 
     private List<MerchantRsp> merchant;
 
     public MerchantAdapter(Context context, List<MerchantRsp> merchant) {
-        super(context, R.layout.merchant_list, merchant);
+        super(context, R.layout.item_merchant, merchant);
         this.merchant = merchant;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
-        View customView = categoryInflater.inflate(R.layout.merchant_list, parent, false);
+        View customView = categoryInflater.inflate(R.layout.item_merchant, parent, false);
 
         MerchantRsp merchant = getItem(position);
         TextView textMerchant = (TextView) customView.findViewById(R.id.text_merchant);

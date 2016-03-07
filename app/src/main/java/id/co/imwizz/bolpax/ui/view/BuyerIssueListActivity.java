@@ -25,14 +25,16 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueRqs;
-import id.co.imwizz.bolpax.rest.Logout;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Issue in buyer transaction.
+ *
+ * @author Duway
  */
 public class BuyerIssueListActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -149,7 +151,7 @@ public class BuyerIssueListActivity extends AppCompatActivity implements View.On
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerIssueListActivity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerIssueListActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -166,9 +168,9 @@ public class BuyerIssueListActivity extends AppCompatActivity implements View.On
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token, phone, new Callback<LogoutRsp>() {
                     @Override
-                    public void success(Logout s, Response response) {
+                    public void success(LogoutRsp s, Response response) {
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {

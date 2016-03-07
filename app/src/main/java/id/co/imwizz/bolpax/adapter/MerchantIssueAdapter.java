@@ -12,7 +12,9 @@ import java.util.List;
 
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueRqs;
-
+/**
+ * @author Duway
+ */
 
 public class MerchantIssueAdapter extends ArrayAdapter<MerchantIssueRqs> {
 
@@ -21,14 +23,14 @@ public class MerchantIssueAdapter extends ArrayAdapter<MerchantIssueRqs> {
     Context mContext;
 
     public MerchantIssueAdapter(Context context, List<MerchantIssueRqs> issueList) {
-        super(context, R.layout.issue_list, issueList);
+        super(context, R.layout.item_issue, issueList);
         this.issueList = issueList;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater categoryInflater = LayoutInflater.from(getContext());
-        View customView = categoryInflater.inflate(R.layout.issue_list, parent, false);
+        View customView = categoryInflater.inflate(R.layout.item_issue, parent, false);
 
         MerchantIssueRqs category = getItem(position);
 

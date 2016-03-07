@@ -25,14 +25,16 @@ import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.MerchantAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
 import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
-import id.co.imwizz.bolpax.rest.Logout;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Merchant List.
+ *
+ * @author Duway
  */
 public class MerchantListActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = MerchantListActivity.class.getSimpleName();
@@ -120,7 +122,7 @@ public class MerchantListActivity extends AppCompatActivity implements View.OnCl
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantListActivity.this, ProfileActivity.class);
+                Intent i = new Intent(MerchantListActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -137,9 +139,9 @@ public class MerchantListActivity extends AppCompatActivity implements View.OnCl
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token,phone,new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token,phone,new Callback<LogoutRsp>() {
                     @Override
-                    public void success(Logout s, Response response) {
+                    public void success(LogoutRsp s, Response response) {
 
                         String success = s.getStatus();
                         if(success.contains("SUCCESS")) {

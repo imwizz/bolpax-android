@@ -23,13 +23,13 @@ public class IssueHistoryAdapter extends ArrayAdapter<IssueHistoryRsp> {
     private List<IssueHistoryRsp> issueHistories;
 
     public IssueHistoryAdapter (Context context, List<IssueHistoryRsp> issueHistories){
-        super(context, R.layout.issue_detail_list, issueHistories);
+        super(context, R.layout.item_issue_detail, issueHistories);
         this.issueHistories = issueHistories;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater trxHistoryInflater = LayoutInflater.from(getContext());
-        View customView = trxHistoryInflater.inflate(R.layout.issue_detail_list, parent, false);
+        View customView = trxHistoryInflater.inflate(R.layout.item_issue_detail, parent, false);
 
         IssueHistoryRsp trxHistory = getItem(position);
 

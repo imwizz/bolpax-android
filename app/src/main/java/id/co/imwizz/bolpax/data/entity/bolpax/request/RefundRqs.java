@@ -1,12 +1,12 @@
-package id.co.imwizz.bolpax.rest;
+package id.co.imwizz.bolpax.data.entity.bolpax.request;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by MDeveloper on 2/25/2016.
+ * @author Duway
  */
-public class Refund {
+public class RefundRqs {
     @SerializedName("issueId")
     @Expose
     private long issueId;
