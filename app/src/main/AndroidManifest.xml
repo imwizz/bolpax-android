@@ -35,7 +35,7 @@
             >
         </activity>
         <activity
-            android:name=".ui.view.ProfileActivity"
+            android:name=".ui.view.BuyerProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >

@@ -14,7 +14,7 @@ import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
 
 
 /**
- * Created by MDeveloper on 1/18/2016.
+ * @author Duway
  */
 public class MerchantAdapter extends ArrayAdapter<MerchantRsp> {
 

@@ -70,7 +70,7 @@ public class BuyerReportIssue2Activity extends AppCompatActivity implements View
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerReportIssue2Activity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerReportIssue2Activity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;

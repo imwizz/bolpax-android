@@ -22,7 +22,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Create Buyer / Register.
+ *
+ * @author Duway
  */
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -58,6 +60,9 @@ public class RegisterActivity extends AppCompatActivity {
         toolbar.setTitle("");
         textToolbarTitle.setText("BOLPAX");
     }
+    /**
+     * This method is used to Progress Register.
+     */
 
     public void signup() {
         Log.d(TAG, "Signup");
@@ -112,7 +117,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }, 3000);
     }
 
-
+    /**
+     * This method is used to Progress Register Successfull.
+     */
     public void onSignupSuccess() {
         buttonSignup.setEnabled(true);
         setResult(RESULT_OK, null);
@@ -124,6 +131,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         buttonSignup.setEnabled(true);
     }
+
+    /**
+     * This method is used to Validation Register.
+     */
 
     public boolean validate() {
         boolean valid = true;

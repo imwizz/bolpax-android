@@ -32,7 +32,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Merchant Transaction.
+ *
+ * @author Duway
  */
 public class MerchantTransactionListActivity extends AppCompatActivity implements View.OnClickListener {
 

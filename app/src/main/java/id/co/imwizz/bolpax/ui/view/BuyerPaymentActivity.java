@@ -28,7 +28,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Buyer Payment.
+ *
+ * @author Duway
  */
 public class BuyerPaymentActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -107,7 +109,7 @@ public class BuyerPaymentActivity extends AppCompatActivity implements View.OnCl
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerPaymentActivity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerPaymentActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;

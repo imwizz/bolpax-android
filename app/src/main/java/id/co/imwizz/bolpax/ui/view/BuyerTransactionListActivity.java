@@ -32,7 +32,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Buyer Transaction.
+ *
+ * @author Duway
  */
 public class BuyerTransactionListActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -150,7 +152,7 @@ public class BuyerTransactionListActivity extends AppCompatActivity implements V
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerTransactionListActivity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerTransactionListActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;

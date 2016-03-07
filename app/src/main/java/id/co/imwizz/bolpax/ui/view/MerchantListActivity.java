@@ -32,7 +32,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Merchant List.
+ *
+ * @author Duway
  */
 public class MerchantListActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = MerchantListActivity.class.getSimpleName();
@@ -120,7 +122,7 @@ public class MerchantListActivity extends AppCompatActivity implements View.OnCl
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantListActivity.this, ProfileActivity.class);
+                Intent i = new Intent(MerchantListActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;

@@ -32,7 +32,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Issue in buyer transaction.
+ *
+ * @author Duway
  */
 public class BuyerIssueListActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -149,7 +151,7 @@ public class BuyerIssueListActivity extends AppCompatActivity implements View.On
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerIssueListActivity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerIssueListActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;

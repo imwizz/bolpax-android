@@ -24,7 +24,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Profile Merchant.
+ *
+ * @author Duway
  */
 public class MerchantProfileActivity extends AppCompatActivity {
     private static final String TAG = MerchantProfileActivity.class.getSimpleName();

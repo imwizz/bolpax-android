@@ -12,7 +12,10 @@ import java.util.List;
 
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionRqs;
-
+/**
+ *
+ * @author Duway
+ */
 
 public class MerchantTransactionAdapter extends ArrayAdapter<MerchantTransactionRqs> {
 

@@ -84,7 +84,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerIssueDetailActivity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;

@@ -24,7 +24,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Buyer Home.
+ *
+ * @author Duway
  */
 public class BuyerHomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -90,7 +92,7 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerHomeActivity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerHomeActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;
