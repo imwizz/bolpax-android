@@ -17,30 +17,31 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
-import id.co.imwizz.bolpax.rest.Logout;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Buyer Home.
+ *
+ * @author Duway
  */
 public class BuyerHomeActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = MerchantReportIssue2Activity.class.getSimpleName();
+
     protected Context mContext;
-    String email,name,phone,token,nama;
-    Integer balance;
-    Long userid,merchantid;
-    MenuItem createstore,switchtomerchant,buyername;
-    @Bind(R.id.merchant) LinearLayout merchant;
-    @Bind(R.id.transaction) LinearLayout transaction;
-    @Bind(R.id.issue) LinearLayout issue;
+    private String email,name,phone,token,nama;
+    private Long userid,merchantid;
+    private MenuItem createstore,switchtomerchant,buyername;
+
+    @Bind(R.id.text_merchant) LinearLayout linearMerchant;
+    @Bind(R.id.linear_transaction) LinearLayout linearTransaction;
+    @Bind(R.id.linear_issue) LinearLayout linearIssue;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    private static final String TAG = MerchantReportIssueActivity2.class.getSimpleName();
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
 
 
     @Override
@@ -48,16 +49,15 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_home);
         ButterKnife.bind(this);
-        merchant.setOnClickListener(this);
-        transaction.setOnClickListener(this);
-        issue.setOnClickListener(this);
-//        toolbar.setOnClickListener(this);
+        linearMerchant.setOnClickListener(this);
+        linearTransaction.setOnClickListener(this);
+        linearIssue.setOnClickListener(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
 
         toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +74,6 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
@@ -93,7 +92,7 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerHomeActivity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerHomeActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -110,13 +109,13 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token,phone,new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token,phone,new Callback<LogoutRsp>() {
                     @Override
-                    public void success(Logout s, Response response) {
+                    public void success(LogoutRsp s, Response response) {
 
                         String success = s.getStatus();
                         if(success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
@@ -152,16 +151,16 @@ public class BuyerHomeActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.merchant:
-                Intent i = new Intent(BuyerHomeActivity.this,MerchantList_Activity.class);
+            case R.id.text_merchant:
+                Intent i = new Intent(BuyerHomeActivity.this,MerchantListActivity.class);
                 startActivity(i);
                 break;
-            case R.id.transaction:
-                Intent i2 = new Intent(BuyerHomeActivity.this,BuyerTransactionList.class);
+            case R.id.linear_transaction:
+                Intent i2 = new Intent(BuyerHomeActivity.this,BuyerTransactionListActivity.class);
                 startActivity(i2);
                 break;
-            case R.id.issue:
-                Intent i3 = new Intent(BuyerHomeActivity.this,BuyerIssueList.class);
+            case R.id.linear_issue:
+                Intent i3 = new Intent(BuyerHomeActivity.this,BuyerIssueListActivity.class);
                 startActivity(i3);
                 break;
         }

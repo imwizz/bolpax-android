@@ -10,32 +10,33 @@ import android.widget.TextView;
 import java.util.List;
 
 import id.co.imwizz.bolpax.R;
-import id.co.imwizz.bolpax.data.entity.TrxHistory;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionHistoryRsp;
 
 /**
- * Created by bimosektiw on 1/12/16.
+ * This adapter is used to display transaction list history
+ *
+ * @author bimosektiw
  */
-public class TransactionHistoryAdapter extends ArrayAdapter<TransactionHistoryBolpax>{
+public class TransactionHistoryAdapter extends ArrayAdapter<TransactionHistoryRsp>{
 
-    private List<TransactionHistoryBolpax> trxHistories;
+    private List<TransactionHistoryRsp> trxHistories;
 
-    public TransactionHistoryAdapter (Context context, List<TransactionHistoryBolpax> trxHistories){
-        super(context, R.layout.transaction_detail_list, trxHistories);
+    public TransactionHistoryAdapter (Context context, List<TransactionHistoryRsp> trxHistories){
+        super(context, R.layout.item_transaction_detail, trxHistories);
         this.trxHistories = trxHistories;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         LayoutInflater trxHistoryInflater = LayoutInflater.from(getContext());
-        View customView = trxHistoryInflater.inflate(R.layout.transaction_detail_list, parent, false);
+        View customView = trxHistoryInflater.inflate(R.layout.item_transaction_detail, parent, false);
 
-        TransactionHistoryBolpax trxHistory = getItem(position);
+        TransactionHistoryRsp trxHistory = getItem(position);
 
-        TextView trxhistoryDate = (TextView) customView.findViewById(R.id.date);
-        TextView trxhistoryStatus = (TextView) customView.findViewById(R.id.trxstatus);
+        TextView textDate = (TextView) customView.findViewById(R.id.text_date);
+        TextView textStatus = (TextView) customView.findViewById(R.id.text_status);
 
-        trxhistoryDate.setText(trxHistory.getTime());
-        trxhistoryStatus.setText(trxHistory.getStatus());
+        textDate.setText(trxHistory.getTime());
+        textStatus.setText(trxHistory.getStatus());
 
         return customView;
 

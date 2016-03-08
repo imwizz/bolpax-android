@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,28 +18,29 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.Store;
-import id.co.imwizz.bolpax.rest.Logout;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.StoreRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Create Store Merchant.
+ *
+ * @author Duway
  */
 public class CreateStoreActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = BuyerTransactionListActivity.class.getSimpleName();
+    private String createStore,token,phone;
+    private Long  userid,bolpax;
     protected Context mContext;
+
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.submit_store) Button submit;
-    @Bind(R.id.store_name) EditText storeName;
-    String createStore,token,phone;
-    Long  userid,merchantid,bolpax;
-    //LinearLayout merchant,transaction,issue;
-    //Toolbar toolbar;
-//    TextView toolbarTitle;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.button_submit_store) Button buttonSubmitStore;
+    @Bind(R.id.edit_store_name) EditText editStoreName;
 
 
     @Override
@@ -54,7 +56,7 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
         phone = BolpaxStatic.getPhonenumber();
 
         toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,22 +65,11 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
         });
 
 
-        submit.setOnClickListener(this);
-//        submit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(CreateStoreActivity.this, MerchantHomeActivity.class);
-//                startActivity(i);
-//            }
-//        });
-
-
-
-
+        buttonSubmitStore.setOnClickListener(this);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -88,7 +79,7 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(CreateStoreActivity.this, ProfileActivity.class);
+                Intent i = new Intent(CreateStoreActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -100,13 +91,13 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token, phone, new Callback<LogoutRsp>() {
                 @Override
-                public void success(Logout s, Response response) {
+                public void success(LogoutRsp s, Response response) {
 
                     String success = s.getStatus();
                     if (success.contains("SUCCESS")) {
-                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra("EXIT", true);
                         startActivity(intent);
@@ -119,7 +110,7 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
 
                 @Override
                 public void failure(RetrofitError error) {
-//                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, error.getMessage());
 
                 }
             });
@@ -140,7 +131,7 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.submit_store:
+            case R.id.button_submit_store:
                 createStore();
                 break;
 
@@ -148,12 +139,15 @@ public class CreateStoreActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    /**
+     * This method is used to Create Store.
+     */
     private void createStore() {
         bolpax = BolpaxStatic.getUserid();
         userid = BolpaxStatic.getUserid();
         token = BolpaxStatic.getToken();
-        createStore = storeName.getText().toString();
-        Store store = new Store();
+        createStore = editStoreName.getText().toString();
+        StoreRqs store = new StoreRqs();
         store.setName(createStore);
         store.setUserId(userid);
         RestClient.getBolpax().postStore(store, new Callback<String>() {

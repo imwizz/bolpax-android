@@ -2,23 +2,27 @@ package id.co.imwizz.bolpax.rest;
 
 import java.util.List;
 
-import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryIssueBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.Payment;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryIssueRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.AddHistoryTrxRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.RefundRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.PaymentRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.PaymentRqs;
 
-import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionListPojo;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueListPojo;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionListPojo;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.Report;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.Store;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.User;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIDBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.LoginBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerTransactionRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantIssueRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.MerchantTransactionRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.RefundRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.ReportRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.StoreRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.UserRqs;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueIdRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LoginRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.ProfileRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.TransactionDetailRsp;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -32,76 +36,76 @@ import retrofit.http.Query;
 public interface ApiService {
     @Headers( "Content-Type: application/json" )
     @GET("/profile/dologin")
-    public void getLogin(@Query("phone") String phone, @Query("pass") String pass, Callback<LoginBolpax> callback);
+    public void getLogin(@Query("phone") String phone, @Query("pass") String pass, Callback<LoginRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/trx/listbybuyer")
-    public void getBuyerTransactionlist(@Query("userid") String id, Callback<List<BuyerTransactionListPojo>> callback);
+    public void getBuyerTransactionlist(@Query("userid") String id, Callback<List<BuyerTransactionRqs>> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/trx/listbymerchant")
-    public void getMerchantTransactionlist(@Query("merchantid") String id, Callback<List<MerchantTransactionListPojo>> callback);
+    public void getMerchantTransactionlist(@Query("merchantid") String id, Callback<List<MerchantTransactionRqs>> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/issue/listbyuser")
-    public void getBuyerIssuelist(@Query("userid") String id, Callback<List<BuyerIssueListPojo>> callback);
+    public void getBuyerIssuelist(@Query("userid") String id, Callback<List<BuyerIssueRqs>> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/issue/listbymerchant")
-    public void getMerchantIssuelist(@Query("merchantid") String id, Callback<List<MerchantIssueListPojo>> callback);
+    public void getMerchantIssuelist(@Query("merchantid") String id, Callback<List<MerchantIssueRqs>> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/profile/dologout")
-    public void getLogout(@Query("token") String id,@Query("phone") String phone, Callback<Logout> callback);
+    public void getLogout(@Query("token") String id,@Query("phone") String phone, Callback<LogoutRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @POST("/profile/createUser")
-    public void getRegister(@Body User user, Callback<String> callback);
+    public void getRegister(@Body UserRqs user, Callback<String> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/profile/user")
-    public void getProfile(@Query("userid") String userid, @Query("token") String token, Callback<ProfileBolpax> callback);
+    public void getProfile(@Query("userid") String userid, @Query("token") String token, Callback<ProfileRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/profile/merchant")
-    public void getMerchantProfile(@Query("userid") String userid, @Query("token") String token, Callback<MerchantBolpax> callback);
+    public void getMerchantProfile(@Query("userid") String userid, @Query("token") String token, Callback<MerchantRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/merchant/list")
-    public void getMerchantList(@Query("userid") String userid, Callback <List<MerchantBolpax>> callback);
+    public void getMerchantList(@Query("userid") String userid, Callback <List<MerchantRsp>> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/trx/detail")
-    public void getTransactionDetail(@Query("trxid") String trxid, @Query("role") String role, Callback <TransactionDetailBolpax> callback);
+    public void getTransactionDetail(@Query("trxid") String trxid, @Query("role") String role, Callback <TransactionDetailRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @GET("/issue/detail")
-    public void getIssueDetail(@Query("issueid") String issueid, Callback <IssueDetailBolpax> callback);
+    public void getIssueDetail(@Query("issueid") String issueid, Callback <IssueDetailRsp> callback);
 
     @Headers( "Content-Type: application/json" )
-    @POST("/trx/payment")
-    public void getBuyerPayment(@Body Payment payment, Callback<PaymentResponse> callback);
+    @POST("/trx/payments")
+    public void getBuyerPayment(@Body PaymentRqs payment, Callback<PaymentRsp> callback);
 
 
     @Headers( "Content-Type: application/json" )
     @POST("/profile/createMerchant")
-    public void postStore(@Body Store store, Callback<String> callback);
+    public void postStore(@Body StoreRqs store, Callback<String> callback);
 
     @Headers( "Content-Type: application/json" )
     @POST("/issue/create")
-    public void postBuyerReport(@Body Report report, Callback<IssueIDBolpax> callback);
+    public void postBuyerReport(@Body ReportRqs report, Callback<IssueIdRsp> callback);
 
     @Headers( "Content-Type: application/json" )
     @POST("/trx/insertTrail")
-    public void postAddHistoryTransaction(@Body AddHistoryTrxBolpax addHistoryTrxBolpax, Callback<String> callback);
+    public void postAddHistoryTransaction(@Body AddHistoryTrxRqs addHistoryTrxRqs, Callback<String> callback);
 
     @Headers( "Content-Type: application/json" )
     @POST("/issue/insertTrail")
-    public void postAddHistoryIssue(@Body AddHistoryIssueBolpax addHistoryIssueBolpax, Callback<String> callback);
+    public void postAddHistoryIssue(@Body AddHistoryIssueRqs addHistoryIssueRqs, Callback<String> callback);
 
     @Headers( "Content-Type: application/json" )
     @POST("/trx/refund")
-    public void postRefund(@Body Refund refund, Callback<RefoundResponse> callback);
+    public void postRefund(@Body RefundRqs refund, Callback<RefundRsp> callback);
 
 
 }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,36 +24,39 @@ import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueHistoryAdapter;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.request.BuyerIssueListPojo;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryBolpax;
-import id.co.imwizz.bolpax.rest.Logout;
-import id.co.imwizz.bolpax.rest.RefoundResponse;
-import id.co.imwizz.bolpax.rest.Refund;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.RefundRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.request.RefundRqs;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 1/14/16.
+ * This activity is used to display buyer issue detail
+ *
+ * @author bimosektiw
  */
 public class BuyerIssueDetailActivity extends AppCompatActivity{
 
-    List<IssueHistoryBolpax> issueHistory;
-    @Bind(R.id.toolbar) Toolbar toolbar;
     private static final String TAG = BuyerIssueDetailActivity.class.getSimpleName();
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.suspect) TextView suspectText;
-    @Bind(R.id.subject) TextView subjectText;
-    @Bind(R.id.amount) TextView amountText;
-    @Bind(R.id.laststatus) TextView issueLastStatusText;
-    @Bind(R.id.list_detail) ListView issueDetailText;
-    @Bind(R.id.replyissue) Button replayIssue;
-    @Bind(R.id.refundissue) Button refundIssue;
-    Long bolpax,issueid;
-    String userid,token,issueId,subject,phone,suspect,amount,product,laststatus;
-    BuyerIssueListPojo issuelist;
+
+    private Long bolpax,issueid;
+    private String token,issueId,subject,phone,suspect,amount,product,laststatus;
+    private List<IssueHistoryRsp> issueHistory;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.text_suspect) TextView textSuspect;
+    @Bind(R.id.text_header) TextView textHeader;
+    @Bind(R.id.text_amount) TextView textAmount;
+    @Bind(R.id.text_last_status) TextView textLastStatus;
+    @Bind(R.id.list_history) ListView listHistory;
+    @Bind(R.id.button_reply_issue) Button buttonReplayIssue;
+    @Bind(R.id.button_refund_issue) Button buttonRefundIssue;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
 
 
     @Override
@@ -67,120 +71,12 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
         refreshHistory();
 
         bolpax = BolpaxStatic.getUserid();
-//        userid = bolpax.toString();
         token = BolpaxStatic.getToken();
         phone = BolpaxStatic.getPhonenumber();
-
-
-
     }
 
-    private void refreshHistory() {
-        RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailBolpax>() {
-            @Override
-            public void success(IssueDetailBolpax issueDetailBolpax, Response response) {
-                suspect = issueDetailBolpax.getSuspect();
-                amount = issueDetailBolpax.getAmount();
-                product = issueDetailBolpax.getProduct();
-                laststatus = issueDetailBolpax.getIssueLastStatus();
-                subject = issueDetailBolpax.getSubject();
-
-
-                issueHistory = issueDetailBolpax.getIssueHistory();
-                issueDetailText.setSelector(new ColorDrawable(0));
-                String[] issue = new String[issueHistory.size() + 1];
-                for (int i = 0; i < issueHistory.size(); i++) {
-                    issue[i] = issueHistory.get(i).getTime();
-                    issue[i] = issueHistory.get(i).getMessage();
-
-
-                }
-                ListAdapter listAdapter = new IssueHistoryAdapter(BuyerIssueDetailActivity.this, issueHistory);
-                issueDetailText.setAdapter(listAdapter);
-                suspectText.setText(suspect);
-                subjectText.setText(subject);
-                amountText.setText("Rp "+amount +" for "+ product);
-
-                if(laststatus.contains("Refund")){
-                    refundIssue.setVisibility(View.VISIBLE);
-                    issueLastStatusText.setText(laststatus);
-//                    issueLastStatusText.setTextColor(Color.YELLOW);
-                    issueLastStatusText.setTextColor(Color.parseColor("#d36a04"));
-                }else if (laststatus.contains("Closed")){
-                    replayIssue.setVisibility(View.GONE);
-                    refundIssue.setVisibility(View.GONE);
-                    issueLastStatusText.setText(laststatus);
-//                    issueLastStatusText.setTextColor(Color.RED);
-                    issueLastStatusText.setTextColor(Color.parseColor("#FF4351"));
-                }else{
-                    replayIssue.setVisibility(View.VISIBLE);
-                    issueLastStatusText.setText(laststatus);
-//                    issueLastStatusText.setTextColor(Color.YELLOW);
-                    issueLastStatusText.setTextColor(Color.parseColor("#d36a04"));
-                }
-                refundIssue.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Refund refund = new Refund();
-                        refund.setIssueId(issueid);
-                        RestClient.getBolpax().postRefund(refund, new Callback<RefoundResponse>() {
-                            @Override
-                            public void success(RefoundResponse s, Response response) {
-
-                                refreshHistory();
-
-                            }
-
-                            @Override
-                            public void failure(RetrofitError error) {
-                                Log.e(TAG, error.getMessage());
-
-                            }
-                        });
-
-                    }
-                });
-                replayIssue.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        //issuelist = (BuyerIssueListPojo) parent.getItemAtPosition(position);
-                        Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerReportIssueActivity2.class);
-                        i.putExtra("Subject", subject);
-//                        i.putExtra("Subject", (issueHistory.get(i).getIssueStatus()));
-                        i.putExtra("issueid", issueid);
-                        startActivity(i);
-                    }
-                });
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e(TAG, error.getMessage());
-
-            }
-        });
-
-    }
-
-    private void setToolbar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
-        toolbarTitle.setText("BOLPAX");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerHomeActivity.class);
-                startActivity(i);
-            }
-        });
-
-
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -190,7 +86,7 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(BuyerIssueDetailActivity.this, ProfileActivity.class);
+                Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -202,21 +98,19 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token, phone, new Callback<LogoutRsp>() {
                     @Override
-                    public void success(Logout s, Response response) {
+                    public void success(LogoutRsp s, Response response) {
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
                         } else {
                             Toast.makeText(BuyerIssueDetailActivity.this, "Failed Check your Network", Toast.LENGTH_SHORT).show();
                         }
-
-
                     }
 
                     @Override
@@ -236,5 +130,108 @@ public class BuyerIssueDetailActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    /**
+     * Method for refresh buyer history issue
+     */
+    private void refreshHistory() {
+        RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailRsp>() {
+            @Override
+            public void success(IssueDetailRsp issueDetailRsp, Response response) {
+                suspect = issueDetailRsp.getSuspect();
+                amount = issueDetailRsp.getAmount();
+                product = issueDetailRsp.getProduct();
+                laststatus = issueDetailRsp.getIssueLastStatus();
+                subject = issueDetailRsp.getSubject();
+
+
+                issueHistory = issueDetailRsp.getIssueHistory();
+                listHistory.setSelector(new ColorDrawable(0));
+                String[] issue = new String[issueHistory.size() + 1];
+                for (int i = 0; i < issueHistory.size(); i++) {
+                    issue[i] = issueHistory.get(i).getTime();
+                    issue[i] = issueHistory.get(i).getMessage();
+
+
+                }
+                ListAdapter listAdapter = new IssueHistoryAdapter(BuyerIssueDetailActivity.this, issueHistory);
+                listHistory.setAdapter(listAdapter);
+                textSuspect.setText(suspect);
+                textHeader.setText(subject);
+                textAmount.setText("Rp "+amount +" for "+ product);
+
+                if(laststatus.contains("Refund")){
+                    buttonRefundIssue.setVisibility(View.VISIBLE);
+                    textLastStatus.setText(laststatus);
+                    textLastStatus.setTextColor(Color.parseColor("#d36a04"));
+                }else if (laststatus.contains("Closed")){
+                    buttonReplayIssue.setVisibility(View.GONE);
+                    buttonRefundIssue.setVisibility(View.GONE);
+                    textLastStatus.setText(laststatus);
+                    textLastStatus.setTextColor(Color.parseColor("#FF4351"));
+                }else{
+                    buttonReplayIssue.setVisibility(View.VISIBLE);
+                    textLastStatus.setText(laststatus);
+                    textLastStatus.setTextColor(Color.parseColor("#d36a04"));
+                }
+                buttonRefundIssue.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        RefundRqs refund = new RefundRqs();
+                        refund.setIssueId(issueid);
+                        RestClient.getBolpax().postRefund(refund, new Callback<RefundRsp>() {
+                            @Override
+                            public void success(RefundRsp s, Response response) {
+                                progressBar.setVisibility(View.GONE);
+                                refreshHistory();
+
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.e(TAG, error.getMessage());
+
+                            }
+                        });
+
+                    }
+                });
+                buttonReplayIssue.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerReportIssue2Activity.class);
+                        i.putExtra("Subject", subject);
+                        i.putExtra("issueid", issueid);
+                        startActivity(i);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(TAG, error.getMessage());
+
+            }
+        });
+
+    }
+
+    private void setToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+        textToolbarTitle.setText("BOLPAX");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(BuyerIssueDetailActivity.this, BuyerHomeActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }

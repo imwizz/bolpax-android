@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:textColor="@color/black"
-            android:id="@+id/subject_report"
+            android:id="@+id/text_subject"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -43,10 +43,10 @@
             android:textColorHint="@color/aluminum"
             android:background="@android:color/transparent"
             android:maxLines="4"
-            android:id="@+id/desc_report"
+            android:id="@+id/edit_description"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_above="@+id/subbut" />
+            android:layout_above="@+id/button_submit" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
@@ -55,9 +55,25 @@
             android:gravity="bottom"
             android:layout_gravity="center_horizontal"
             android:text="submit"
-            android:id="@+id/subbut"
+            android:id="@+id/button_submit"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Please Wait"
+        android:visibility="gone"
+        android:id="@+id/text_notification"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

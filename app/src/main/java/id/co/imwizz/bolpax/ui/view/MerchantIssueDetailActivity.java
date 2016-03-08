@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,29 +21,34 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.adapter.IssueHistoryAdapter;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailBolpax;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryBolpax;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueDetailRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.IssueHistoryRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 1/26/16.
+ * This activity is used to display merchant issue detail
+ *
+ * @author bimosektiw
  */
 public class MerchantIssueDetailActivity extends AppCompatActivity {
 
-    List<IssueHistoryBolpax> issueHistory;
-    @Bind(R.id.suspect) TextView suspectText;
-    @Bind(R.id.amount) TextView amountText;
-    @Bind(R.id.laststatus) TextView issueLastStatusText;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.list_detail) ListView issueDetailText;
-    @Bind(R.id.replyissue) Button replyissueButton;
-    @Bind(R.id.subject) TextView subjectText;
+    private static final String TAG = MerchantIssueDetailActivity.class.getSimpleName();
+    private Long issueid;
+    private String issueId,subject;
+    private List<IssueHistoryRsp> issueHistory;
+
+    @Bind(R.id.text_suspect) TextView textSuspect;
+    @Bind(R.id.text_amount) TextView textAmount;
+    @Bind(R.id.text_last_status) TextView textLastStatus;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+    @Bind(R.id.list_history) ListView listHistory;
+    @Bind(R.id.button_reply_issue) Button buttonReplyIssue;
+    @Bind(R.id.text_header) TextView textHeader;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    Long bolpax,issueid;
-    String userid,token,issueId,subject;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,39 +62,46 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
 
 
 
-        RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailBolpax>() {
+        RestClient.getBolpax().getIssueDetail(issueId, new Callback<IssueDetailRsp>() {
             @Override
-            public void success(IssueDetailBolpax issueDetailBolpax, Response response) {
-                String suspect = issueDetailBolpax.getSuspect();
-                String amount = issueDetailBolpax.getAmount();
-                String product = issueDetailBolpax.getProduct();
-                String laststatus = issueDetailBolpax.getIssueLastStatus();
-                subject = issueDetailBolpax.getSubject();
+            public void success(IssueDetailRsp issueDetailRsp, Response response) {
 
-                issueHistory = issueDetailBolpax.getIssueHistory();
-                issueDetailText.setSelector(new ColorDrawable(0));
+                buttonReplyIssue.setVisibility(View.VISIBLE);
+                String suspect = issueDetailRsp.getSuspect();
+                String amount = issueDetailRsp.getAmount();
+                String product = issueDetailRsp.getProduct();
+                String laststatus = issueDetailRsp.getIssueLastStatus();
+                subject = issueDetailRsp.getSubject();
+
+                issueHistory = issueDetailRsp.getIssueHistory();
+                listHistory.setSelector(new ColorDrawable(0));
                 String[] issue = new String[issueHistory.size() + 1];
                 for (int i = 0; i < issueHistory.size(); i++) {
                     issue[i] = issueHistory.get(i).getTime();
                     issue[i] = issueHistory.get(i).getMessage();
                 }
                 ListAdapter listAdapter = new IssueHistoryAdapter(MerchantIssueDetailActivity.this, issueHistory);
-                issueDetailText.setAdapter(listAdapter);
-                suspectText.setText(suspect);
-                subjectText.setText(subject);
-                amountText.setText("Rp " + amount + " for " + product);
-                issueLastStatusText.setText(laststatus);
-                issueLastStatusText.setTextColor(Color.parseColor("#d36a04"));
+                listHistory.setAdapter(listAdapter);
+                textSuspect.setText(suspect);
+                textHeader.setText(subject);
+                textAmount.setText("Rp " + amount + " for " + product);
+                textLastStatus.setText(laststatus);
+                textLastStatus.setTextColor(Color.parseColor("#d36a04"));
+                if (issueHistory.size() > 1){
+                    buttonReplyIssue.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(MerchantIssueDetailActivity.this, MerchantReportIssue2Activity.class);
+                            i.putExtra("Subject", subject);
+                            i.putExtra("issueid", issueid);
+                            startActivity(i);
+                        }
+                    });
+                } else if (laststatus.contains("Closed")){
+                    buttonReplyIssue.setVisibility(View.GONE);
+                }
 
-                replyissueButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MerchantIssueDetailActivity.this, MerchantReportIssueActivity2.class);
-                        i.putExtra("Subject", subject);
-                        i.putExtra("issueid", issueid);
-                        startActivity(i);
-                    }
-                });
+
             }
 
             @Override
@@ -97,6 +110,28 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        if (id == R.id.action_switch) {
+            return true;
+        }
+        if (id == R.id.action_logout) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void setToolbar(){
@@ -111,35 +146,8 @@ public class MerchantIssueDetailActivity extends AppCompatActivity {
             }
         });
         toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
 
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if (id == R.id.action_switch) {
-            return true;
-        }
-        if (id == R.id.action_logout) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
 

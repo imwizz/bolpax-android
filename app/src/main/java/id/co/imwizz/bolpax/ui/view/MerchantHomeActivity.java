@@ -16,15 +16,17 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.rest.Logout;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by User on 08/01/2016.
+ * This activity is used to display Merchant Home.
+ *
+ * @author Duway
  */
 public class MerchantHomeActivity extends AppCompatActivity implements View.OnClickListener{
     String email,name,phone,token,nama,merchantName;
@@ -33,9 +35,9 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
 //    Long userid;
     MenuItem createstore,switchtomerchant,buyername;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    @Bind(R.id.transaction) LinearLayout transaction;
-    @Bind(R.id.issue) LinearLayout issue;
+    @Bind(R.id.text_toolbar_title) TextView toolbarTitle;
+    @Bind(R.id.linear_transaction) LinearLayout transaction;
+    @Bind(R.id.linear_issue) LinearLayout issue;
     Long bolpax,merchantId,userid;
 
     @Override
@@ -54,11 +56,11 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
 //        userid = bolpax.toString();
 //        token = BolpaxStatic.getToken();
 
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantRsp>() {
             @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                BolpaxStatic.setMerchantid(merchantBolpax.getMerchantId());
-                BolpaxStatic.setMerchantname(merchantBolpax.getMerchantName());
+            public void success(MerchantRsp merchantRsp, Response response) {
+                BolpaxStatic.setMerchantid(merchantRsp.getMerchantId());
+                BolpaxStatic.setMerchantname(merchantRsp.getMerchantName());
             }
 
             @Override
@@ -85,12 +87,12 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         int id = view.getId();
 
         switch (id) {
-            case R.id.transaction:
-                Intent i = new Intent(MerchantHomeActivity.this, MerchantTransactionList.class);
+            case R.id.linear_transaction:
+                Intent i = new Intent(MerchantHomeActivity.this, MerchantTransactionListActivity.class);
                 startActivity(i);
                 break;
-            case R.id.issue:
-                Intent myIntent = new Intent(MerchantHomeActivity.this, MerchantIssueList.class);
+            case R.id.linear_issue:
+                Intent myIntent = new Intent(MerchantHomeActivity.this, MerchantIssueListActivity.class);
                 startActivity(myIntent);
                 break;
             case R.id.toolbar:
@@ -119,7 +121,7 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantHomeActivity.this, MerchantProfile.class);
+                Intent i = new Intent(MerchantHomeActivity.this, MerchantProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -130,13 +132,13 @@ public class MerchantHomeActivity extends AppCompatActivity implements View.OnCl
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token, phone, new Callback<LogoutRsp>() {
                     @Override
-                    public void success(Logout s, Response response) {
+                    public void success(LogoutRsp s, Response response) {
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);

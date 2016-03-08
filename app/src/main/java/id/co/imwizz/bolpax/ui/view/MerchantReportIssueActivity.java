@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,27 +21,31 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 import id.co.imwizz.bolpax.data.BolpaxStatic;
-import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantBolpax;
-import id.co.imwizz.bolpax.rest.Logout;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.MerchantRsp;
+import id.co.imwizz.bolpax.data.entity.bolpax.response.LogoutRsp;
 import id.co.imwizz.bolpax.rest.RestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by bimosektiw on 1/27/16.
+ * This activity is used to display merchant report issue page 1
+ *
+ * @author bimosektiw
  */
 public class MerchantReportIssueActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String TAG = MerchantReportIssueActivity.class.getSimpleName();
     private ListView mListView,listView;
     private String trxid,selectedFromList;
-    @Bind(R.id.back) TextView back;
-    @Bind(R.id.button2) Button button2;
+    private MenuItem createstore,switchtomerchant,buyername;
+    private String phone,token,nama;
+    private Long userid;
+
+    @Bind(R.id.text_back) TextView textBack;
+    @Bind(R.id.button_next) Button buttonNext;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.toolbar_title) TextView toolbarTitle;
-    MenuItem createstore,switchtomerchant,buyername;
-    String email,name,phone,token,nama;
-    Long bolpax,merchantId,userid;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,38 +70,21 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
             }
         });
 
-        back.setText("<");
-        button2.setOnClickListener(this);
-
-    }
-
-    private void setToolbar(){
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MerchantReportIssueActivity.this, MerchantHomeActivity.class);
-                startActivity(i);
-            }
-        });
-        toolbar.setTitle("");
-        toolbarTitle.setText("BOLPAX");
+        textBack.setText("<");
+        buttonNext.setOnClickListener(this);
 
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         createstore = menu.findItem(R.id.create_store);
         switchtomerchant = menu.findItem(R.id.switchto_merchant);
         buyername = menu.findItem(R.id.profile);
 
-        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantBolpax>() {
+        RestClient.getBolpax().getMerchantProfile(userid.toString(), token.toString(), new Callback<MerchantRsp>() {
             @Override
-            public void success(MerchantBolpax merchantBolpax, Response response) {
-                nama = merchantBolpax.getMerchantName();
+            public void success(MerchantRsp merchantRsp, Response response) {
+                nama = merchantRsp.getMerchantName();
                 buyername.setTitle(nama.toString());
                 createstore.setVisible(false);
                 switchtomerchant.setTitle("Switch To Buyer");
@@ -115,7 +103,7 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
         switch (item.getItemId())
         {
             case R.id.profile:
-                Intent i = new Intent(MerchantReportIssueActivity.this, MerchantProfile.class);
+                Intent i = new Intent(MerchantReportIssueActivity.this, MerchantProfileActivity.class);
                 startActivity(i);
 
                 return true;
@@ -126,13 +114,13 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
                 return true;
 
             case R.id.quit:
-                RestClient.getBolpax().getLogout(token, phone, new Callback<Logout>() {
+                RestClient.getBolpax().getLogout(token, phone, new Callback<LogoutRsp>() {
                     @Override
-                    public void success(Logout s, Response response) {
+                    public void success(LogoutRsp s, Response response) {
 
                         String success = s.getStatus();
                         if (success.contains("SUCCESS")) {
-                            Intent intent = new Intent(getApplicationContext(), Login.class);
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             intent.putExtra("EXIT", true);
                             startActivity(intent);
@@ -145,7 +133,7 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
 
                     @Override
                     public void failure(RetrofitError error) {
-//                        Log.e(TAG, error.getMessage());
+                        Log.e(TAG, error.getMessage());
 
                     }
                 });
@@ -160,6 +148,20 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.button_next:
+                Intent myIntent = new Intent(MerchantReportIssueActivity.this, MerchantCreateReportActivity.class);
+                myIntent.putExtra("subject",selectedFromList);
+                myIntent.putExtra("trxid",trxid);
+                startActivity(myIntent);
+                break;
+
+
+        }
     }
     protected ListView getListView() {
         if (mListView == null) {
@@ -180,18 +182,20 @@ public class MerchantReportIssueActivity extends AppCompatActivity implements Vi
             return adapter;
         }
     }
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.button2:
-                Intent myIntent = new Intent(MerchantReportIssueActivity.this, MerchantCreateReport.class);
-                myIntent.putExtra("subject",selectedFromList);
-                myIntent.putExtra("trxid",trxid);
-                startActivity(myIntent);
-                break;
 
+    private void setToolbar(){
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationIcon(R.drawable.ic_home_white_18dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MerchantReportIssueActivity.this, MerchantHomeActivity.class);
+                startActivity(i);
+            }
+        });
+        toolbar.setTitle("");
+        textToolbarTitle.setText("BOLPAX");
 
-        }
     }
 }

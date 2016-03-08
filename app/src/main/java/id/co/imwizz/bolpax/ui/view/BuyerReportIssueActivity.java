@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,7 +11,7 @@ import android.widget.Button;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.app.ListActivity;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -21,19 +19,27 @@ import butterknife.ButterKnife;
 import id.co.imwizz.bolpax.R;
 
 /**
- * Created by bimosektiw on 1/18/16.
+ * This activity is used to display buyer report issue page 1
+ *
+ * @author bimosektiw
  */
 public class BuyerReportIssueActivity extends AppCompatActivity implements View.OnClickListener{
+
     private ListView mListView,listView;
     private TextView back;
     private String selectedFromList,trxid;
-    @Bind(R.id.button2) Button next;
+
+    @Bind(R.id.button_next) Button buttonNext;
+    @Bind(R.id.progress_bar) ProgressBar progressBar;
+    @Bind(R.id.text_notification) TextView textNotification;
+    @Bind(R.id.text_toolbar_title) TextView textToolbarTitle;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buyer_reportissue);
         ButterKnife.bind(this);
-        next.setOnClickListener(this);
+        buttonNext.setOnClickListener(this);
         Intent x = getIntent();
         trxid = x.getStringExtra("trxid").toString();
         setToolbar();
@@ -49,10 +55,30 @@ public class BuyerReportIssueActivity extends AppCompatActivity implements View.
             }
         });
 
-        back = (TextView) findViewById(R.id.back);
+        back = (TextView) findViewById(R.id.text_back);
         back.setText("<");
 
     }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.button_next:
+                progressBar.setVisibility(View.VISIBLE);
+                textNotification.setVisibility(View.VISIBLE);
+                Intent myIntent = new Intent(BuyerReportIssueActivity.this, BuyerCreateReportActivity.class);
+                myIntent.putExtra("subject", selectedFromList);
+                myIntent.putExtra("trxid", trxid);
+                startActivity(myIntent);
+                progressBar.setVisibility(View.GONE);
+                textNotification.setVisibility(View.GONE);
+                break;
+
+
+        }
+    }
+
     private void setToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -65,11 +91,12 @@ public class BuyerReportIssueActivity extends AppCompatActivity implements View.
             }
         });
         toolbar.setTitle("");
-        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText("BOLPAX");
+        textToolbarTitle.setText("BOLPAX");
 
     }
-
+    /**
+     * Method to get list view
+     */
     protected ListView getListView() {
         if (mListView == null) {
             mListView = (ListView) findViewById(android.R.id.list);
@@ -87,20 +114,6 @@ public class BuyerReportIssueActivity extends AppCompatActivity implements View.
             return ((HeaderViewListAdapter)adapter).getWrappedAdapter();
         } else {
             return adapter;
-        }
-    }
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.button2:
-                Intent myIntent = new Intent(BuyerReportIssueActivity.this, BuyerCreateReport.class);
-                myIntent.putExtra("subject",selectedFromList);
-                myIntent.putExtra("trxid",trxid);
-                startActivity(myIntent);
-                break;
-
-
         }
     }
 }

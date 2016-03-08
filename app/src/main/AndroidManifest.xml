@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.view.Login"
+            android:name=".ui.view.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,19 +35,19 @@
             >
         </activity>
         <activity
-            android:name=".ui.view.ProfileActivity"
+            android:name=".ui.view.BuyerProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
         </activity>
         <activity
-            android:name=".ui.view.MerchantList_Activity"
+            android:name=".ui.view.MerchantListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
         </activity>
         <activity
-            android:name=".ui.view.MerchantProfile"
+            android:name=".ui.view.MerchantProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
@@ -59,7 +59,7 @@
             >
         </activity>
         <activity
-            android:name=".ui.view.MerchantReportIssueActivity2"
+            android:name=".ui.view.MerchantReportIssue2Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
@@ -71,7 +71,7 @@
             >
         </activity>
         <activity
-            android:name=".ui.view.BuyerIssueList"
+            android:name=".ui.view.BuyerIssueListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
@@ -83,7 +83,7 @@
             >
         </activity>
         <activity
-            android:name=".ui.view.MerchantIssueList"
+            android:name=".ui.view.MerchantIssueListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
@@ -95,19 +95,19 @@
             >
         </activity>
         <activity
-            android:name=".ui.view.MerchantTransactionList"
+            android:name=".ui.view.MerchantTransactionListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
         </activity>
         <activity
-            android:name=".ui.view.BuyerTransactionList"
+            android:name=".ui.view.BuyerTransactionListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
         </activity>
         <activity
-            android:name=".ui.view.BuyerCreateReport"
+            android:name=".ui.view.BuyerCreateReportActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
@@ -131,7 +131,7 @@
             >
         </activity>
         <activity
-            android:name=".ui.view.BuyerReportIssueActivity2"
+            android:name=".ui.view.BuyerReportIssue2Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
@@ -149,7 +149,7 @@
             >
         </activity>
         <activity
-            android:name=".ui.view.MerchantCreateReport"
+            android:name=".ui.view.MerchantCreateReportActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             >
