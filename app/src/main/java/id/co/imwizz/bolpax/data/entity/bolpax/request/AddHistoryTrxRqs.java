@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by bimosektiw on 2/19/16.
+ * @author bimosektiw
  */
 public class AddHistoryTrxRqs {
     @SerializedName("trxId")

@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by bimosektiw on 2/19/16.
+ * @author bimosektiw
  */
 public class AddHistoryIssueRqs {
     @SerializedName("fromAdmin")

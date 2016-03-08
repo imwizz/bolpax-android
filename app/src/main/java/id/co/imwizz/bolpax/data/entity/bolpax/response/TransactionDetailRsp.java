@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by bimosektiw on 2/15/16.
+ * @author bimosektiw
  */
 public class TransactionDetailRsp {
     @SerializedName("amount")
